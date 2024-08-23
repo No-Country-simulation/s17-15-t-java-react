@@ -31,13 +31,20 @@ public class DiagnosticService {
     }
 
     public DiagnosticDto getDiagnosticById(Long id) {
-        Diagnostic diagnostic = diagnosticRepository.findById(id).orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico buscado no existe"));
+        Diagnostic diagnostic = diagnosticRepository.findById(id)
+                .orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico buscado no existe"));
         return diagnosticMapper.toDto(diagnostic);
     }
 
     public DiagnosticDto updateDiagnostic(Long id, DiagnosticDto dto) {
-        Diagnostic diagnostic = diagnosticRepository.findById(id).orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico no se puede actualizar porque no existe"));
-        diagnostic = diagnosticMapper.toEntity(dto);
+        Diagnostic diagnostic = diagnosticRepository.findById(id)
+                .orElseThrow(() -> new DiagnosticNotFoundException("El diagnóstico no se puede actualizar porque no existe"));
+
+        diagnostic.setDateDiagnostic(dto.dateDiagnostic());
+        diagnostic.setDescription(dto.description());
+        diagnostic.setGravedad(dto.gravedad());
+        diagnostic.setNextControlDate(dto.nextControlDate());
+
         diagnostic = diagnosticRepository.save(diagnostic);
         return diagnosticMapper.toDto(diagnostic);
     }

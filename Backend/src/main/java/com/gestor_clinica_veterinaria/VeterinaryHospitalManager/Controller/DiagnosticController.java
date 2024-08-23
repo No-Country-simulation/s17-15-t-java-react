@@ -21,7 +21,7 @@ public class DiagnosticController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DiagnosticDto>> getAllDiagnostics() {
+    public ResponseEntity<List<DiagnosticDto>> getAllDiaggravnostics() {
         return ResponseEntity.ok(diagnosticService.getAllDiagnostics());
     }
 
@@ -30,7 +30,7 @@ public class DiagnosticController {
         return ResponseEntity.ok(diagnosticService.getDiagnosticById(id));
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<DiagnosticDto> updateDiagnostic(@PathVariable Long id, @RequestBody DiagnosticDto dto) {
         return ResponseEntity.ok(diagnosticService.updateDiagnostic(id, dto));
     }
