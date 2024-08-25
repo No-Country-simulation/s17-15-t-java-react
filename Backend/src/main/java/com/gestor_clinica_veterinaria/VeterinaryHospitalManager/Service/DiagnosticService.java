@@ -2,14 +2,12 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Diagnostic;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.DiagnosticMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Dictionary;
 import java.util.List;
 
 @Service
