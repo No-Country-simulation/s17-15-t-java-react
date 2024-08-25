@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContext";
-import Navbar from "../components/NavBar";
-
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/SideBar";
 function useAuth() {
-    const currentUser = null; // Cambia esto a un objeto si deseas simular que el usuario está logueado
+    const currentUser = true; // Cambia esto a un objeto si deseas simular que el usuario está logueado
     return { currentUser };
 }
 
@@ -20,7 +20,8 @@ export default function Layout() {
 
                 {currentUser && (
                     <div className="flex row-span-2 m-0 border-l border-t border-gray-600 shadow-lg">
-                        <p className="text-center font-bold text-5xl">SIDEBAR</p>
+                        {/* <p className="text-center font-bold text-5xl">SIDEBAR</p> */}
+                        <Sidebar />
                     </div>
                 )}
 
