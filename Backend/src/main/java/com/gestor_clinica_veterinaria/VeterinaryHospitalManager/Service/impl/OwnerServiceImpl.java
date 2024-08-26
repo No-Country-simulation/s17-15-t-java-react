@@ -40,6 +40,13 @@ public class OwnerServiceImpl implements OwnerService {
 
   @Transactional(readOnly = true)
   @Override
+  public List<OwnerResponse> findAllOwnerByLastname(String lastname) {
+    List<Owner> ownerList = ownerRepository.findAllByLastnameContainingIgnoreCase(lastname);
+    return OwnerMapper.toListDto(ownerList);
+  }
+
+  @Transactional(readOnly = true)
+  @Override
   public OwnerResponse OwnerById(Long id) {
     Owner ownerFound = ownerRepository.findById(id)
         .orElseThrow(

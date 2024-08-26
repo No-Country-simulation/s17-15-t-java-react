@@ -10,6 +10,8 @@ public interface OwnerService {
 
   List<OwnerResponse> finAllOwnerByName(String name);
 
+  List<OwnerResponse> findAllOwnerByLastname(String lastname);
+
   OwnerResponse OwnerById(Long id);
 
   OwnerResponse saveOwner(OwnerRequest ownerRequest);

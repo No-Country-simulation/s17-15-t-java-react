@@ -9,4 +9,6 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
   boolean existsByEmail(String email);
 
   List<Owner> findAllByNameContainingIgnoreCase(String name);
+
+  List<Owner> findAllByLastnameContainingIgnoreCase(String lastname);
 }
