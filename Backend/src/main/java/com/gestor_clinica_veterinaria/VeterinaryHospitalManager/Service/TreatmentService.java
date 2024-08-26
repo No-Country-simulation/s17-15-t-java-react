@@ -41,26 +41,26 @@ public class TreatmentService {
 
             Treatment existingTreatment = treatmentOptional.get();
 
-            if (dto.getStartDate() != null){
-                existingTreatment.setStartDate(dto.getStartDate());
+            if (dto.startDate() != null){
+                existingTreatment.setStartDate(dto.startDate());
             }
-            if (dto.getEndDate() != null){
-                existingTreatment.setEndDate(dto.getEndDate());
+            if (dto.endDate() != null){
+                existingTreatment.setEndDate(dto.endDate());
             }
-            if (dto.getTreatmentDescription() != null){
-                existingTreatment.setTreatmentDescription(dto.getTreatmentDescription());
+            if (dto.treatmentDescription() != null){
+                existingTreatment.setTreatmentDescription(dto.treatmentDescription());
             }
-            if (dto.getDuration() != null){
-                existingTreatment.setDuration(dto.getDuration());
+            if (dto.duration() != null){
+                existingTreatment.setDuration(dto.duration());
             }
-            if (dto.getAditionalObservations() != null){
-                existingTreatment.setAditionalObservations(dto.getAditionalObservations());
+            if (dto.aditionalObservations() != null){
+                existingTreatment.setAditionalObservations(dto.aditionalObservations());
             }
-            if (dto.getTreatmentCost() != null){
-                existingTreatment.setTreatmentCost(dto.getTreatmentCost());
+            if (dto.treatmentCost() != null){
+                existingTreatment.setTreatmentCost(dto.treatmentCost());
             }
-            if (dto.getId_diagnosis() != null){
-                existingTreatment.setIdDiagnosis(dto.getId_diagnosis());
+            if (dto.id_diagnosis() != null){
+                existingTreatment.setIdDiagnosis(dto.id_diagnosis());
             }
 
             Treatment updatedTreatment =  treatmentRepository.save(existingTreatment);

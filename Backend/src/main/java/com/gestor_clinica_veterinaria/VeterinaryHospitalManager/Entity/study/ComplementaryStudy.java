@@ -33,7 +33,7 @@ public class ComplementaryStudy {
     private EnumStudyState studyState;
 
     @Column(name = "file")
-    private MultipartFile studyFile;
+    private byte[] studyFile;
 
     @Column(name = "study_cost")
     private Double studyCost ;

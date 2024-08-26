@@ -44,29 +44,29 @@ public class ComplementaryStudyService {
 
             ComplementaryStudy existingStudy = studyOptional.get();
 
-            if (dto.getExaminationDate() != null){
-                existingStudy.setExaminationDate(dto.getExaminationDate());
+            if (dto.examinationDate() != null){
+                existingStudy.setExaminationDate(dto.examinationDate());
             }
-            if (dto.getStudyCost() != null){
-                existingStudy.setStudyCost(dto.getStudyCost());
+            if (dto.studyCost() != null){
+                existingStudy.setStudyCost(dto.studyCost());
             }
-            if (dto.getStudyState() != null){
-                existingStudy.setStudyState(dto.getStudyState());
+            if (dto.studyState() != null){
+                existingStudy.setStudyState(dto.studyState());
             }
-            if (dto.getResult() != null){
-                existingStudy.setResult(dto.getResult());
+            if (dto.studyResult() != null){
+                existingStudy.setStudyResult(dto.studyResult());
             }
-            if (dto.getFile() != null){
-                existingStudy.setFile(dto.getFile());
+            if (dto.studyFile() != null){
+                existingStudy.setStudyFile(dto.studyFile());
             }
-            if (dto.getIdConsultation() != null){
-                existingStudy.setIdConsultation(dto.getIdConsultation());
+            if (dto.idConsultation() != null){
+                existingStudy.setIdConsultation(dto.idConsultation());
             }
-            if (dto.getIdDianosis() != null){
-                existingStudy.setIdDianosis(dto.getIdDianosis());
+            if (dto.idDianosis() != null){
+                existingStudy.setIdDianosis(dto.idDianosis());
             }
-            if (dto.getStudyType() != null){
-                existingStudy.setStudyType(dto.getStudyType());
+            if (dto.studyType() != null){
+                existingStudy.setStudyType(dto.studyType());
             }
 
             ComplementaryStudy updatedStudy =  complementaryStudyRepository.save(existingStudy);
