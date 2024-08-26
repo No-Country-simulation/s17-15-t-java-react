@@ -1,6 +1,5 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.TreatmentMapper;
