@@ -1,15 +1,13 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Diagnostic;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.DiagnosticMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Dictionary;
 import java.util.List;
 
 @Service
@@ -20,24 +18,24 @@ public class DiagnosticService {
     private final DiagnosticMapper diagnosticMapper;
 
     public DiagnosticDto addDiagnostic(DiagnosticDto dto) {
-        Diagnostic diagnostico = diagnosticMapper.toEntity(dto);
+        DiagnosticEntity diagnostico = diagnosticMapper.toEntity(dto);
         diagnostico = diagnosticRepository.save(diagnostico);
         return diagnosticMapper.toDto(diagnostico);
     }
 
     public List<DiagnosticDto> getAllDiagnostics() {
-        List<Diagnostic> diagnosticList = diagnosticRepository.findAll();
+        List<DiagnosticEntity> diagnosticList = diagnosticRepository.findAll();
         return diagnosticMapper.toDtoList(diagnosticList);
     }
 
     public DiagnosticDto getDiagnosticById(Long id) {
-        Diagnostic diagnostic = diagnosticRepository.findById(id)
+        DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
                 .orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico buscado no existe"));
         return diagnosticMapper.toDto(diagnostic);
     }
 
     public DiagnosticDto updateDiagnostic(Long id, DiagnosticDto dto) {
-        Diagnostic diagnostic = diagnosticRepository.findById(id)
+        DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
                 .orElseThrow(() -> new DiagnosticNotFoundException("El diagnóstico no se puede actualizar porque no existe"));
 
         diagnostic.setDateDiagnostic(dto.dateDiagnostic());

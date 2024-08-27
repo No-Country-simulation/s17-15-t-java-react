@@ -1,10 +1,10 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumGravedad;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 
 @Entity
@@ -12,7 +12,8 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Diagnostic {
+@Table(name = "diagnostic")
+public class DiagnosticEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
