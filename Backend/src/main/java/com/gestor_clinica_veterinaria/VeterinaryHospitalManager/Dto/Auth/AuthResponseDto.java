@@ -1,4 +1,4 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

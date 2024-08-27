@@ -1,4 +1,4 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth;
 
 import jakarta.validation.constraints.Size;
 import org.springframework.validation.annotation.Validated;

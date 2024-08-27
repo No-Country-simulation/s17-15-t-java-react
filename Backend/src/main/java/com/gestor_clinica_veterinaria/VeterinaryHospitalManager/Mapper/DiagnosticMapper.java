@@ -12,7 +12,7 @@ public class DiagnosticMapper {
         DiagnosticEntity diagnostico = new DiagnosticEntity();
         diagnostico.setDateDiagnostic(dto.dateDiagnostic());
         diagnostico.setDescription(dto.description());
-        diagnostico.setGravedad(dto.gravedad());
+        diagnostico.setSeveridad(dto.gravedad());
         diagnostico.setNextControlDate(dto.nextControlDate());
         return diagnostico;
     }
@@ -21,7 +21,7 @@ public class DiagnosticMapper {
         return new DiagnosticDto(
                 entity.getDateDiagnostic(),
                 entity.getDescription(),
-                entity.getGravedad(),
+                entity.getSeveridad(),
                 entity.getNextControlDate()
         );
     }

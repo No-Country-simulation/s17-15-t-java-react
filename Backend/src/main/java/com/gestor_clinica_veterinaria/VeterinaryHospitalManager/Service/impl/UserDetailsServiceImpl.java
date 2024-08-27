@@ -1,9 +1,9 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.impl;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Config.Jwt.JwtUtils;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.AuthCreateUserRequestDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.AuthLoginRequestDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.AuthResponseDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthCreateUserRequestDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthLoginRequestDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthResponseDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.RoleEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.UserEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.RoleRepository;
@@ -13,9 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

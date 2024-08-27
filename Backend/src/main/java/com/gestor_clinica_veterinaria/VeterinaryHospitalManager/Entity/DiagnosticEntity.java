@@ -25,7 +25,7 @@ public class DiagnosticEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private EnumGravedad gravedad;
+    private EnumGravedad severidad;
 
     @Column(name = "next_control_date")
     private LocalDate nextControlDate;

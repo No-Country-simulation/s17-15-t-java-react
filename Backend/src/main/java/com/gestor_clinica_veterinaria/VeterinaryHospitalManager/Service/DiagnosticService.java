@@ -40,7 +40,7 @@ public class DiagnosticService {
 
         diagnostic.setDateDiagnostic(dto.dateDiagnostic());
         diagnostic.setDescription(dto.description());
-        diagnostic.setGravedad(dto.gravedad());
+        diagnostic.setSeveridad(dto.gravedad());
         diagnostic.setNextControlDate(dto.nextControlDate());
 
         diagnostic = diagnosticRepository.save(diagnostic);
