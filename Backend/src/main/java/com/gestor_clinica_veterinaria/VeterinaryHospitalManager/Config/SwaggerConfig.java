@@ -38,10 +38,10 @@ import org.springframework.stereotype.Service;
                         description = "Heroku Server",
                         url = "http://89.0.142.86:8080"
                 )
-        }
-        /*security = @SecurityRequirement(
+        },
+        security = @SecurityRequirement(
                 name = "securityToken"
-        )*/
+        )
 )
 @SecurityScheme(
         name = "securityToken",

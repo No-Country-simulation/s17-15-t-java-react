@@ -1,13 +1,18 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Diagnostic;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.DiagnosticNotFoundException;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.DiagnosticMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,29 +23,34 @@ public class DiagnosticService {
     private final DiagnosticMapper diagnosticMapper;
 
     public DiagnosticDto addDiagnostic(DiagnosticDto dto) {
-        Diagnostic diagnostico = diagnosticMapper.toEntity(dto);
+        DiagnosticEntity diagnostico = diagnosticMapper.toEntity(dto);
         diagnostico = diagnosticRepository.save(diagnostico);
         return diagnosticMapper.toDto(diagnostico);
     }
 
-    public List<DiagnosticDto> getAllDiagnostics() {
-        List<Diagnostic> diagnosticList = diagnosticRepository.findAll();
-        return diagnosticMapper.toDtoList(diagnosticList);
+    public List<DiagnosticDto> getAllDiagnostics(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<DiagnosticEntity> diagnosticPage = diagnosticRepository.findAll(pageable);
+        if (diagnosticPage.hasContent()) {
+            return diagnosticMapper.toDtoList(diagnosticPage.getContent());
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public DiagnosticDto getDiagnosticById(Long id) {
-        Diagnostic diagnostic = diagnosticRepository.findById(id)
+        DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
                 .orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico buscado no existe"));
         return diagnosticMapper.toDto(diagnostic);
     }
 
     public DiagnosticDto updateDiagnostic(Long id, DiagnosticDto dto) {
-        Diagnostic diagnostic = diagnosticRepository.findById(id)
+        DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
                 .orElseThrow(() -> new DiagnosticNotFoundException("El diagnóstico no se puede actualizar porque no existe"));
 
         diagnostic.setDateDiagnostic(dto.dateDiagnostic());
         diagnostic.setDescription(dto.description());
-        diagnostic.setGravedad(dto.gravedad());
+        diagnostic.setSeveridad(dto.severidad());
         diagnostic.setNextControlDate(dto.nextControlDate());
 
         diagnostic = diagnosticRepository.save(diagnostic);
@@ -48,10 +58,11 @@ public class DiagnosticService {
     }
 
     public void deleteDiagnostic(Long id) {
-        if (!diagnosticRepository.existsById(id)) {
-            throw new DiagnosticNotFoundException("El diagnóstico no se puede eliminar porque no existe");
-        } else {
+        try {
             diagnosticRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new DiagnosticNotFoundException("El diagnóstico no se puede eliminar porque no existe" + ex);
         }
     }
+
 }
