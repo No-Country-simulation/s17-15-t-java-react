@@ -11,7 +11,7 @@ public record DiagnosticDto (
         @NotBlank(message = "La descripción es obligatoria")
         String description,
         @NotBlank(message = "La gravedad es obligatoria")
-        EnumGravedad gravedad,
+        EnumGravedad severidad,
         @NotBlank(message = "La fecha de control es obligatoria")
         LocalDate nextControlDate
     //Consulta consulta

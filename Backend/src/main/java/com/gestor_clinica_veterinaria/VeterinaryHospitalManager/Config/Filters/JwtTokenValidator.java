@@ -34,36 +34,34 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.debug("Received request with Authorization header: {}", jwtToken);
+
 
         if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
             jwtToken = jwtToken.substring(7);
-            log.debug("Extracted JWT token: {}", jwtToken);
+
 
             try {
                 DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);
-                log.debug("JWT token validated successfully");
+
 
                 String username = jwtUtils.extractUsername(decodedJWT);
-                log.debug("Extracted username from token: {}", username);
+
                 String stringAuthorities = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
-                log.debug("Extracted authorities string from token: {}", stringAuthorities);
+
 
                 Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
-                log.debug("Parsed authorities from string: {}", authorities);
+
 
                 SecurityContext securityContext = SecurityContextHolder.getContext();
                 Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
                 securityContext.setAuthentication(authentication);
                 SecurityContextHolder.setContext(securityContext);
-                log.debug("Set authentication in SecurityContext");
+
             } catch (Exception e) {
-                log.error("Error validating JWT token", e);
+
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
-        } else {
-            log.debug("No JWT token found in request headers");
         }
 
         filterChain.doFilter(request, response);

@@ -6,8 +6,10 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.Diagn
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.DiagnosticMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,6 +27,9 @@ public class DiagnosticService {
 
     public List<DiagnosticDto> getAllDiagnostics() {
         List<DiagnosticEntity> diagnosticList = diagnosticRepository.findAll();
+        if (diagnosticList.isEmpty()) {
+            return Collections.emptyList();
+        }
         return diagnosticMapper.toDtoList(diagnosticList);
     }
 
@@ -40,7 +45,7 @@ public class DiagnosticService {
 
         diagnostic.setDateDiagnostic(dto.dateDiagnostic());
         diagnostic.setDescription(dto.description());
-        diagnostic.setSeveridad(dto.gravedad());
+        diagnostic.setSeveridad(dto.severidad());
         diagnostic.setNextControlDate(dto.nextControlDate());
 
         diagnostic = diagnosticRepository.save(diagnostic);
@@ -48,10 +53,11 @@ public class DiagnosticService {
     }
 
     public void deleteDiagnostic(Long id) {
-        if (!diagnosticRepository.existsById(id)) {
-            throw new DiagnosticNotFoundException("El diagnóstico no se puede eliminar porque no existe");
-        } else {
+        try {
             diagnosticRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new DiagnosticNotFoundException("El diagnóstico no se puede eliminar porque no existe" + ex);
         }
     }
+
 }

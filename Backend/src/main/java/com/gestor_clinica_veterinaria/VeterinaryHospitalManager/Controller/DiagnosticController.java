@@ -3,12 +3,14 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.DiagnosticService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.Table;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,51 +38,93 @@ public class DiagnosticController {
                     )
             ),
             responses = {
-                @ApiResponse(
-                        responseCode = "200",
-                        description = "Successful operation",
-                        content = @Content(mediaType = "application/json",
-                                schema = @Schema(implementation = DiagnosticDto.class)
-                        )
-                )
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successful operation",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = DiagnosticDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Diagnostic created successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = DiagnosticDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid Diagnostic data",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(mediaType = "application/json")
+                    )
             }
 
     )
     public ResponseEntity<DiagnosticDto> addDiagnostic(@RequestBody DiagnosticDto dto) {
-        return ResponseEntity.ok(diagnosticService.addDiagnostic(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(diagnosticService.addDiagnostic(dto));
+
     }
 
     @GetMapping("/all")
     @Operation(
             summary = "Get all Diagnostics",
-            description = "Get all Diagnostics",
+            description = "Retrieve a list of all Diagnostics",
             tags = {"Diagnostic"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful operation",
+                            description = "List of diagnostics retrieved successfully",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = DiagnosticDto.class)
+                                    array = @ArraySchema(schema = @Schema(implementation = DiagnosticDto.class))
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No diagnostics found"
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(mediaType = "application/json")
                     )
             }
     )
-    public ResponseEntity<List<DiagnosticDto>> getAllDiaggravnostics() {
+    public ResponseEntity<List<DiagnosticDto>> getAllDiagnostics() {
         return ResponseEntity.ok(diagnosticService.getAllDiagnostics());
     }
 
     @GetMapping("/{id}")
     @Operation(
-            summary = "Get Diagnostic by id",
-            description = "Get Diagnostic by id",
+            summary = "Get Diagnostic by ID",
+            description = "Retrieve a Diagnostic by its ID",
             tags = {"Diagnostic"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful operation",
+                            description = "Diagnostic retrieved successfully",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = DiagnosticDto.class)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Diagnostic not found",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid ID supplied",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(mediaType = "application/json")
                     )
             }
     )
@@ -91,7 +135,7 @@ public class DiagnosticController {
     @PutMapping("/update/{id}")
     @Operation(
             summary = "Update Diagnostic",
-            description = "Update a Diagnostic",
+            description = "Update an existing Diagnostic",
             tags = {"Diagnostic"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Diagnostic object with fields dateDiagnostic, description, gravedad, nextControlDate",
@@ -104,10 +148,25 @@ public class DiagnosticController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful operation",
+                            description = "Diagnostic updated successfully",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = DiagnosticDto.class)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Diagnostic not found",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid ID supplied or Diagnostic data is invalid",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(mediaType = "application/json")
                     )
             }
     )
@@ -118,12 +177,27 @@ public class DiagnosticController {
     @DeleteMapping("/delete/{id}")
     @Operation(
             summary = "Delete Diagnostic",
-            description = "Delete a Diagnostic",
+            description = "Delete a Diagnostic by its ID",
             tags = {"Diagnostic"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful operation"
+                            description = "Diagnostic deleted successfully"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Diagnostic not found",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid ID supplied",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(mediaType = "application/json")
                     )
             }
     )

@@ -30,7 +30,7 @@ public class JwtUtils {
 
     // Generar un token de acceso
     public String generateJwtToken(Authentication authentication) {
-        log.debug("Generating JWT token for user: {}", authentication.getPrincipal());
+
 
         Algorithm algorithm = Algorithm.HMAC256(this.SECRET_KEY);
 
@@ -40,10 +40,10 @@ public class JwtUtils {
                 .stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        log.debug("Authorities for user {}: {}", username, authorities);
+
 
         try {
-            String token = JWT.create()
+            return JWT.create()
                     .withIssuer(this.SECRET_USER_KEY)
                     .withSubject(username)
                     .withClaim("authorities", authorities)
@@ -52,11 +52,7 @@ public class JwtUtils {
                     .withJWTId(UUID.randomUUID().toString())
                     .withNotBefore(new Date(System.currentTimeMillis()))
                     .sign(algorithm);
-
-            log.debug("JWT token generated successfully for user: {}", username);
-            return token;
         } catch (Exception e) {
-            log.error("Error generating JWT token for user: {}", username, e);
             throw new RuntimeException("Error generating JWT token", e);
         }
     }
