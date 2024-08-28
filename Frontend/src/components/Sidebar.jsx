@@ -15,7 +15,7 @@ import { SiInformatica } from "react-icons/si";
 function Sidebar({ appName }) {
     return (
 
-        <div className="">
+        <div className="bg-primary bg-opacity-60">
 
             <SidebarMenu
                 items={[

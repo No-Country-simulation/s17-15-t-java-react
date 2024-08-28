@@ -13,13 +13,13 @@ export default function Layout() {
     return (
         <AuthProvider>
             <main className="grid grid-rows-[auto_1fr_auto] grid-cols-[200px_auto] h-screen m-0 p-2.5 shadow-lg">
-                <div className="row-span-1 col-span-2 m-0 border-x border-t border-gray-600 rounded-t-lg shadow-lg">
+                <div className="row-span-1 col-span-2 m-0 shadow-lg bg-primary bg-opacity-60">
                     {/* <p className="text-center font-extrabold text-5xl">NAVBAR</p> */}
                     <Navbar />
                 </div>
 
                 {currentUser && (
-                    <div className="flex row-span-2 m-0 border-l border-t border-gray-600 shadow-lg">
+                    <div className="flex row-span-2 m-0">
                         {/* <p className="text-center font-bold text-5xl">SIDEBAR</p> */}
                         <Sidebar />
                     </div>
