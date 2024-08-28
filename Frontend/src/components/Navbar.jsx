@@ -2,7 +2,7 @@ import ThemeController from "./ThemeController";
 import { Link } from "react-router-dom";
 function Navbar() {
     return (
-        <div className="navbar bg-base-100 rounded-t-lg bg-opacity-50">
+        <div className="navbar bg-base-300 rounded-b-2xl bg-opacity-95 h-[90px]">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
