@@ -3,6 +3,8 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.DiagnosticService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.Table;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,15 +75,15 @@ public class DiagnosticController {
 
     @GetMapping("/all")
     @Operation(
-            summary = "Get all Diagnostics",
-            description = "Retrieve a list of all Diagnostics",
+            summary = "Get all Diagnostics with Pagination",
+            description = "Retrieve a paginated list of Diagnostics.",
             tags = {"Diagnostic"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "List of diagnostics retrieved successfully",
+                            description = "Page of diagnostics retrieved successfully",
                             content = @Content(mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = DiagnosticDto.class))
+                                    schema = @Schema(implementation = Page.class) // Indica que la respuesta es un objeto paginado
                             )
                     ),
                     @ApiResponse(
@@ -92,10 +95,27 @@ public class DiagnosticController {
                             description = "Internal server error",
                             content = @Content(mediaType = "application/json")
                     )
+            },
+            parameters = {
+                    @Parameter(
+                            name = "page",
+                            description = "Page number to retrieve (zero-based index)",
+                            example = "0",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(type = "integer", defaultValue = "0")
+                    ),
+                    @Parameter(
+                            name = "size",
+                            description = "Number of records per page",
+                            example = "10",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(type = "integer", defaultValue = "10")
+                    )
             }
     )
-    public ResponseEntity<List<DiagnosticDto>> getAllDiagnostics() {
-        return ResponseEntity.ok(diagnosticService.getAllDiagnostics());
+    public ResponseEntity<List<DiagnosticDto>> getAllDiagnostics( @RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(diagnosticService.getAllDiagnostics(page, size));
     }
 
     @GetMapping("/{id}")

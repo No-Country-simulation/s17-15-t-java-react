@@ -7,6 +7,9 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.Diagnosti
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -25,12 +28,14 @@ public class DiagnosticService {
         return diagnosticMapper.toDto(diagnostico);
     }
 
-    public List<DiagnosticDto> getAllDiagnostics() {
-        List<DiagnosticEntity> diagnosticList = diagnosticRepository.findAll();
-        if (diagnosticList.isEmpty()) {
+    public List<DiagnosticDto> getAllDiagnostics(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<DiagnosticEntity> diagnosticPage = diagnosticRepository.findAll(pageable);
+        if (diagnosticPage.hasContent()) {
+            return diagnosticMapper.toDtoList(diagnosticPage.getContent());
+        } else {
             return Collections.emptyList();
         }
-        return diagnosticMapper.toDtoList(diagnosticList);
     }
 
     public DiagnosticDto getDiagnosticById(Long id) {
