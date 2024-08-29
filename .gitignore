@@ -1,0 +1,6 @@
+### NODE MODULE ###
+node_modules
+Frontend/node_modules
+### VS CODE ###
+.vscode
+### GIT ###
