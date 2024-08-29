@@ -3,4 +3,10 @@ node_modules
 Frontend/node_modules
 ### VS CODE ###
 .vscode
-### GIT ###
+### ENV ###
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+Frontend/.env

@@ -14,7 +14,7 @@ function Login() {
         event.preventDefault();
         if (!isLoading) {
             setIsLoading(true);
-            fetch(`${import.meta.env.VITE_API_BASE_URL}api-auth/`, {
+            fetch(`${import.meta.env.VITE_API_BASE_URL}auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,38 +31,38 @@ function Login() {
                     return response.json();
                 })
                 .then((responseData) => {
-                    login(responseData.token);
-                    if (responseData.token) {
-                        fetch(
-                            `${
-                                import.meta.env.VITE_API_BASE_URL
-                            }users/profiles/profile_data/`,
-                            {
-                                method: "GET",
-                                headers: {
-                                    Authorization: `Token ${responseData.token}`,
-                                },
-                            }
-                        )
-                            .then((profileResponse) => {
-                                if (!profileResponse.ok) {
-                                    throw new Error(
-                                        "Error al obtener id de usuario"
-                                    );
-                                }
-                                return profileResponse.json();
-                            })
-                            .then((profileData) =>
-                                login(responseData.token, profileData.user__id)
-                            )
-                            .catch((error) => {
-                                console.error(
-                                    "Error al obtener id de usuario",
-                                    error
-                                );
-                                setIsError(true);
-                            });
-                    }
+                    login(responseData.jwt);
+                    // if (responseData.jwt) {
+                    //     fetch(
+                    //         `${
+                    //             import.meta.env.VITE_API_BASE_URL
+                    //         }users/profiles/profile_data/`,
+                    //         {
+                    //             method: "GET",
+                    //             headers: {
+                    //                 Authorization: `Token ${responseData.jwt}`,
+                    //             },
+                    //         }
+                    //     )
+                    //         .then((profileResponse) => {
+                    //             if (!profileResponse.ok) {
+                    //                 throw new Error(
+                    //                     "Error al obtener id de usuario"
+                    //                 );
+                    //             }
+                    //             return profileResponse.json();
+                    //         })
+                    //         .then((profileData) =>
+                    //             login(responseData.token, profileData.user__id)
+                    //         )
+                    //         .catch((error) => {
+                    //             console.error(
+                    //                 "Error al obtener id de usuario",
+                    //                 error
+                    //             );
+                    //             setIsError(true);
+                    //         });
+                    // }
                 })
                 .catch((error) => {
                     console.error("Error al iniciar sesión", error);
