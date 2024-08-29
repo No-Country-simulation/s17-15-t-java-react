@@ -4,6 +4,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Complementar
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ComplementaryStudyMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ComplementaryStudyRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.ComplementaryStudyNotFoundException;
@@ -11,6 +12,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +38,17 @@ public class ComplementaryStudyService {
         return complementaryStudyMapper.toDto(study);
     }
 
+    public List<ComplementaryStudyDto> getAllStudiesByPetId(Long petId){
+        List<ComplementaryStudy> treatmentList = complementaryStudyRepository.findAllById(Collections.singleton(petId));
+        return  complementaryStudyMapper.toDtoList(treatmentList);
+    }
+    public List<ComplementaryStudyDto> getAllStudiesByOwnerId(Long ownerId){
+        List<ComplementaryStudy> treatmentList = complementaryStudyRepository.findAllById(Collections.singleton(ownerId));
+        return  complementaryStudyMapper.toDtoList(treatmentList);
+    }
+    public List<ComplementaryStudyDto> getAllStudiesByState(EnumStudyState state) {
+        return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findByStudyState(state));
+    }
     public ComplementaryStudyDto updateStudy(Long studyId, ComplementaryStudyDto dto){
 
         Optional<ComplementaryStudy> studyOptional = complementaryStudyRepository.findById(studyId);
@@ -59,15 +72,19 @@ public class ComplementaryStudyService {
             if (dto.studyFile() != null){
                 existingStudy.setStudyFile(dto.studyFile());
             }
-            if (dto.idConsultation() != null){
-                existingStudy.setIdConsultation(dto.idConsultation());
-            }
-            if (dto.idDianosis() != null){
-                existingStudy.setIdDianosis(dto.idDianosis());
+//            if (dto.consultation() != null){
+//                existingStudy.setConsultation(dto.consultation());
+//            }
+            if (dto.dianosis() != null){
+                existingStudy.setDiagnosis(dto.dianosis());
             }
             if (dto.studyType() != null){
                 existingStudy.setStudyType(dto.studyType());
             }
+
+            //if (dto.hospitalization() != null){
+//                existingStudy.setHospitalization(dto.hospitalization());
+//            }
 
             ComplementaryStudy updatedStudy =  complementaryStudyRepository.save(existingStudy);
             return complementaryStudyMapper.toDto(updatedStudy);

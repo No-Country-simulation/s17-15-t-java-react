@@ -6,23 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "treatment")
 public class Treatment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id_treatment;
-
-    @Column(name = "start_Date", length = 10, nullable = false)
-    private LocalDate startDate;
-
-    @Column(name = "end_date", length = 10, nullable = false)
-    private LocalDate endDate;
 
     @Column(name = "treatment_description", length = 500, nullable = false)
     private String treatmentDescription;
@@ -33,11 +27,14 @@ public class Treatment {
     @Column(name = "aditional_observations", length = 200)
     private String aditionalObservations;
 
-    @Column(name = "treatment_cost", precision = 10, scale = 2, nullable = false )
+    @Column(name = "treatment_cost", precision = 10, scale = 2 )
     private BigDecimal treatmentCost;
 
-    @Column(name = "id_diagnosis", nullable = false)
-    private Long idDiagnosis;
+    @ManyToOne
+    @JoinColumn(name = "id" )
+    private DiagnosticEntity diagnosis;
 
+//    @Column(name = "hospitalization")
+//    private List<Hospitalization> hospitalizations;
 
 }
