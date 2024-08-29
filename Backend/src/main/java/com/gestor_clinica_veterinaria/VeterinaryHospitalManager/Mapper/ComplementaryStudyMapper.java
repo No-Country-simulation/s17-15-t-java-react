@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,9 @@ public class ComplementaryStudyMapper {
         study.setStudyState(dto.studyState());
         study.setStudyFile(dto.studyFile());
         study.setStudyCost(dto.studyCost());
-        study.setIdDianosis(dto.idDianosis());
-        study.setIdConsultation(dto.idConsultation());
+        study.setDiagnosis(dto.dianosis());
+        //study.setConsultation(dto.consultation());
+        //study.setHospitalization
         return study;
     }
 
@@ -30,11 +32,12 @@ public class ComplementaryStudyMapper {
                 entity.getStudyState(),
                 entity.getStudyFile(),
                 entity.getStudyCost(),
-                entity.getIdDianosis(),
-                entity.getIdConsultation()
+                entity.getDiagnosis()
         );
     }
-
+//agregar a las lineas 36 y 37  cuando las entidades estén creadas->
+    //entity.getConsultation(),
+    //entity.getHospitalization(),
     public List<ComplementaryStudyDto> toDtoList(List<ComplementaryStudy>  studyList){
         return studyList.stream().map(this::toDto).toList();
     }
