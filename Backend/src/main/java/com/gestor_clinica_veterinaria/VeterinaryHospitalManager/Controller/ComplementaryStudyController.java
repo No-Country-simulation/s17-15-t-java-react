@@ -120,11 +120,6 @@ public class ComplementaryStudyController {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ComplementaryStudyDto.class)
                             )
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Invalid study id value",
-                            content = @Content(mediaType = "application/json")
                     )
             }
     )
