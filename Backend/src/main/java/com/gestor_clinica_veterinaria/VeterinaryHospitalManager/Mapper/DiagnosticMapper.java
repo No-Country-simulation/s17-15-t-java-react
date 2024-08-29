@@ -2,7 +2,9 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +15,6 @@ public interface DiagnosticMapper {
 
     DiagnosticEntity toEntity(DiagnosticDto dto);
     DiagnosticDto toDto(DiagnosticEntity entity);
-    List<DiagnosticDto> toDtoList(List<DiagnosticEntity> entities);
+
 
 }

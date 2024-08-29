@@ -1,10 +1,12 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumGravedad;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -18,8 +20,8 @@ public class DiagnosticEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date_diagnostic")
-    private LocalDate dateDiagnostic;
+    @Column(name = "diagnosis_date")
+    private LocalDate diagnosisDate;
 
     @Column(nullable = false)
     private String description;
@@ -27,10 +29,22 @@ public class DiagnosticEntity {
     @Enumerated(EnumType.STRING)
     private EnumGravedad severidad;
 
-    @Column(name = "next_control_date")
-    private LocalDate nextControlDate;
+    @Column(name = "next_check_up")
+    private LocalDate nextCheckUp;
 
-    //private Consulta consult;
+    /*@ManyToOne(targetEntity = Consulta.class)
+    @JoinColumn(name = "consulta_id")
+    private Consultation consultation;
 
-    //private List<Tratamiento> tratamientos;
+    @OneToMany(targetEntity = Treatment.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_diagnosis")
+    private List<Treatment> treatments;
+
+    @OneToMany(targetEntity = Surgery.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_diagnosis")
+    private List<Surgery> surgerys;
+
+    @OneToMany(targetEntity = ComplementaryStudy.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_diagnosis")
+    private List<ComplementaryStudy> complementaryStudies;*/
 }

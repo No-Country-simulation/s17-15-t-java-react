@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DiagnosticRepository extends JpaRepository<DiagnosticEntity, Long> {
-    Page<DiagnosticEntity> findAll(@NonNull Pageable pageable);
 
 }
