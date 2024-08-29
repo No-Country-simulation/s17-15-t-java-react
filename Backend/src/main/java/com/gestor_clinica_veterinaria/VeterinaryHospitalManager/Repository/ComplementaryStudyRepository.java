@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ComplementaryStudyRepository extends JpaRepository<ComplementaryStudy, Long> {
-    List<ComplementaryStudy> findStudyByState(EnumStudyState studyState);
+    List<ComplementaryStudy> findByStudyState(EnumStudyState studyState);
 }

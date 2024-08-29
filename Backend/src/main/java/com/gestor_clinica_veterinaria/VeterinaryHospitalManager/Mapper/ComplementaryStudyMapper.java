@@ -1,7 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import org.springframework.stereotype.Component;
 

@@ -46,16 +46,8 @@ public class ComplementaryStudyService {
         List<ComplementaryStudy> treatmentList = complementaryStudyRepository.findAllById(Collections.singleton(ownerId));
         return  complementaryStudyMapper.toDtoList(treatmentList);
     }
-    public List<ComplementaryStudyDto> getAllStudiesByState(String state) {
-        EnumStudyState studyState;
-        try {
-            studyState = EnumStudyState.valueOf(state.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid study state: " + state);
-        }
-
-        List<ComplementaryStudy> treatmentList = complementaryStudyRepository.findStudyByState(studyState);
-        return complementaryStudyMapper.toDtoList(treatmentList);
+    public List<ComplementaryStudyDto> getAllStudiesByState(EnumStudyState state) {
+        return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findByStudyState(state));
     }
     public ComplementaryStudyDto updateStudy(Long studyId, ComplementaryStudyDto dto){
 

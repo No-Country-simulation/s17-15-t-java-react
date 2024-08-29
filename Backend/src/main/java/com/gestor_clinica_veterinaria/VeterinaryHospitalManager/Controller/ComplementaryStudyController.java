@@ -2,6 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/complementaryStudies")
 @RequiredArgsConstructor
-@Tag(name="ComplementaryStudy", description = "Endpoints to manage Complementary Studies")
+@Tag(name="Complementary Study", description = "Endpoints to manage Complementary Studies")
 public class ComplementaryStudyController {
     private final ComplementaryStudyService complementaryStudyService;
 
@@ -25,6 +26,7 @@ public class ComplementaryStudyController {
     @Operation(
             summary = "Add a new Complementary Study",
             description = "Add a new complementary study",
+            tags = {"Complementary Study"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Complementary Study objetct with fields: examinationDate, studyType, studyResult, studyResult, studyState, studyType, studyCost, consultation and possible or not a diagnosis and/or a hospitalization",
                     required = true,
@@ -93,7 +95,7 @@ public class ComplementaryStudyController {
     @Operation(
             summary = "Get all Complementary studies",
             description = "Get all Complementary studies",
-            tags = {"Complementary studies"},
+            tags = {"Complementary Study"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -195,12 +197,8 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudyDto>> getAllStudiesByState(@PathVariable String studyState) {
-        try {
-            List<ComplementaryStudyDto> studies = complementaryStudyService.getAllStudiesByState(studyState);
-            return ResponseEntity.ok(studies);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    public ResponseEntity<List<ComplementaryStudyDto>> getAllStudiesByState(@PathVariable EnumStudyState studyState) {
+        List<ComplementaryStudyDto> studies = complementaryStudyService.getAllStudiesByState(studyState);
+        return ResponseEntity.ok(studies);
     }
 }
