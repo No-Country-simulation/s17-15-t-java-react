@@ -86,7 +86,7 @@ function Login() {
 
                 <form
                     onSubmit={handleSubmit}
-                    className="flex flex-col justify-center items-center w-full lg:w-1/2"
+                    className="flex flex-col justify-center items-center w-1/2"
                 >
                     <picture className="rounded-full border-2 border-primary border-opacity-90">
                         <img src="/logo/Logo_maybe_2.png" alt="logo" />

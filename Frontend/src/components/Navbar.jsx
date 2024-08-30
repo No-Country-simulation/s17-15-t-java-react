@@ -1,4 +1,5 @@
-import ThemeController from "./ThemeController";
+import ThemeMenu from "./ThemeMenu";
+import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 function Navbar() {
     return (
@@ -20,7 +21,7 @@ function Navbar() {
                         </svg>
                     </div>
 
-                    <ul
+                    {/* <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                         <li><a>Item 1</a></li>
@@ -32,7 +33,7 @@ function Navbar() {
                             </ul>
                         </li>
                         <li><a>Item 3</a></li>
-                    </ul>
+                    </ul> */}
                 </div>
                 {/* <Link className="btn btn-ghost text-xl" to="/">LOGO</Link> */}
             </div>
@@ -56,9 +57,10 @@ function Navbar() {
 
 
 
-            <div className="navbar-end gap-3">
-                <ThemeController />
-                <Link className="btn bg-base-300" to="/login">
+            <div className="navbar-end gap-3 pr-5">
+                <ThemeMenu />
+                <Avatar />
+                {/* <Link className="btn bg-base-300" to="/login">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
@@ -72,7 +74,7 @@ function Navbar() {
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                     Login
-                </Link>
+                </Link> */}
             </div>
         </div>
 
