@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { FaUser, FaLock } from "react-icons/fa";
+import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function Login() {
     const usernameRef = useRef("");
@@ -9,6 +9,12 @@ function Login() {
     const [isLoading, setIsLoading] = useState(false);
 
     const { login } = useAuth("actions");
+
+    const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    }
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -117,13 +123,19 @@ function Login() {
                         <div className="relative">
                             <input
                                 className="input input-bordered w-full pl-10"
-                                type="password"
+                                type={passwordVisible ? "text" : "password"}
                                 id="password"
                                 name="password"
                                 ref={passwordRef}
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FaLock className="text-gray-400" />
+                                <FaLock  />
+                            </div>
+                            <div
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                onClick={togglePasswordVisibility}
+                            >
+                                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                             </div>
                         </div>
                     </div>
