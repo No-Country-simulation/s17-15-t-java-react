@@ -4,6 +4,8 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet.PetReque
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet.PetResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Owner;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Pet;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Especie;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Sexo;
 import java.util.List;
 
 public class PetMapper {
@@ -24,7 +26,7 @@ public class PetMapper {
         pet.getCastrated(),
         pet.getAlive(),
         pet.getDetails(),
-        pet.getOwner()
+        pet.getOwner().getId()
     );
   }
 
@@ -47,9 +49,9 @@ public class PetMapper {
     Pet pet = new Pet();
     pet.setName(petRequest.name());
     pet.setRace(petRequest.race());
-    pet.setSpecies(petRequest.species());
+    pet.setSpecies(Especie.valueOf(petRequest.species().toUpperCase()));
     pet.setBirthdate(petRequest.birthdate());
-    pet.setSex(petRequest.sex());
+    pet.setSex(Sexo.valueOf(petRequest.sex().toUpperCase()));
     pet.setAllergies(petRequest.allergies());
     pet.setCastrated(petRequest.castrated());
     pet.setAlive(petRequest.alive());
@@ -66,9 +68,9 @@ public class PetMapper {
 
     oldPet.setName(petRequest.name());
     oldPet.setRace(petRequest.race());
-    oldPet.setSpecies(petRequest.species());
+    oldPet.setSpecies(Especie.valueOf(petRequest.species().toUpperCase()));
     oldPet.setBirthdate(petRequest.birthdate());
-    oldPet.setSex(petRequest.sex());
+    oldPet.setSex(Sexo.valueOf(petRequest.sex().toUpperCase()));
     oldPet.setAllergies(petRequest.allergies());
     oldPet.setCastrated(petRequest.castrated());
     oldPet.setAlive(petRequest.alive());

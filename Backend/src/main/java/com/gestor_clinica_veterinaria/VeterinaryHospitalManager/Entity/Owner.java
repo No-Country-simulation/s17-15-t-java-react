@@ -30,7 +30,7 @@ public class Owner {
   @Column(nullable = false)
   private String lastname;
 
-  @Column(unique = true)
+  @Column(nullable = false, unique = true)
   private String phone;
 
   @Column(unique = true, nullable = false)

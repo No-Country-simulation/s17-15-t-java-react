@@ -55,4 +55,7 @@ public class Pet {
   @ManyToOne
   @JoinColumn(name = "owner_id", nullable = false)
   private Owner owner;
+
+//  @OneToMany(mappedBy = "consultation")
+//  private Lis<Consultation> consultationList;
 }

@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Owner;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Especie;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Sexo;
 import java.time.LocalDate;
@@ -16,7 +16,8 @@ public record PetResponse(
     Boolean castrated,
     Boolean alive,
     String details,
-    Owner owner
+    @JsonProperty(value = "owner_id")
+    Long ownerId
 ) {
 
 }
