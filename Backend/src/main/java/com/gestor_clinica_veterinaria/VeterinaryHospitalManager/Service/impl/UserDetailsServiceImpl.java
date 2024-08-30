@@ -31,6 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    //private final VeterinarioRepository veterinarioRepository;
     private final JwtUtils jwtUtils;
     private final RoleRepository roleRepository;
 
@@ -57,6 +58,30 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 userEntity.isAccountNoLocked(),
                 authorities);
     }
+
+    /*@Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        VeterinarioEntity userEntity = veterinarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
+                "El veterinario" + username + "no existe"));
+
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        userEntity.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_".concat(role.getEnumRole().name())));
+        });
+
+        userEntity.getRoles().stream()
+                .flatMap(role -> role.getPermissions().stream())
+                .forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getName())));
+
+        return new User(userEntity.getUsername(),
+                userEntity.getPassword(),
+                userEntity.isEnabled(),
+                userEntity.isAccountNoExpired(),
+                userEntity.isCredentialsNoExpired(),
+                userEntity.isAccountNoLocked(),
+                authorities);
+    }*/
 
     public AuthResponseDto loginUser(AuthLoginRequestDto authDto) {
         String username = authDto.username();
@@ -147,4 +172,58 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new AuthResponseDto(username, "User created successfully", accessToken, true);
     }
+
+    /*public AuthResponseDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
+
+        String username = authCreateUserDto.username();
+        String apellido = authCreateUserDto.apellido();
+        String password = authCreateUserDto.password();
+        String email = authCreateUserDto.email();
+        String especialidad = authCreateUserDto.especialidad();
+        String tarjetaProfesional = authCreateUserDto.tarjetaProfesional();
+
+
+        log.debug("Attempting to create user: username: {}, email: {}, password: {}", username, email, password);
+        List<String> roles = authCreateUserDto.roleDto().roles();
+        log.debug("User roles: {}", roles);
+
+        Set<RoleEntity> roleEntities = new HashSet<>(roleRepository.findRoleEntitiesByEnumRoleIn(roles));
+
+        log.debug("Role entities: {}", roleEntities);
+
+        if(roleEntities.isEmpty()){
+            throw new IllegalArgumentException("Los roles especificados no existen");
+        }
+
+        VeterinarioEntity veterinarioEntity = new VeterinarioEntity();
+        veterinarioEntity.setUsername(username);
+        veterinarioEntity.setApellido(apellido);
+        veterinarioEntity.setPassword(passwordEncoder.encode(password));
+        veterinarioEntity.setEmail(email);
+        veterinarioEntity.setEspecialidad(especialidad);
+        veterinarioEntity.setTarjetaProfesional(tarjetaProfesional);
+        veterinarioEntity.setRoles(roleEntities);
+        veterinarioEntity.setEnabled(true);
+        veterinarioEntity.setAccountNoLocked(true);
+        veterinarioEntity.setAccountNoExpired(true);
+        veterinarioEntity.setCredentialsNoExpired(true);
+
+
+        VeterinarioEntity veterinarioCreated = veterinarioRepository.save(veterinarioEntity);
+
+        ArrayList<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
+
+        veterinarioCreated.getRoles().forEach(role -> {
+            authoritiesList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getEnumRole().name())));
+        });
+
+        veterinarioCreated.getRoles().stream()
+                .flatMap(role -> role.getPermissions().stream())
+                .forEach(permission -> authoritiesList.add(new SimpleGrantedAuthority(permission.getName())));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(veterinarioCreated.getUsername(), veterinarioCreated.getPassword(), authoritiesList);
+        String accessToken = jwtUtils.generateJwtToken(authentication);
+
+        return new AuthResponseDto(username, "Veterinario created successfully", accessToken, true);
+    }*/
 }

@@ -4,6 +4,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDt
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 

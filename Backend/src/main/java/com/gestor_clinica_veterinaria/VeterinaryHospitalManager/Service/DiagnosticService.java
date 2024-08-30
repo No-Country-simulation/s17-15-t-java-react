@@ -56,10 +56,10 @@ public class DiagnosticService {
         DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
                 .orElseThrow(() -> new DiagnosticNotFoundException("El diagnóstico no se puede actualizar porque no existe"));
 
-        diagnostic.setDateDiagnostic(dto.dateDiagnostic());
+        diagnostic.setDiagnosisDate(dto.diagnosisDate());
         diagnostic.setDescription(dto.description());
         diagnostic.setSeveridad(dto.severidad());
-        diagnostic.setNextControlDate(dto.nextControlDate());
+        diagnostic.setNextCheckUp(dto.nextCheckUp());
 
         diagnostic = diagnosticRepository.save(diagnostic);
         return diagnosticMapper.toDto(diagnostic);

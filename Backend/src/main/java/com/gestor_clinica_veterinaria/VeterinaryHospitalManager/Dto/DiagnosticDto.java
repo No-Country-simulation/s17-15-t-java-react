@@ -8,13 +8,13 @@ import java.time.LocalDate;
 
 public record DiagnosticDto (
         @NotNull(message = "La fecha de diagnostico es obligatoria")
-        LocalDate dateDiagnostic,
+        LocalDate diagnosisDate,
         @NotBlank(message = "La descripción es obligatoria")
         String description,
         @NotNull(message = "La gravedad es obligatoria")
         EnumGravedad severidad,
         @NotNull(message = "La fecha de control es obligatoria")
-        LocalDate nextControlDate
+        LocalDate nextCheckUp
     //Consulta consulta
     //Tratamiento tratamiento
 ){

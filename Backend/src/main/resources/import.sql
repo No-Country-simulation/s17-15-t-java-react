@@ -18,6 +18,7 @@ INSERT INTO role_permission (role_id, permission_id) VALUES (2, 2); -- USER con 
 
 
 INSERT INTO users (id, username, password, email, is_enabled, account_no_expired, account_no_locked, credentials_no_expired) VALUES (100000, 'admin', '$2a$10$Dxnp0wJeF8L9Ftd8./ExcuaJ62jKKVezB3gvBLcgo1qNOjAnR6QJi', 'admin@example.com', true, true, true, true);
+--INSERT INTO user_entity (id, username, password, email, is_enabled, account_no_expired, account_no_locked, credentials_no_expired, user_type, apellido, especialidad, tarjeta_profesional) VALUES (100000, 'admin', '$2a$10$Dxnp0wJeF8L9Ftd8./ExcuaJ62jKKVezB3gvBLcgo1qNOjAnR6QJi', 'admin@example.com', true, true, true, true, 'VETERINARIO', 'admin', 'veterinario', '12345');
 
 -- Relacionar el usuario administrador con el rol ADMIN
 INSERT INTO users_roles (user_id, role_id) VALUES (100000, 1); -- el rol ADMIN al usuario 'admin'

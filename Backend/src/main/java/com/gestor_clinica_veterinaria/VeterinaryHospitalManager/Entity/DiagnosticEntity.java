@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "diagnostic")
+@Table(name = "diagnosis")
 public class DiagnosticEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,17 +34,17 @@ public class DiagnosticEntity {
 
     /*@ManyToOne(targetEntity = Consulta.class)
     @JoinColumn(name = "consulta_id")
-    private Consultation consultation;
+    private Consultation consultation;*/
 
-    @OneToMany(targetEntity = Treatment.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Treatment.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_diagnosis")
     private List<Treatment> treatments;
 
-    @OneToMany(targetEntity = Surgery.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    /*@OneToMany(targetEntity = Surgery.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_diagnosis")
-    private List<Surgery> surgerys;
+    private List<Surgery> surgerys;*/
 
-    @OneToMany(targetEntity = ComplementaryStudy.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_diagnosis")
-    private List<ComplementaryStudy> complementaryStudies;*/
+    private List<ComplementaryStudy> complementaryStudies;
 }
