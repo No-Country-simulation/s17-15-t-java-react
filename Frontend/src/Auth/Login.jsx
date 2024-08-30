@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import {useAuth}  from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { FaUser, FaLock } from "react-icons/fa";
 
 function Login() {
@@ -75,16 +75,22 @@ function Login() {
     }
 
     return (
-        <section className="flex justify-center items-center min-h-screen bg-base-100 bg-opacity-80">
-            <div className="w-full max-w-md">
+        <section className="h-[80vh] w-auto flex flex-col lg:flex-row justify-center items-center overflow-hidden">
+            <div className="w-1/2 flex flex-col justify-center items-center">
+
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-base-300 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
+                    className="flex flex-col justify-center items-center w-full lg:w-1/2"
                 >
-                    <div className="mb-4">
+                    <picture className="rounded-full border-2 border-primary border-opacity-90">
+                        <img src="/logo/Logo_maybe_2.png" alt="logo" />
+                    </picture>
+
+
+                    <div className="mb-4 w-full">
                         <label
                             htmlFor="username"
-                            className="block  text-sm font-bold mb-2"
+                            className="block text-sm font-bold mb-2"
                         >
                             Username:
                         </label>
@@ -97,14 +103,14 @@ function Login() {
                                 ref={usernameRef}
                             />
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FaUser className="" />
+                                <FaUser />
                             </div>
                         </div>
                     </div>
-                    <div className="mb-6">
+                    <div className="mb-6 w-full">
                         <label
                             htmlFor="password"
-                            className="block  text-sm font-bold mb-2"
+                            className="block text-sm font-bold mb-2"
                         >
                             Password:
                         </label>
@@ -121,11 +127,11 @@ function Login() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between w-full">
                         <button
                             type="submit"
                             className="btn btn-primary w-full">
-                            {isLoading ? <div className="inline-flex"><span className="loading loading-spinner text-success"></span> <p>Loading...</p> </div>: "Login"}
+                            {isLoading ? <div className="inline-flex"><span className="loading loading-spinner text-success"></span> <p>Loading...</p> </div> : "Login"}
                         </button>
                     </div>
                     {isError && (
@@ -135,8 +141,13 @@ function Login() {
                     )}
                 </form>
             </div>
+            <div className="h-full border-primary border-[10px] m-[0px] p-[0px]"></div>
+            <picture className="h-[80vh] w-1/2">
+                <img src="/img_login.png"  alt="Login Image" />
+            </picture>
         </section>
     );
+
 }
 
 export default Login;

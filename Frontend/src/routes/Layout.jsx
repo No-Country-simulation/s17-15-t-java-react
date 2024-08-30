@@ -3,7 +3,7 @@ import { AuthProvider } from "../contexts/AuthContext";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/SideBar";
 function useAuth() {
-    const currentUser = true; // Cambia esto a un objeto si deseas simular que el usuario está logueado
+    const currentUser = null; // Cambia esto a un objeto si deseas simular que el usuario está logueado
     return { currentUser };
 }
 
