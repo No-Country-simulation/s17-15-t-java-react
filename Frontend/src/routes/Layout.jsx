@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContext";
 import Navbar from "../components/Navbar";
-import Sidebar from "../components/SideBar";
+import Sidebar from "../components/Sidebar";
 function useAuth() {
     const currentUser = null; // Cambia esto a un objeto si deseas simular que el usuario está logueado
     return { currentUser };
