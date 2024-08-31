@@ -1,5 +1,4 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -18,13 +17,12 @@ public record ComplementaryStudyDto (
         EnumStudyState studyState,
         byte[] studyFile,
         @NotBlank(message = "El estudio debe tener un costo.")
-        Double studyCost
+        Double studyCost,
 
-//        DiagnosticEntity dianosis //corregir cuando se corrija el nombre a ingles
+        //Long consultationId,
 
-        //@NotBlank(message = "El estudio debe estar relacionado a una consulta.")
-        //Consultation consultation,
+        Long  diagnosisId
 
-        //Hospitalization hospitalization
+        //Long hospitalizationId
     ){
 }
