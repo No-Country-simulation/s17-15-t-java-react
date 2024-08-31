@@ -18,9 +18,9 @@ public record ComplementaryStudyDto (
         EnumStudyState studyState,
         byte[] studyFile,
         @NotBlank(message = "El estudio debe tener un costo.")
-        Double studyCost,
+        Double studyCost
 
-        DiagnosticEntity dianosis //corregir cuando se corrija el nombre a ingles
+//        DiagnosticEntity dianosis //corregir cuando se corrija el nombre a ingles
 
         //@NotBlank(message = "El estudio debe estar relacionado a una consulta.")
         //Consultation consultation,

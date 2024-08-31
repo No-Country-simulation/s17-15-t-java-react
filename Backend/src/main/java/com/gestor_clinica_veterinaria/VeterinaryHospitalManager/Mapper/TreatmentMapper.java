@@ -14,8 +14,6 @@ public class TreatmentMapper {
         treatment.setDuration(dto.duration());
         treatment.setAditionalObservations(dto.aditionalObservations());
         treatment.setTreatmentCost(dto.treatmentCost());
-        treatment.setDiagnosis(dto.diagnosis());
-        //treatment.setHospitalization(dto.hospitalization());
         return treatment;
     }
 
@@ -25,8 +23,7 @@ public class TreatmentMapper {
                 entity.getDuration(),
                 entity.getAditionalObservations(),
                 entity.getTreatmentCost(),
-                entity.getDiagnosis()
-
+                entity.getDiagnosis() != null ? entity.getDiagnosis().getId() : null
         );
     }
     // añadir a la linea 28 :

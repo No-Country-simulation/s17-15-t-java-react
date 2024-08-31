@@ -17,7 +17,7 @@ public class ComplementaryStudyMapper {
         study.setStudyState(dto.studyState());
         study.setStudyFile(dto.studyFile());
         study.setStudyCost(dto.studyCost());
-        study.setDiagnosis(dto.dianosis());
+        //study.setDiagnosis(dto.dianosis());
         //study.setConsultation(dto.consultation());
         //study.setHospitalization
         return study;
@@ -30,8 +30,8 @@ public class ComplementaryStudyMapper {
                 entity.getStudyResult(),
                 entity.getStudyState(),
                 entity.getStudyFile(),
-                entity.getStudyCost(),
-                entity.getDiagnosis()
+                entity.getStudyCost()
+
         );
     }
 //agregar a las lineas 36 y 37  cuando las entidades estén creadas->
