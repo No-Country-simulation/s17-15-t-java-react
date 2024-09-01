@@ -1,16 +1,20 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.DiagnosticMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.TreatmentRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class DiagnosticService {
 
     private final DiagnosticRepository diagnosticRepository;
+    private final TreatmentRepository treatmentRepository;
     private final DiagnosticMapper diagnosticMapper;
+
 
     @Transactional
     public DiagnosticDto addDiagnostic(DiagnosticDto dto) {
@@ -39,7 +45,7 @@ public class DiagnosticService {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
         Page<DiagnosticEntity> diagnosticPage = diagnosticRepository.findAll(pageable);
 
         return diagnosticPage.map(diagnosticMapper::toDto);
@@ -74,4 +80,22 @@ public class DiagnosticService {
         }
     }
 
+    public Page<DiagnosticDto> searchDiagnostics(int page, int size, String query) {
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("Invalid page or size parameters");
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        Page<DiagnosticEntity> diagnosticPage = diagnosticRepository.findByNameContainingIgnoreCase(query, pageable);
+
+
+        return diagnosticPage.map(diagnosticMapper::toDto);
+    }
+
+    public DiagnosticDto getDiagnosisByTreatmentId(Long treatmentId) {
+        Treatment treatment = treatmentRepository.findById(treatmentId).orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento no existe"));
+
+        DiagnosticEntity diagnostic = treatment.getDiagnosis();
+
+        return diagnosticMapper.toDto(diagnostic);
+    }
 }

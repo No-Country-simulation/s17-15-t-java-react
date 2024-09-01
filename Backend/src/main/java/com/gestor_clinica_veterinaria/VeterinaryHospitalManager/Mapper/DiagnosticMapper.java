@@ -1,21 +1,40 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
+
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
-import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.Mapper;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
+//@Mapper(componentModel = "spring")
 @Component
-@Mapper(componentModel = "spring")
-public interface DiagnosticMapper {
+public class DiagnosticMapper {
 
-    DiagnosticEntity toEntity(DiagnosticDto dto);
+    /*DiagnosticMapper INSTANCE = Mappers.getMapper(DiagnosticMapper.class);
+
     DiagnosticDto toDto(DiagnosticEntity entity);
+
+    DiagnosticEntity toEntity(DiagnosticDto dto);*/
+
+    public DiagnosticEntity toEntity(DiagnosticDto dto){
+
+        DiagnosticEntity entity = new DiagnosticEntity();
+        entity.setName(dto.name());
+        entity.setDiagnosisDate(dto.diagnosisDate());
+        entity.setDescription(dto.description());
+        entity.setSeveridad(dto.severidad());
+        entity.setNextCheckUp(dto.nextCheckUp());
+        return entity;
+    }
+    public DiagnosticDto toDto(DiagnosticEntity entity){
+
+        return new DiagnosticDto(
+                entity.getName(),
+                entity.getDiagnosisDate(),
+                entity.getDescription(),
+                entity.getSeveridad(),
+                entity.getNextCheckUp()
+        );
+    }
 
 
 }

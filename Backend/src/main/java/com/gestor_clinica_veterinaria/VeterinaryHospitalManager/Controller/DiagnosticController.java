@@ -1,12 +1,13 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.DiagnosticService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -91,16 +92,19 @@ public class DiagnosticController {
 
     @GetMapping("/all")
     @Operation(
-            summary = "Retrieve paginated diagnosiss",
-            description = "Fetch a paginated list of diagnosiss based on the provided page and size parameters.",
+            summary = "Retrieve paginated diagnosis",
+            description = "Fetch a paginated list of diagnosis based on the provided page and size parameters.",
             tags = {"diagnosis"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Page of diagnosiss retrieved successfully",
+                            description = "Page of diagnosis retrieved successfully",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = DiagnosticDto.class)
+                                    schema = @Schema(
+                                            implementation = Page.class,
+                                            description = "Page object containing a list of DiagnosticDto"
+                                    )
                             )
                     ),
                     @ApiResponse(
@@ -183,6 +187,60 @@ public class DiagnosticController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/search")
+    @Operation(
+            summary = "Search diagnosis",
+            description = "Search for diagnosis based on a query string.",
+            tags = {"diagnosis"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Page of diagnosis retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Page.class,
+                                            description = "Page object containing a list of DiagnosticDto",
+                                            example = "Page of diagnosis retrieved successfully"
+                                    )
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Error.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid query string",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Error.class)
+                            )
+                    )
+            },
+            parameters = {
+                    @Parameter(
+                            name = "query",
+                            description = "Query string to search for",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(type = "string")
+                    )
+            }
+    )
+    public ResponseEntity<Page<DiagnosticDto>> searchDiagnostics(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String query
+    ) {
+
+        Page<DiagnosticDto> diagnostics = diagnosticService.searchDiagnostics(page, size, query);
+        return ResponseEntity.ok(diagnostics);
+    }
+    @GetMapping
 
     @PutMapping("/update/{id}")
     @Operation(
@@ -287,4 +345,53 @@ public class DiagnosticController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    //Obtener diagnostico por consulta id
+    /*@GetMapping("/consultation/{consultationId}")
+    public ResponseEntity<Page<DiagnosticDto> getDiagnosisByConsultationId(@PathVariable Long consultationId) {
+        return diagnosticService.getDiagnosisByConsultationId(consultationId);
+    }*/
+
+    //Obtener diagnostico por tratamiento id
+    @GetMapping("/treatment/{treatmentId}")
+    @Operation(
+            summary = "Get Diagnosis by Treatment ID",
+            description = "Retrieve the diagnosis associated with a specific treatment ID.",
+            tags = {"Diagnosis"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Diagnosis found",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = DiagnosticDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Diagnosis not found",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Error.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Error.class)
+                            )
+                    )
+            }
+    )
+    public ResponseEntity<DiagnosticDto> getDiagnosisByTreatmentId(@PathVariable Long treatmentId) {
+        try{
+            DiagnosticDto diagnostics = diagnosticService.getDiagnosisByTreatmentId(treatmentId);
+            return ResponseEntity.ok(diagnostics);
+        } catch (DiagnosticNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }

@@ -3,7 +3,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthCreateUserRequestDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthLoginRequestDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthResponseDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthResponseRegisterDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.impl.UserDetailsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -134,7 +134,7 @@ public class AuthController {
         log.debug("Received request to register user: {}", authCreateUserDto.username());
         try {
             log.debug("Creating user: {}", authCreateUserDto.username());
-            AuthResponseDto response = this.userDetailsServiceImpl.createUser(authCreateUserDto);
+            AuthResponseRegisterDto response = this.userDetailsServiceImpl.createUser(authCreateUserDto);
             log.debug("User created successfully: {}", authCreateUserDto.username());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {

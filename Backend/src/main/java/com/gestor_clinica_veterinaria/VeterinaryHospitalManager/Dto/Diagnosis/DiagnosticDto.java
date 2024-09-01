@@ -1,15 +1,16 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumGravedad;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 
+@Validated
 public record DiagnosticDto (
+        String name,
         @NotNull(message = "La fecha de diagnostico es obligatoria")
         LocalDate diagnosisDate,
-        @NotBlank(message = "La descripción es obligatoria")
         String description,
         @NotNull(message = "La gravedad es obligatoria")
         EnumGravedad severidad,

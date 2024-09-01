@@ -20,10 +20,12 @@ public class DiagnosticEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    private String name;
+
     @Column(name = "diagnosis_date")
     private LocalDate diagnosisDate;
 
-    @Column(nullable = false)
     private String description;
 
     @Enumerated(EnumType.STRING)

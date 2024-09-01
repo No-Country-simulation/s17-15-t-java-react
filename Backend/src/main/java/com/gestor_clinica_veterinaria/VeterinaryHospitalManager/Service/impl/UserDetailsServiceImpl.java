@@ -4,6 +4,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Config.Jwt.JwtUt
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthCreateUserRequestDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthLoginRequestDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthResponseDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthResponseRegisterDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.RoleEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.UserEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.RoleRepository;
@@ -87,6 +88,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String username = authDto.username();
         String password = authDto.password();
 
+        Long id = userRepository.findByusername(username)
+                .map(UserEntity::getId)
+                .orElseThrow(() -> new UsernameNotFoundException("El Id del usuario " + username + " no existe"));
+
         log.debug("Attempting to authenticate user: {}", username);
 
         try{
@@ -95,7 +100,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             log.debug("User authenticated successfully. Generating JWT token.");
             String token = jwtUtils.generateJwtToken(authentication);
             log.debug("JWT token generated successfully.");
-            return new AuthResponseDto(username, "User logged successfully", token, true);
+            return new AuthResponseDto(id, username, "User logged successfully", token, true);
         }
         catch (Exception e) {
             log.error("Authentication failed for user: {}", username, e);
@@ -117,7 +122,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     }
 
-    public AuthResponseDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
+    public AuthResponseRegisterDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
 
         String username = authCreateUserDto.username();
         String password = authCreateUserDto.password();
@@ -170,7 +175,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         log.debug("JWT token generated successfully.");
 
-        return new AuthResponseDto(username, "User created successfully", accessToken, true);
+        return new AuthResponseRegisterDto(username, "User created successfully", accessToken, true);
+        //return new AuthResponseRegisterDto(username, "User created successfully", accessToken, true);
     }
 
     /*public AuthResponseDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
