@@ -57,9 +57,14 @@ public class OwnerServiceImpl implements OwnerService {
   @Override
   public OwnerResponse saveOwner(OwnerRequest ownerRequest) {
     boolean ownerExistsByEmail = ownerRepository.existsByEmail(ownerRequest.email());
+    boolean ownerExistsByPhone = ownerRepository.existsByPhone(ownerRequest.phone());
 
     if (ownerExistsByEmail) {
       throw new ResourceDuplicatedException("El email ya esta en uso");
+    }
+
+    if (ownerExistsByPhone) {
+      throw new ResourceDuplicatedException("El phone ya esta en uso");
     }
 
     Owner ownerEntity = OwnerMapper.toEntity(ownerRequest);

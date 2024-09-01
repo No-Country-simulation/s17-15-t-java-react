@@ -75,9 +75,9 @@ public class ComplementaryStudyService {
 //            if (dto.consultation() != null){
 //                existingStudy.setConsultation(dto.consultation());
 //            }
-            if (dto.dianosis() != null){
-                existingStudy.setDiagnosis(dto.dianosis());
-            }
+//            if (dto.dianosis() != null){
+//                existingStudy.setDiagnosis(dto.dianosis());
+//            }
             if (dto.studyType() != null){
                 existingStudy.setStudyType(dto.studyType());
             }

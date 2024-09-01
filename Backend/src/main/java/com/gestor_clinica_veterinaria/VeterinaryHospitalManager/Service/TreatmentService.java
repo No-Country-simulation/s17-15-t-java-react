@@ -1,10 +1,13 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.TreatmentMapper;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.TreatmentRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
@@ -17,9 +20,15 @@ public class TreatmentService {
 
     private final TreatmentRepository treatmentRepository;
     private final TreatmentMapper treatmentMapper;
+     private final DiagnosticRepository diagnosisRepository;
 
     public TreatmentDto addTreatment(TreatmentDto dto){
         Treatment treatment = treatmentMapper.toEntity(dto);
+
+        DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
+                .orElseThrow(()-> new EntityNotFoundException("Diagnosis not found wwith id: " + dto.diagnosisId()));
+
+        treatment.setDiagnosis(diagnosisEntity);
         treatment = treatmentRepository.save(treatment);
         return treatmentMapper.toDto(treatment);
     }
@@ -61,9 +70,9 @@ public class TreatmentService {
             if (dto.treatmentCost() != null){
                 existingTreatment.setTreatmentCost(dto.treatmentCost());
             }
-            if (dto.diagnosis() != null){
-                existingTreatment.setDiagnosis(dto.diagnosis());
-            }
+//            if (dto.diagnosis() != null){
+//                existingTreatment.setDiagnosis(dto.diagnosis());
+//            }
 //            if (dto.hospitalization() != null){
 //                existingTreatment.setHospitalization(dto.hospitalization());
 //            }
