@@ -39,7 +39,6 @@ public class DiagnosticEntity {
     private Consultation consultation;*/
 
     @OneToMany(targetEntity = Treatment.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_diagnosis")
     private List<Treatment> treatments;
 
     /*@OneToMany(targetEntity = Surgery.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
