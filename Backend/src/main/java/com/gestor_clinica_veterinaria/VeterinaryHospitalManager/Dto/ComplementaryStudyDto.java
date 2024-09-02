@@ -1,19 +1,28 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
-
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyType;
-import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 public record ComplementaryStudyDto (
+        @NotBlank(message = "El estudio debe contener una fecha correspondiente al día que se ejecuta el mismo.")
+        LocalDate examinationDate,
 
-    LocalDate examinationDate,
-    EnumStudyType studyType,
-    String studyResult,
-    EnumStudyState studyState,
-    byte[] studyFile,
-    Double studyCost,
-    Long idDianosis,
-    Long idConsultation
-){
+        @NotBlank(message = "El estudio debe tener un tipo.")
+        String studyType,
+
+        @NotBlank(message = "El estudio debe tener un resultado.")
+        String studyResult,
+
+        @NotBlank(message = "El estudio debe tener un estado.")
+        EnumStudyState studyState,
+        byte[] studyFile,
+        @NotBlank(message = "El estudio debe tener un costo.")
+        Double studyCost,
+
+        //Long consultationId,
+
+        Long  diagnosisId
+
+        //Long hospitalizationId
+    ){
 }

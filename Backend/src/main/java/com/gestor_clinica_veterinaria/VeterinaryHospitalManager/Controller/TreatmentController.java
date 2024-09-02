@@ -1,6 +1,5 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.TreatmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +30,7 @@ public class TreatmentController {
             description = "Add a new treatment",
             tags = {"Treatment"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                description = "Treatment objetct with fields: startDate, endDate, treatmentDescription, duration, adicionalObservations, treatmentCost, id_dianosis",
+                description = "Treatment objetct with fields:  treatmentDescription, duration, adicionalObservations, treatmentCost, dianosis, and possible a list of hospitalizations",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
@@ -43,7 +42,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful treatment created",
                             content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TreatmentController.class)
+                            schema = @Schema(implementation = TreatmentDto.class)
                             )
                     )
             }
@@ -70,27 +69,81 @@ public class TreatmentController {
         return ResponseEntity.ok(treatmentService.getAllTreatments());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{treatmentId}")
     @Operation(
-            summary = "Get Diagnostic by id",
-            description = "Get Diagnostic by id",
-            tags = {"Diagnostic"},
+            summary = "Get Treatment by id",
+            description = "Get Treatment by treatment id",
+            tags = {"Treatment"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = DiagnosticDto.class)
+                                    schema = @Schema(implementation = TreatmentDto.class)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Treatment not found",
+                            content = @Content(mediaType = "application/json")
                     )
             }
     )
 
-    public ResponseEntity<TreatmentDto> getTreatmentById(@PathVariable Long id) {
-        return ResponseEntity.ok(treatmentService.getTreatmentById(id));
+    public ResponseEntity<TreatmentDto> getTreatmentById(@PathVariable Long treatmentId) {
+        return ResponseEntity.ok(treatmentService.getTreatmentById(treatmentId));
+    }
+    @GetMapping("/pet/{petId}")
+    @Operation(
+            summary = "Get Treatment by pet.",
+            description = "Get Treatment by pet id.",
+            tags = {"Treatment"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successful operation",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = TreatmentDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "No treatments found for the pet",
+                            content = @Content(mediaType = "application/json")
+                    )
+            }
+    )
+
+    public ResponseEntity<List<TreatmentDto>> getTreatmentsByPetId(@PathVariable Long petId) {
+        return ResponseEntity.ok(treatmentService.getAllTreatmentsByPetId(petId));
     }
 
-    @PatchMapping("/update/{id}")
+    @GetMapping("/owner/{ownerId}")
+    @Operation(
+            summary = "Get Treatments by owner.",
+            description = "Get Treatments by owner id.",
+            tags = {"Treatment"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successful operation",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = TreatmentDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "No treatments found for the owner",
+                            content = @Content(mediaType = "application/json")
+                    )
+            }
+    )
+
+    public ResponseEntity<List<TreatmentDto>> getTreatmentsByOwnerId(@PathVariable Long ownerId) {
+        return ResponseEntity.ok(treatmentService.getAllTreatmentsByOwnerId(ownerId));
+    }
+
+    @PatchMapping("/update/{treatmentId}")
     @Operation(
             summary = "Update Treatment",
             description = "Partially or fully update a Treatment",
@@ -110,22 +163,32 @@ public class TreatmentController {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = TreatmentDto.class)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Treatment not found",
+                            content = @Content(mediaType = "application/json")
                     )
             }
     )
-    public ResponseEntity<TreatmentDto> updateTreatment(@PathVariable Long id, @RequestBody TreatmentDto dto) {
-        return ResponseEntity.ok(treatmentService.updateTreatment(id, dto));
+    public ResponseEntity<TreatmentDto> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentDto dto) {
+        return ResponseEntity.ok(treatmentService.updateTreatment(treatmentId, dto));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{treatmentId}")
     @Operation(
-            summary = "Delete Diagnostic",
-            description = "Delete a Diagnostic",
-            tags = {"Diagnostic"},
+            summary = "Delete Treatment",
+            description = "Delete a Treatment",
+            tags = {"Treatment"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Treatment errased Successfully "
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Treatment not found",
+                            content = @Content(mediaType = "application/json")
                     )
             }
     )
