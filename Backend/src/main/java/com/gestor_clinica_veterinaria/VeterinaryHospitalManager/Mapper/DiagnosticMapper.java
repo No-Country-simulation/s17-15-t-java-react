@@ -1,6 +1,5 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
-
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import org.springframework.stereotype.Component;
@@ -35,6 +34,4 @@ public class DiagnosticMapper {
                 entity.getNextCheckUp()
         );
     }
-
-
 }
