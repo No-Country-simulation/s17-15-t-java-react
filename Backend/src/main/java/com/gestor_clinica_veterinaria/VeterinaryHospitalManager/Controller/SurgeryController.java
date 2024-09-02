@@ -3,6 +3,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.surgery.RequestCreateSurgery;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.surgery.RequestEditSurgery;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.surgery.ResponseSurgery;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Surgery;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.SurgeryMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.SurgeryService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -47,4 +49,25 @@ public class SurgeryController {
         surgeryService.deleteSurgery(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/owner/{ownerId}")
+    public List<Surgery> getSurgeryByOwnerId(@PathVariable Long ownerId) {
+        // Retorna una lista vacía para propósitos de visualización en Swagger
+        return Collections.emptyList();
+    }
+
+    @GetMapping("/pet/{petId}")
+    public List<Surgery> getSurgeriesByPetId(@PathVariable Long petId) {
+        // Retorna una lista vacía para propósitos de visualización en Swagger
+        return Collections.emptyList();
+    }
+  //  @GetMapping("/owner/{ownerId}")
+  //  public List<Surgery> getSurgeryByOwnerId(@PathVariable Long ownerId) {
+  //      return surgeryService.getSurgeryByOwnerId(ownerId);
+  //  }
+//
+  //  @GetMapping("/pet/{petId}")
+  //  public List<Surgery> getSurgeriesByPetId(@PathVariable Long petId) {
+  //      return surgeryService.getSurgeriesByPetId(petId);
+  //  }
 }

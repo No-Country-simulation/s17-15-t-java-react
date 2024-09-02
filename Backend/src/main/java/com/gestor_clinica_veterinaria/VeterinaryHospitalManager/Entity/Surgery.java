@@ -26,7 +26,20 @@ public class Surgery {
     private String postSurgeryRecommendations;
     private Double surgeryCost;
 
-    @ManyToOne
-    @JoinColumn(name = "id_consultation")
-    private DiagnosticEntity consultation;
+
+  /*
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "veterinarian_id")
+    private Veterinarian veterinarian;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consultation_id")
+    private  Consultation consultation;
+  */
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diagnostic_entity_id")
+    private DiagnosticEntity DiagnosticEntity;
+
 }
