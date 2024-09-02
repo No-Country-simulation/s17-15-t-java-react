@@ -47,13 +47,14 @@ function AuthProvider({ children }) {
             });
             localStorage.setItem("authToken", token);
             localStorage.setItem("user__id", user__id);
-            const origin = location.state?.from?.pathname || "/";
+            const origin = location.state?.from?.pathname || "/home";
             navigate(origin);
         },
         logout: () => {
             dispatch({ type: ACTIONS.LOGOUT });
             localStorage.removeItem("authToken");
             localStorage.removeItem("user__id");
+            //navigate("/login");  // Redirigir a /login 
         },
     };
 

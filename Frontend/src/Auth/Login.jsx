@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -37,7 +38,7 @@ function Login() {
                     return response.json();
                 })
                 .then((responseData) => {
-                    login(responseData.jwt);
+                    login(responseData.jwt, responseData.id);
                     // if (responseData.jwt) {
                     //     fetch(
                     //         `${
@@ -81,85 +82,165 @@ function Login() {
     }
 
     return (
-        <section className="h-[80vh] w-auto flex flex-col lg:flex-row justify-center items-center overflow-hidden">
-            <div className="w-1/2 flex flex-col justify-center items-center">
+        // <section className="h-screen w-auto flex flex-col lg:flex-row justify-center items-center overflow-hidden">
+        //     <div className="w-1/2 flex flex-col justify-center items-center">
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="flex flex-col justify-center items-center w-1/2"
-                >
-                    <picture className="rounded-full border-2 border-primary border-opacity-90">
-                        <img src="/logo/Logo_maybe_2.png" alt="logo" />
-                    </picture>
+        //         <form
+        //             onSubmit={handleSubmit}
+        //             className="flex flex-col justify-center items-center w-1/2"
+        //         >
+        //             <picture className="rounded-full">
+        //                 <img src="/logo/Logo_maybe_2.png" alt="logo" />
+        //             </picture>
 
 
-                    <div className="mb-4 w-full">
-                        <label
-                            htmlFor="username"
-                            className="block text-sm font-bold mb-2"
-                        >
-                            Username:
-                        </label>
-                        <div className="relative">
+        //             <div className="mb-4 w-full">
+        //                 <label
+        //                     htmlFor="username"
+        //                     className="block text-sm font-bold mb-2"
+        //                 >
+        //                     Usuario:
+        //                 </label>
+        //                 <div className="relative">
+        //                     <input
+        //                         className="input input-bordered w-full pl-10"
+        //                         type="text"
+        //                         id="username"
+        //                         name="username"
+        //                         ref={usernameRef}
+        //                     />
+        //                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        //                         <FaUser />
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //             <div className="mb-6 w-full">
+        //                 <label
+        //                     htmlFor="password"
+        //                     className="block text-sm font-bold mb-2"
+        //                 >
+        //                     Contraseña:
+        //                 </label>
+        //                 <div className="relative">
+        //                     <input
+        //                         className="input input-bordered w-full pl-10"
+        //                         type={passwordVisible ? "text" : "password"}
+        //                         id="password"
+        //                         name="password"
+        //                         ref={passwordRef}
+        //                     />
+        //                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        //                         <FaLock />
+        //                     </div>
+        //                     <div
+        //                         className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+        //                         onClick={togglePasswordVisibility}
+        //                     >
+        //                         {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //             <div className="flex items-center justify-between w-full">
+        //                 <button
+        //                     type="submit"
+        //                     className="btn btn-primary w-full">
+        //                     {isLoading ? <div className="inline-flex"><span className="loading loading-spinner text-success"></span> <p>Loading...</p> </div> : "Login"}
+        //                 </button>
+        //             </div>
+        //             {isError && (
+        //                 <p className="mt-4 text-red-500 text-xs italic">
+        //                     Error al cargar los datos.
+        //                 </p>
+        //             )}
+        //         </form>
+        //     </div>
+
+        //     <div className="hidden md:block h-full border-primary border-[10px] m-[0px] p-[0px]"></div>
+
+        //     <picture className="hidden md:block h-screen w-1/2">
+        //         <img src="/img_login.png" alt="Login Image" />
+        //     </picture>
+
+        // </section>
+
+        <div className="min-h-screen flex items-center justify-center overflow-hidden">
+            <div className="card flex-col-reverse lg:flex-row-reverse">
+                <div className="w-full lg:w-1/2 m-0 p-0">
+                    <figure className="h-full">
+                        <img
+                            className="h-full w-full object-cover lg:border-l-[10px] border-primary"
+                            src="/img_login.png"
+                            alt="Login Image"
+                        />
+                    </figure>
+                </div>
+
+                <div className="bg-base-100 w-full lg:w-1/2 flex items-center justify-center">
+                    <form onSubmit={handleSubmit} className="card-body max-w-sm mx-auto">
+                        <img
+                            className="w-[40vh] mx-auto mb-4"
+                            src="/logo/Logo_maybe_2.png"
+                            alt="Logo"
+                        />
+
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Usuario:</span>
+                            </label>
                             <input
-                                className="input input-bordered w-full pl-10"
-                                type="text"
                                 id="username"
                                 name="username"
                                 ref={usernameRef}
+                                type="text"
+                                placeholder="Usuario"
+                                className="input input-bordered"
+                                required
                             />
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FaUser />
-                            </div>
                         </div>
-                    </div>
-                    <div className="mb-6 w-full">
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-bold mb-2"
-                        >
-                            Password:
-                        </label>
-                        <div className="relative">
+
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Contraseña:</span>
+                            </label>
                             <input
-                                className="input input-bordered w-full pl-10"
                                 type={passwordVisible ? "text" : "password"}
                                 id="password"
                                 name="password"
                                 ref={passwordRef}
+                                placeholder="contraseña"
+                                className="input input-bordered"
+                                required
                             />
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FaLock  />
-                            </div>
-                            <div
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                                onClick={togglePasswordVisibility}
-                            >
-                                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                            </div>
+                            <label className="label">
+                                <Link to="/" className="label-text-alt link link-hover">¿Olvidaste tu contraseña?</Link>
+                            </label>
                         </div>
-                    </div>
-                    <div className="flex items-center justify-between w-full">
-                        <button
-                            type="submit"
-                            className="btn btn-primary w-full">
-                            {isLoading ? <div className="inline-flex"><span className="loading loading-spinner text-success"></span> <p>Loading...</p> </div> : "Login"}
-                        </button>
-                    </div>
-                    {isError && (
-                        <p className="mt-4 text-red-500 text-xs italic">
-                            Error al cargar los datos.
-                        </p>
-                    )}
-                </form>
-            </div>
-            <div className="h-full border-primary border-[10px] m-[0px] p-[0px]"></div>
-            <picture className="h-[80vh] w-1/2">
-                <img src="/img_login.png"  alt="Login Image" />
-            </picture>
-        </section>
-    );
 
+                        <div className="form-control mt-4 flex items-center justify-between w-full">
+                            <button
+                                type="submit"
+                                className="btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-sm w-1/2">
+                                {isLoading ? (
+                                    <div className="inline-flex items-center">
+                                        <span className="loading loading-spinner text-success"></span>
+                                        <p className="ml-2">Loading...</p>
+                                    </div>
+                                ) : "Login"}
+                            </button>
+                        </div>
+
+                        {isError && (
+                            <p className="mt-4 text-red-500 text-xs italic">
+                                Error al cargar los datos.
+                            </p>
+                        )}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    );
 }
 
 export default Login;
