@@ -2,6 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -45,7 +45,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudyDto> addStudy(@RequestBody ComplementaryStudyDto dto) {
+    public ResponseEntity<ComplementaryStudy> addStudy(@RequestBody ComplementaryStudyDto dto) {
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(dto));
     }
     @PatchMapping("/update/{id}")
@@ -55,7 +55,6 @@ public class ComplementaryStudyController {
             tags = {"Complementary Study"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Complementary Study object with fields to update",
-                    required = false,
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ComplementaryStudyDto.class)
@@ -71,26 +70,10 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudyDto> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody ComplementaryStudyDto dto) {
+    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody ComplementaryStudyDto dto) {
         return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto));
     }
 
-    @DeleteMapping("/delete/{id}")
-    @Operation(
-            summary = "Delete Complementary Study",
-            description = "Delete a Complementary Study",
-            tags = {"Complementary Study"},
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Complementary Study errased Successfully "
-                    )
-            }
-    )
-    public ResponseEntity<Void> deleteComplementaryStudyById(@PathVariable Long studyId) {
-        complementaryStudyService.deleteStudyById(studyId);
-        return ResponseEntity.ok().build();
-    }
     @GetMapping("/all")
     @Operation(
             summary = "Get all Complementary studies",
@@ -106,7 +89,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudyDto>> getAllTreatments() {
+    public ResponseEntity<List<ComplementaryStudy>> getAllTreatments() {
         return ResponseEntity.ok(complementaryStudyService.getAllComplementaryStudies());
     }
 
@@ -125,7 +108,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudyDto> getComplementaryStudyById(@PathVariable Long studyId) {
+    public ResponseEntity<ComplementaryStudy> getComplementaryStudyById(@PathVariable Long studyId) {
         return ResponseEntity.ok(complementaryStudyService.getStudyById(studyId));
     }
 
@@ -149,7 +132,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudyDto>> getAllStudiesByPetId(@PathVariable Long petId) {
+    public ResponseEntity<List<ComplementaryStudy>> getAllStudiesByPetId(@PathVariable Long petId) {
         return ResponseEntity.ok(complementaryStudyService.getAllStudiesByPetId(petId));
     }
 
@@ -173,7 +156,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudyDto>> getStudiesByOwnerId(@PathVariable Long ownerId) {
+    public ResponseEntity<List<ComplementaryStudy>> getStudiesByOwnerId(@PathVariable Long ownerId) {
         return ResponseEntity.ok(complementaryStudyService.getAllStudiesByOwnerId(ownerId));
     }
 
@@ -197,8 +180,8 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudyDto>> getAllStudiesByState(@PathVariable EnumStudyState studyState) {
-        List<ComplementaryStudyDto> studies = complementaryStudyService.getAllStudiesByState(studyState);
+    public ResponseEntity<List<ComplementaryStudy>> getAllStudiesByState(@PathVariable EnumStudyState studyState) {
+        List<ComplementaryStudy> studies = complementaryStudyService.getAllStudiesByState(studyState);
         return ResponseEntity.ok(studies);
     }
 }

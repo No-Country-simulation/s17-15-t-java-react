@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.TreatmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -30,7 +30,7 @@ public class TreatmentController {
             description = "Add a new treatment",
             tags = {"Treatment"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                description = "Treatment objetct with fields:  treatmentDescription, duration, adicionalObservations, treatmentCost, dianosis, and possible a list of hospitalizations",
+                description = "Treatment object with fields:  treatmentDescription, duration, adicionalObservations, treatmentCost, dianosis, and possible a list of hospitalizations",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
@@ -47,9 +47,10 @@ public class TreatmentController {
                     )
             }
     )
-    public ResponseEntity<TreatmentDto> addTreatment(@RequestBody TreatmentDto dto) {
+    public ResponseEntity<Treatment> addTreatment(@RequestBody TreatmentDto dto) {
         return ResponseEntity.ok(treatmentService.addTreatment(dto));
     }
+
     @GetMapping("/all")
     @Operation(
             summary = "Get all Treatments",
@@ -65,7 +66,7 @@ public class TreatmentController {
                     )
             }
     )
-    public ResponseEntity<List<TreatmentDto>> getAllTreatments() {
+    public ResponseEntity<List<Treatment>> getAllTreatments() {
         return ResponseEntity.ok(treatmentService.getAllTreatments());
     }
 
@@ -90,9 +91,10 @@ public class TreatmentController {
             }
     )
 
-    public ResponseEntity<TreatmentDto> getTreatmentById(@PathVariable Long treatmentId) {
+    public ResponseEntity<Treatment> getTreatmentById(@PathVariable Long treatmentId) {
         return ResponseEntity.ok(treatmentService.getTreatmentById(treatmentId));
     }
+
     @GetMapping("/pet/{petId}")
     @Operation(
             summary = "Get Treatment by pet.",
@@ -114,7 +116,7 @@ public class TreatmentController {
             }
     )
 
-    public ResponseEntity<List<TreatmentDto>> getTreatmentsByPetId(@PathVariable Long petId) {
+    public ResponseEntity<List<Treatment>> getTreatmentsByPetId(@PathVariable Long petId) {
         return ResponseEntity.ok(treatmentService.getAllTreatmentsByPetId(petId));
     }
 
@@ -139,7 +141,7 @@ public class TreatmentController {
             }
     )
 
-    public ResponseEntity<List<TreatmentDto>> getTreatmentsByOwnerId(@PathVariable Long ownerId) {
+    public ResponseEntity<List<Treatment>> getTreatmentsByOwnerId(@PathVariable Long ownerId) {
         return ResponseEntity.ok(treatmentService.getAllTreatmentsByOwnerId(ownerId));
     }
 
@@ -150,7 +152,6 @@ public class TreatmentController {
             tags = {"Treatment"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Treatment object with fields to update",
-                    required = false,
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = TreatmentDto.class)
@@ -171,29 +172,7 @@ public class TreatmentController {
                     )
             }
     )
-    public ResponseEntity<TreatmentDto> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentDto dto) {
+    public ResponseEntity<Treatment> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentDto dto) {
         return ResponseEntity.ok(treatmentService.updateTreatment(treatmentId, dto));
-    }
-
-    @DeleteMapping("/delete/{treatmentId}")
-    @Operation(
-            summary = "Delete Treatment",
-            description = "Delete a Treatment",
-            tags = {"Treatment"},
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Treatment errased Successfully "
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Treatment not found",
-                            content = @Content(mediaType = "application/json")
-                    )
-            }
-    )
-    public ResponseEntity<Void> deleteTreatmentById(@PathVariable Long treatmentId) {
-        treatmentService.deleteTreatmentById(treatmentId);
-        return ResponseEntity.ok().build();
     }
 }
