@@ -1,14 +1,14 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.tools.Diagnostic;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -21,7 +21,7 @@ public class ComplementaryStudy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_complementaryStudy;
+    private Long id;
 
     @Column(name = "examination_day", length = 10, nullable = false)
     private LocalDate examinationDate;
@@ -32,26 +32,29 @@ public class ComplementaryStudy {
     @Column(name = "study_result", length = 300)
     private String studyResult;
 
-    @Column(name = "study_state" )
+    @Column(name = "study_state" , length = 20)
     @Enumerated(EnumType.STRING)
     private EnumStudyState studyState;
 
-    @Lob
     @Column(name = "file")
-    private byte[] studyFile;
+    private String studyFile;
 
-    @Column(name = "study_cost")
-    private Double studyCost ;
+//    @Lob
+//    @Column(name = "file")
+//    private byte[] studyFile;
+
+    @Column(name = "study_cost", precision = 10, scale = 2 )
+    private BigDecimal studyCost ;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "diagnosis_id")
     private DiagnosticEntity diagnosis ;
 
 //    @ManyToOne
 //    @JoinColumn(name = "consultation_id")
 //    private Consultation consultation;
 
-//    @ManyToOne
-//    @JoinColumn(name = "hospitalization_id")
-//    private Hospitalization hospitalization;
+    @ManyToOne
+    @JoinColumn(name = "hospitalization_id")
+    private Hospitalization hospitalization;
 }

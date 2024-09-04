@@ -2,9 +2,11 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.TreatmentMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.HospitalizationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.TreatmentRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,8 +23,9 @@ public class TreatmentService {
     private final TreatmentRepository treatmentRepository;
     private final TreatmentMapper treatmentMapper;
      private final DiagnosticRepository diagnosisRepository;
+     private final HospitalizationRepository hospitalizationRepository;
 
-    public TreatmentDto addTreatment(TreatmentDto dto){
+    public Treatment addTreatment(TreatmentDto dto){
         Treatment treatment = treatmentMapper.toEntity(dto);
 
         DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
@@ -30,27 +33,23 @@ public class TreatmentService {
 
         treatment.setDiagnosis(diagnosisEntity);
         treatment = treatmentRepository.save(treatment);
-        return treatmentMapper.toDto(treatment);
+        return treatment;
     }
 
-    public List<TreatmentDto> getAllTreatments(){
-        List<Treatment> treatmentList = treatmentRepository.findAll();
-        return  treatmentMapper.toDtoList(treatmentList);
+    public List<Treatment> getAllTreatments(){
+        return treatmentRepository.findAll();
     }
-    public TreatmentDto getTreatmentById(Long treatmentId){
-        Treatment treatment = treatmentRepository.findById(treatmentId).orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresao es incorrecto o no existe"));
-        return treatmentMapper.toDto(treatment);
+    public Treatment getTreatmentById(Long treatmentId){
+        return treatmentRepository.findById(treatmentId).orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresao es incorrecto o no existe"));
     }
-    public List<TreatmentDto> getAllTreatmentsByPetId(Long petId){
-        List<Treatment> treatmentList = treatmentRepository.findAllById(Collections.singleton(petId));
-        return  treatmentMapper.toDtoList(treatmentList);
+    public List<Treatment> getAllTreatmentsByPetId(Long petId){
+        return treatmentRepository.findAllById(Collections.singleton(petId));
     }
-    public List<TreatmentDto> getAllTreatmentsByOwnerId(Long ownerId){
-        List<Treatment> treatmentList = treatmentRepository.findAllById(Collections.singleton(ownerId));
-        return  treatmentMapper.toDtoList(treatmentList);
+    public List<Treatment> getAllTreatmentsByOwnerId(Long ownerId){
+        return treatmentRepository.findAllById(Collections.singleton(ownerId));
     }
 
-    public TreatmentDto updateTreatment(Long treatmentId, TreatmentDto dto){
+    public Treatment updateTreatment(Long treatmentId, TreatmentDto dto){
 
         Optional<Treatment> treatmentOptional = treatmentRepository.findById(treatmentId);
 
@@ -65,31 +64,28 @@ public class TreatmentService {
                 existingTreatment.setDuration(dto.duration());
             }
             if (dto.aditionalObservations() != null){
-                existingTreatment.setAditionalObservations(dto.aditionalObservations());
+                existingTreatment.setAdditionalObservations(dto.aditionalObservations());
             }
             if (dto.treatmentCost() != null){
                 existingTreatment.setTreatmentCost(dto.treatmentCost());
             }
-//            if (dto.diagnosis() != null){
-//                existingTreatment.setDiagnosis(dto.diagnosis());
-//            }
-//            if (dto.hospitalization() != null){
-//                existingTreatment.setHospitalization(dto.hospitalization());
-//            }
+            if (dto.diagnosisId() != null) {
+                DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
+                        .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
+                existingTreatment.setDiagnosis(diagnosisEntity);
+            }
+            if (dto.hospitalizationId() != null) {
+                Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
+                        .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
+                existingTreatment.setHospitalization(hospitalization);
+            } else {
+                existingTreatment.setHospitalization(null);
+            }
 
-            Treatment updatedTreatment =  treatmentRepository.save(existingTreatment);
-            return treatmentMapper.toDto(updatedTreatment);
+            return treatmentRepository.save(existingTreatment);
 
-        } else{
-           throw  new  TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + treatmentId);
-        }
-    }
-
-    public void deleteTreatmentById(Long treatmentId){
-        if (!treatmentRepository.existsById(treatmentId)){
-            throw new TreatmentNotFoundException("El tratamiento que que pretende eliminar no existe o es incorrecto veritfique el id ingresado: " + treatmentId);
-        }else {
-            treatmentRepository.deleteById(treatmentId);
+        } else {
+            throw new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + treatmentId);
         }
     }
 }

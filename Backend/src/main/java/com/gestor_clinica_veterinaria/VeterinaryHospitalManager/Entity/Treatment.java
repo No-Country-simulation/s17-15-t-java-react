@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class Treatment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id_treatment;
+    private  Long id;
 
     @Column(name = "treatment_description", length = 500, nullable = false)
     private String treatmentDescription;
@@ -24,17 +24,19 @@ public class Treatment {
     @Column(name = "duration", length = 50, nullable = false)
     private String duration;
 
-    @Column(name = "aditional_observations", length = 200)
-    private String aditionalObservations;
+    @Column(name = "additional_observations", length = 200)
+    private String additionalObservations;
 
     @Column(name = "treatment_cost", precision = 10, scale = 2 )
     private BigDecimal treatmentCost;
 
     @ManyToOne
-    @JoinColumn(name = "id" )
+    @JoinColumn(name = "diagnosis_id" )
     private DiagnosticEntity diagnosis;
 
-//    @Column(name = "hospitalization")
-//    private List<Hospitalization> hospitalizations;
+    @ManyToOne
+    @JoinColumn(name = "hospitalization_id")
+    private Hospitalization hospitalization;
 
 }
+

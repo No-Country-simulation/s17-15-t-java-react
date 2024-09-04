@@ -1,6 +1,9 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
+
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
 import jakarta.validation.constraints.NotBlank;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record ComplementaryStudyDto (
@@ -15,14 +18,15 @@ public record ComplementaryStudyDto (
 
         @NotBlank(message = "El estudio debe tener un estado.")
         EnumStudyState studyState,
-        byte[] studyFile,
+        //byte[] studyFile,
+        String studyFile,
         @NotBlank(message = "El estudio debe tener un costo.")
-        Double studyCost,
+        BigDecimal studyCost,
 
         //Long consultationId,
 
-        Long  diagnosisId
+        Long  diagnosisId,
 
-        //Long hospitalizationId
+        Long hospitalizationId
     ){
 }

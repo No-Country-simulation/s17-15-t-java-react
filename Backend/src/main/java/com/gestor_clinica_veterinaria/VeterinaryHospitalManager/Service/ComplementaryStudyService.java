@@ -1,17 +1,19 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ComplementaryStudyMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ComplementaryStudyRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.HospitalizationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.ComplementaryStudyNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,34 +24,31 @@ public class ComplementaryStudyService {
 
     private final ComplementaryStudyRepository complementaryStudyRepository;
     private final ComplementaryStudyMapper complementaryStudyMapper;
+    private final HospitalizationRepository hospitalizationRepository;
+    private final DiagnosticRepository diagnosisRepository;
 
-    public ComplementaryStudyDto addComplementaryStudy(ComplementaryStudyDto dto){
+    public ComplementaryStudy addComplementaryStudy(ComplementaryStudyDto dto){
         ComplementaryStudy study = complementaryStudyMapper.toEntity(dto);
-        study = complementaryStudyRepository.save(study);
-        return complementaryStudyMapper.toDto(study);
+        return complementaryStudyRepository.save(study);
     }
 
-    public List<ComplementaryStudyDto> getAllComplementaryStudies(){
-        List<ComplementaryStudy> studyList = complementaryStudyRepository.findAll();
-        return  complementaryStudyMapper.toDtoList(studyList);
+    public List<ComplementaryStudy> getAllComplementaryStudies(){
+        return complementaryStudyRepository.findAll();
     }
-    public ComplementaryStudyDto getStudyById(Long studyId){
-        ComplementaryStudy study = complementaryStudyRepository.findById(studyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("El id del estudio complementario ingresao es incorrecto o no existe"));
-        return complementaryStudyMapper.toDto(study);
+    public ComplementaryStudy getStudyById(Long studyId){
+        return complementaryStudyRepository.findById(studyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("El id del estudio complementario ingresao es incorrecto o no existe"));
     }
 
-    public List<ComplementaryStudyDto> getAllStudiesByPetId(Long petId){
-        List<ComplementaryStudy> treatmentList = complementaryStudyRepository.findAllById(Collections.singleton(petId));
-        return  complementaryStudyMapper.toDtoList(treatmentList);
+    public List<ComplementaryStudy> getAllStudiesByPetId(Long petId){
+        return complementaryStudyRepository.findAllById(Collections.singleton(petId));
     }
-    public List<ComplementaryStudyDto> getAllStudiesByOwnerId(Long ownerId){
-        List<ComplementaryStudy> treatmentList = complementaryStudyRepository.findAllById(Collections.singleton(ownerId));
-        return  complementaryStudyMapper.toDtoList(treatmentList);
+    public List<ComplementaryStudy> getAllStudiesByOwnerId(Long ownerId){
+        return complementaryStudyRepository.findAllById(Collections.singleton(ownerId));
     }
-    public List<ComplementaryStudyDto> getAllStudiesByState(EnumStudyState state) {
-        return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findByStudyState(state));
+    public List<ComplementaryStudy> getAllStudiesByState(EnumStudyState state) {
+        return complementaryStudyRepository.findByStudyState(state);
     }
-    public ComplementaryStudyDto updateStudy(Long studyId, ComplementaryStudyDto dto){
+    public ComplementaryStudy updateStudy(Long studyId, ComplementaryStudyDto dto){
 
         Optional<ComplementaryStudy> studyOptional = complementaryStudyRepository.findById(studyId);
 
@@ -75,30 +74,28 @@ public class ComplementaryStudyService {
 //            if (dto.consultation() != null){
 //                existingStudy.setConsultation(dto.consultation());
 //            }
-//            if (dto.dianosis() != null){
-//                existingStudy.setDiagnosis(dto.dianosis());
-//            }
+            if (dto.diagnosisId() != null) {
+                DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
+                        .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
+                existingStudy.setDiagnosis(diagnosisEntity);
+            }
             if (dto.studyType() != null){
                 existingStudy.setStudyType(dto.studyType());
             }
 
-            //if (dto.hospitalization() != null){
-//                existingStudy.setHospitalization(dto.hospitalization());
-//            }
+            if (dto.hospitalizationId() != null) {
+                Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
+                        .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
+                existingStudy.setHospitalization(hospitalization);
+            } else {
+                existingStudy.setHospitalization(null);
+            }
 
-            ComplementaryStudy updatedStudy =  complementaryStudyRepository.save(existingStudy);
-            return complementaryStudyMapper.toDto(updatedStudy);
+            return  complementaryStudyRepository.save(existingStudy);
 
         } else{
             throw  new  TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
         }
     }
 
-    public void deleteStudyById(Long studyId){
-        if (!complementaryStudyRepository.existsById(studyId)){
-            throw new TreatmentNotFoundException("El tratamiento que que pretende eliminar no existe o es incorrecto veritfique el id ingresado: " + studyId);
-        }else {
-            complementaryStudyRepository.deleteById(studyId);
-        }
-    }
 }

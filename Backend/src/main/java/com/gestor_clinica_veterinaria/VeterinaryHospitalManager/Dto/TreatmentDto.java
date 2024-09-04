@@ -11,6 +11,8 @@ public record TreatmentDto(
 
         BigDecimal treatmentCost,
         @NotBlank(message = "debe proporcionar el id del diagnostico para que se genera el tratamiento.")
-        Long diagnosisId
+        Long diagnosisId,
+
+        Long hospitalizationId
 ) {
 }
