@@ -18,7 +18,7 @@ public class VeterinaryHospitalManagerApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 1, "CREATE");
+		/*jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 1, "CREATE");
 		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 2, "READ");
 		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 3, "WRITE");
 		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 4, "DELETE");
@@ -39,6 +39,31 @@ public class VeterinaryHospitalManagerApplication implements CommandLineRunner {
 				100000, "admin", "$2a$10$Dxnp0wJeF8L9Ftd8./ExcuaJ62jKKVezB3gvBLcgo1qNOjAnR6QJi", "admin@example.com", true, true, true, true);
 
 		// Relacionar el usuario administrador con el rol ADMIN
-		jdbcTemplate.update("INSERT INTO users_roles (user_id, role_id) VALUES (?, ?) ON CONFLICT DO NOTHING", 100000, 1);
+		jdbcTemplate.update("INSERT INTO users_roles (user_id, role_id) VALUES (?, ?) ON CONFLICT DO NOTHING", 100000, 1);*/
+
+
+		// Insertar permisos
+		jdbcTemplate.update("INSERT IGNORE INTO permissions (id, name) VALUES (?, ?)", 1, "CREATE");
+		jdbcTemplate.update("INSERT IGNORE INTO permissions (id, name) VALUES (?, ?)", 2, "READ");
+		jdbcTemplate.update("INSERT IGNORE INTO permissions (id, name) VALUES (?, ?)", 3, "WRITE");
+		jdbcTemplate.update("INSERT IGNORE INTO permissions (id, name) VALUES (?, ?)", 4, "DELETE");
+
+		// Insertar roles
+		jdbcTemplate.update("INSERT IGNORE INTO roles (id, role_name) VALUES (?, ?)", 1, "ADMIN");
+		jdbcTemplate.update("INSERT IGNORE INTO roles (id, role_name) VALUES (?, ?)", 2, "USER");
+
+		// Relacionar roles con permisos
+		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 1, 1);
+		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 1, 2);
+		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 1, 3);
+		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 1, 4);
+		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 2, 2);
+
+		// Insertar usuario administrador
+		jdbcTemplate.update("INSERT IGNORE INTO users (id, username, password, email, is_enabled, account_no_expired, account_no_locked, credentials_no_expired) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+				100000, "admin", "$2a$10$Dxnp0wJeF8L9Ftd8./ExcuaJ62jKKVezB3gvBLcgo1qNOjAnR6QJi", "admin@example.com", true, true, true, true);
+
+		// Relacionar el usuario administrador con el rol ADMIN
+		jdbcTemplate.update("INSERT IGNORE INTO users_roles (user_id, role_id) VALUES (?, ?)", 100000, 1);
 	}
 }

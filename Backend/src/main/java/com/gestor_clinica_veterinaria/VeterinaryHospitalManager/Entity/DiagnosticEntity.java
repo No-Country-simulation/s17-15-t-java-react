@@ -34,16 +34,16 @@ public class DiagnosticEntity {
     @Column(name = "next_check_up")
     private LocalDate nextCheckUp;
 
-    /*@ManyToOne(targetEntity = Consulta.class)
+    @ManyToOne(targetEntity = ConsultationEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "consulta_id")
-    private Consultation consultation;*/
+    private ConsultationEntity consultation;
 
-    @OneToMany(targetEntity = Treatment.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "diagnosis", targetEntity = Treatment.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Treatment> treatments;
 
-    /*@OneToMany(targetEntity = Surgery.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Surgery.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_diagnosis")
-    private List<Surgery> surgerys;*/
+    private List<Surgery> surgerys;
 
     @OneToMany(targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_diagnosis")

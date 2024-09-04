@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,11 @@ public class DiagnosticMapper {
         entity.setDescription(dto.description());
         entity.setSeveridad(dto.severidad());
         entity.setNextCheckUp(dto.nextCheckUp());
+
+        ConsultationEntity consultation = new ConsultationEntity();
+        consultation.setId(dto.consulta_id());
+
+        entity.setConsultation(consultation);
         return entity;
     }
     public DiagnosticDto toDto(DiagnosticEntity entity){
@@ -31,7 +37,8 @@ public class DiagnosticMapper {
                 entity.getDiagnosisDate(),
                 entity.getDescription(),
                 entity.getSeveridad(),
-                entity.getNextCheckUp()
+                entity.getNextCheckUp(),
+                entity.getConsultation() != null ? entity.getConsultation().getId() : null
         );
     }
 }

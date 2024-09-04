@@ -1,0 +1,146 @@
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
+
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ConsultationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/consultation")
+@RequiredArgsConstructor
+public class ConsultationController {
+
+    private final ConsultationService consultationService;
+
+    @PostMapping("/add")
+    @Operation(
+            summary = "Add a new Consultation",
+            description = "Add a new Consultation",
+            tags = {"Consultation"},
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Consultation object with fields: name, consultationDate, anamnesis, observatios, state = (PENDIENTE,\n" +
+                            "    EN_PROCESO,\n" +
+                            "    FINALIZADO,\n" +
+                            "    CANCELADO)" + " and cost",
+                    required = true,
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationDto.class))
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Consultation added successfully",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationDto.class))
+                    ),
+
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid Consultation data",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+                    )
+
+            }
+    )
+    public ResponseEntity<?> addConsultation(@Valid @RequestBody ConsultationDto consultationDto) {
+        return ResponseEntity.ok(consultationService.addConsultation(consultationDto));
+    }
+
+
+    @PutMapping("/update/{consultationId}")
+    @Operation(
+            summary = "Update Consultation",
+            description = "Partially or fully update a Consultation",
+            tags = {"Consultation"},
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Consultation object with fields to update",
+                    required = true,
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationDto.class))
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Consultation Successfully updated",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationDto.class))
+                    )
+            }
+    )
+    public ResponseEntity<?> updateConsultation(@PathVariable Long consultationId, @Valid @RequestBody ConsultationDto consultationDto) {
+        return ResponseEntity.ok(consultationService.updateConsultation(consultationId, consultationDto));
+    }
+
+
+    @GetMapping("/{consultationId}")
+    @Operation(
+            summary = "Get Consultation by id",
+            description = "Get Consultation by id",
+            tags = {"Consultation"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Consultation retrieved successfully",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationDto.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Consultation not found",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+                    )
+            }
+    )
+    public ResponseEntity<ConsultationDto> getConsultationById(@PathVariable Long consultationId) {
+        return ResponseEntity.ok(consultationService.getConsultationById(consultationId));
+    }
+
+    @GetMapping("/all")
+    @Operation(
+            summary = "Get all Consultations",
+            description = "Get all Consultations",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> getAllConsultations(@RequestParam(defaultValue = "0") int page,
+                                                                     @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(consultationService.getAllConsultations(page, size));
+    }
+
+
+    @GetMapping("/search")
+    @Operation(
+            summary = "Search Consultations",
+            description = "Search Consultations",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> searchConsultations(@RequestParam(defaultValue = "0") int page,
+                                                                     @RequestParam(defaultValue = "10") int size,
+                                                                     @RequestParam(defaultValue = "") String query) {
+        return ResponseEntity.ok(consultationService.searchConsultations(page, size, query));
+    }
+
+
+    @GetMapping("/diagnosis/{diagnosisId}")
+    @Operation(
+            summary = "Get Consultation by Diagnosis",
+            description = "Get Consultation by Diagnosis",
+            tags = {"Consultation"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Consultation retrieved successfully",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationDto.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Consultation not found",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+                    )
+            }
+    )
+    public ResponseEntity<ConsultationDto> getConsultationByDiagnosisId(@PathVariable Long diagnosisId) {
+        return ResponseEntity.ok(consultationService.getConsultationByDiagnosisId(diagnosisId));
+    }
+}
