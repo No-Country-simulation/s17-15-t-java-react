@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record RequestCreateSurgery(
@@ -38,7 +39,7 @@ public record RequestCreateSurgery(
      String surgeryProcedure,
      String observations,
      String postSurgeryRecommendations,
-     Double surgeryCost
+     BigDecimal surgeryCost
      //Long consultationId
 
 

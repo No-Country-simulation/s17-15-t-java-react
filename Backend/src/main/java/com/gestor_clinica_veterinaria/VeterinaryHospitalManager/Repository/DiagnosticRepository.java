@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface DiagnosticRepository extends JpaRepository<DiagnosticEntity, Long> {
 
     Page<DiagnosticEntity> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<DiagnosticEntity> findByConsultationId(Long consultationId, Pageable pageable);
 }

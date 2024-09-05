@@ -27,7 +27,7 @@ public record PetRequest(
     @Past(message = "El campo birthdate debe ser pasada")
     LocalDate birthdate,
 
-    @Enumerated(EnumType.STRING)
+
     @NotBlank(message = "El campo sex no puede ir vacio")
     @Size(min = 2)
     EnumSexPet sex,

@@ -101,34 +101,9 @@ public class AuthController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AuthCreateUserRequestDto.class),
-                            examples = @ExampleObject(
-                                    name = "Register Example",
-                                    value = "{ \"username\": \"user123\", \"password\": \"password123\", \"email\": \"zF5pN@example.com\" , \"roleDto\": { \"roles\": [\"ADMIN\"] } }"
-                            )
+                            schema = @Schema(implementation = AuthCreateUserRequestDto.class)
                     )
-            ),
-            responses = {
-                    @ApiResponse(responseCode = "201", description = "Registration successful",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = AuthResponseDto.class),
-                                    examples = @ExampleObject(
-                                            name = "Success Response",
-                                            value = "{ \"username\": \"user123\", \"message\": \"User created successfully\", \"jwt\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\", \"status\": true }"
-                                    )
-                            )
-                    ),
-                    @ApiResponse(responseCode = "500", description = "An error occurred during registration",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "Internal Server Error",
-                                            value = "\"An error occurred during registration\""
-                                    )
-                            )
-                    )
-            }
+            )
     )
     public ResponseEntity<?> register(@RequestBody @Valid AuthCreateUserRequestDto authCreateUserDto) {
         log.debug("Received request to register user: {}", authCreateUserDto.username());

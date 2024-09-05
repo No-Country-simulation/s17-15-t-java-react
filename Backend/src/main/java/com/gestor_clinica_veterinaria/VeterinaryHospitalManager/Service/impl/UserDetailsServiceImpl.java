@@ -7,8 +7,10 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthRes
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth.AuthResponseRegisterDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.RoleEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.UserEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Veterinarian;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.RoleRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.UserRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,11 +34,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    //private final VeterinarioRepository veterinarioRepository;
+    private final VeterinarianRepository veterinarianRepository;
     private final JwtUtils jwtUtils;
     private final RoleRepository roleRepository;
 
-    @Override
+    /*@Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByusername(username).orElseThrow(() -> new UsernameNotFoundException(
                 "El usuario" + username + "no existe"));
@@ -58,12 +60,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 userEntity.isCredentialsNoExpired(),
                 userEntity.isAccountNoLocked(),
                 authorities);
-    }
+    }*/
 
-    /*@Override
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        VeterinarioEntity userEntity = veterinarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
-                "El veterinario" + username + "no existe"));
+        Veterinarian userEntity = veterinarianRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
+                "El veterinario " + username + " no existe"));
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
@@ -82,7 +84,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 userEntity.isCredentialsNoExpired(),
                 userEntity.isAccountNoLocked(),
                 authorities);
-    }*/
+    }
 
     public AuthResponseDto loginUser(AuthLoginRequestDto authDto) {
         String username = authDto.username();
@@ -122,7 +124,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     }
 
-    public AuthResponseRegisterDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
+    /*public AuthResponseRegisterDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
 
         String username = authCreateUserDto.username();
         String password = authCreateUserDto.password();
@@ -177,16 +179,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new AuthResponseRegisterDto(username, "User created successfully", accessToken, true);
         //return new AuthResponseRegisterDto(username, "User created successfully", accessToken, true);
-    }
+    }*/
 
-    /*public AuthResponseDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
+    public AuthResponseRegisterDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
 
         String username = authCreateUserDto.username();
-        String apellido = authCreateUserDto.apellido();
+        String apellido = authCreateUserDto.lastName();
         String password = authCreateUserDto.password();
         String email = authCreateUserDto.email();
-        String especialidad = authCreateUserDto.especialidad();
-        String tarjetaProfesional = authCreateUserDto.tarjetaProfesional();
+        String especialidad = authCreateUserDto.specialty();
+        String tarjetaProfesional = authCreateUserDto.professionalLicenceNumber();
 
 
         log.debug("Attempting to create user: username: {}, email: {}, password: {}", username, email, password);
@@ -201,13 +203,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new IllegalArgumentException("Los roles especificados no existen");
         }
 
-        VeterinarioEntity veterinarioEntity = new VeterinarioEntity();
+        Veterinarian veterinarioEntity = new Veterinarian();
         veterinarioEntity.setUsername(username);
-        veterinarioEntity.setApellido(apellido);
+        veterinarioEntity.setLastName(apellido);
         veterinarioEntity.setPassword(passwordEncoder.encode(password));
         veterinarioEntity.setEmail(email);
-        veterinarioEntity.setEspecialidad(especialidad);
-        veterinarioEntity.setTarjetaProfesional(tarjetaProfesional);
+        veterinarioEntity.setSpecialty(especialidad);
+        veterinarioEntity.setProfessionalLicenceNumber(tarjetaProfesional);
         veterinarioEntity.setRoles(roleEntities);
         veterinarioEntity.setEnabled(true);
         veterinarioEntity.setAccountNoLocked(true);
@@ -215,7 +217,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         veterinarioEntity.setCredentialsNoExpired(true);
 
 
-        VeterinarioEntity veterinarioCreated = veterinarioRepository.save(veterinarioEntity);
+        Veterinarian veterinarioCreated = veterinarianRepository.save(veterinarioEntity);
 
         ArrayList<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
 
@@ -230,6 +232,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(veterinarioCreated.getUsername(), veterinarioCreated.getPassword(), authoritiesList);
         String accessToken = jwtUtils.generateJwtToken(authentication);
 
-        return new AuthResponseDto(username, "Veterinario created successfully", accessToken, true);
-    }*/
+        return new AuthResponseRegisterDto(username, "User created successfully", accessToken, true);
+    }
 }

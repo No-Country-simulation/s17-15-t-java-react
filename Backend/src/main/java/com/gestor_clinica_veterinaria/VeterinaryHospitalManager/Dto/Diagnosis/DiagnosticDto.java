@@ -15,7 +15,8 @@ public record DiagnosticDto (
         @NotNull(message = "La gravedad es obligatoria")
         EnumGravedad severidad,
         @NotNull(message = "La fecha de control es obligatoria")
-        LocalDate nextCheckUp
+        LocalDate nextCheckUp,
+        Long consulta_id
     //Consulta consulta
     //Tratamiento tratamiento
 ){

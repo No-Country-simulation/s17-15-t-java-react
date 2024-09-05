@@ -188,6 +188,14 @@ public class DiagnosticController {
         }
     }
 
+
+    @GetMapping("/consultation/{consultationId}")
+    public ResponseEntity<Page<DiagnosticDto>> getDiagnosticsByConsultationId(@RequestParam(defaultValue = "0") int page,
+                                                                              @RequestParam(defaultValue = "10") int size,
+                                                                              @PathVariable Long consultationId) {
+        return ResponseEntity.ok(diagnosticService.getDiagnosticsByConsultationId(page, size, consultationId));
+    }
+
     @GetMapping("/search")
     @Operation(
             summary = "Search diagnosis",
@@ -240,7 +248,6 @@ public class DiagnosticController {
         Page<DiagnosticDto> diagnostics = diagnosticService.searchDiagnostics(page, size, query);
         return ResponseEntity.ok(diagnostics);
     }
-    @GetMapping
 
     @PutMapping("/update/{id}")
     @Operation(

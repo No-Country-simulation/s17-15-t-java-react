@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +36,8 @@ import org.springframework.stereotype.Service;
                         url = "http://localhost:8080"
                 ),
                 @Server(
-                        description = "Heroku Server",
-                        url = "http://89.0.142.86:8080"
+                        description = "Render Server",
+                        url = "https://veterinaria-bef3.onrender.com"
                 )
         },
         security = @SecurityRequirement(

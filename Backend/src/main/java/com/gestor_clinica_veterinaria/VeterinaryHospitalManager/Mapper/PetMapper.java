@@ -24,7 +24,7 @@ public class PetMapper {
         pet.getSex(),
         pet.getAllergies(),
         pet.getCastrated(),
-        pet.getAlive(),
+        pet.getActive(),
         pet.getDetails(),
         pet.getOwner().getId()
     );
@@ -51,10 +51,10 @@ public class PetMapper {
     pet.setRace(petRequest.race());
     pet.setSpecies(Especie.valueOf(petRequest.species().toUpperCase()));
     pet.setBirthdate(petRequest.birthdate());
-    pet.setSex(Sexo.valueOf(petRequest.sex().toUpperCase()));
+    pet.setSex(petRequest.sex());
     pet.setAllergies(petRequest.allergies());
     pet.setCastrated(petRequest.castrated());
-    pet.setAlive(petRequest.alive());
+    pet.setActive(petRequest.active());
     pet.setDetails(petRequest.details());
     pet.setOwner(owner);
 
@@ -70,10 +70,10 @@ public class PetMapper {
     oldPet.setRace(petRequest.race());
     oldPet.setSpecies(Especie.valueOf(petRequest.species().toUpperCase()));
     oldPet.setBirthdate(petRequest.birthdate());
-    oldPet.setSex(Sexo.valueOf(petRequest.sex().toUpperCase()));
+    oldPet.setSex(petRequest.sex());
     oldPet.setAllergies(petRequest.allergies());
     oldPet.setCastrated(petRequest.castrated());
-    oldPet.setAlive(petRequest.alive());
+    oldPet.setActive(petRequest.active());
     oldPet.setDetails(petRequest.details());
     oldPet.setOwner(owner);
   }

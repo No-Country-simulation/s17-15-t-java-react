@@ -1,14 +1,10 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumSexPet;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Especie;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Sexo;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,8 +34,9 @@ public class Pet {
   @Column(nullable = false)
   private LocalDate birthdate;
 
+  @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private Sexo sex = Sexo.MASCULINO;
+  private EnumSexPet sex ;
 
   @Column(nullable = false)
   private String allergies;
@@ -48,7 +45,7 @@ public class Pet {
   private Boolean castrated = true;
 
   @Column(nullable = false)
-  private Boolean alive = true;
+  private Boolean active = true;
 
   private String details;
 

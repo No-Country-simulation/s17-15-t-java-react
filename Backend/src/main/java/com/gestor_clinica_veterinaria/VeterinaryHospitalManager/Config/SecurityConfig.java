@@ -5,6 +5,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Config.Jwt.JwtUt
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,7 +43,7 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(authorize -> authorize
                         //Rutas públicas
                         //.requestMatchers(HttpMethod.POST,"/auth/**").permitAll()
-                        //.requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/register").hasRole("ADMIN")
 
                         //Rutas privadas
                         //.requestMatchers(HttpMethod.GET, "/hello").hasRole("USER")

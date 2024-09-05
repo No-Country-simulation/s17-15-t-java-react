@@ -15,7 +15,7 @@ public class VeterinarianMapper {
 
         return new VeterinarianResponse(
                 veterinarian.getId(),
-                veterinarian.getName(),
+                veterinarian.getUsername(),
                 veterinarian.getLastName(),
                 veterinarian.getProfessionalLicenceNumber(),
                 veterinarian.getSpecialty()
@@ -37,7 +37,7 @@ public class VeterinarianMapper {
         }
 
         Veterinarian veterinarian = new Veterinarian();
-        veterinarian.setName(veterinarianRequest.name());
+        veterinarian.setUsername(veterinarianRequest.name());
         veterinarian.setLastName(veterinarianRequest.lastname());
         veterinarian.setProfessionalLicenceNumber(veterinarianRequest.professionalLicenceNumber());
         veterinarian.setSpecialty(veterinarianRequest.specialty());
@@ -52,7 +52,7 @@ public class VeterinarianMapper {
 
         if (veterinarianRequest.name() != null){
 
-            oldVeterinarian.setName(veterinarianRequest.name());
+            oldVeterinarian.setUsername(veterinarianRequest.name());
 
         }
         if (veterinarianRequest.lastname() != null){

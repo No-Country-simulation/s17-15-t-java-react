@@ -1,5 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.surgery;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record ResponseSurgery(
@@ -10,7 +11,7 @@ public record ResponseSurgery(
         String surgeryProcedure,
         String observations,
         String postSurgeryRecommendations,
-        Double surgeryCost
+        BigDecimal surgeryCost
       //  Long consultationId // Solo se usa para asociar la cirugía a una consulta existente
 ) {
 }
