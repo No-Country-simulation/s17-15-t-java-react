@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface ConsultationRepository extends JpaRepository<ConsultationEntity, Long> {
     Page<ConsultationEntity> findByNameContainingIgnoreCase(String query, PageRequest id);
 
-    //Page<ConsultationEntity> findByPetId(Long Id, Pageable pageable);
+    Page<ConsultationEntity> findByPetId(Long petId, Pageable pageable);
 
-    //Page<ConsultationEntity> findByVeterinaryId(Long vetId, Pageable pageable);
+    Page<ConsultationEntity> findByVeterinaryId(Long vetId, Pageable pageable);
+
+    Page<ConsultationEntity> findByOwnerId(Long ownerId, Pageable pageable);
 }

@@ -128,17 +128,17 @@ public class DiagnosticService {
         return diagnosticPage.map(diagnosticMapper::toDto);
     }
 
-    /*public DiagnosticDto getDiagnosisBySurgeryId(Long surgeryId) {
+    public DiagnosticDto getDiagnosisBySurgeryId(Long surgeryId) {
         Surgery surgery = surgeryRepository.findById(surgeryId).orElseThrow(() -> new SurgeryNotFoundException("La cirugiá no existe"));
-        DiagnosticEntity diagnostic = surgery.getDiagnosis();
+        DiagnosticEntity diagnostic = surgery.getDiagnosticEntity();
         return diagnosticMapper.toDto(diagnostic);
-    }*/
+    }
 
-    /*public DiagnosticDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
+    public DiagnosticDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
         ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("La cirugiá no existe"));
         DiagnosticEntity diagnostic = complementaryStudy.getDiagnosis();
-        return diagnosticMapper.toDto(diagnostic);asdasd
-    }*/
+        return diagnosticMapper.toDto(diagnostic);
+    }
 
 
 }

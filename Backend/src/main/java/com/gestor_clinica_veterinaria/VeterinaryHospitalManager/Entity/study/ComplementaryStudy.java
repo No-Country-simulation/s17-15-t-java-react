@@ -1,5 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
@@ -51,9 +52,9 @@ public class ComplementaryStudy {
     @JoinColumn(name = "diagnosis_id")
     private DiagnosticEntity diagnosis ;
 
-//    @ManyToOne
-//    @JoinColumn(name = "consultation_id")
-//    private Consultation consultation;
+    @ManyToOne
+    @JoinColumn(name = "consultation_id")
+    private ConsultationEntity consultation;
 
     @ManyToOne
     @JoinColumn(name = "hospitalization_id")
