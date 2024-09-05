@@ -31,4 +31,8 @@ public class InvoiceEntity {
 
     private BigDecimal totalCost;
 
+    private String veterinarianName;
+    private String ownerName;
+    private String petName;
+
 }

@@ -5,6 +5,9 @@ import java.time.LocalDate;
 
 public record InvoiceDto(
         LocalDate invoiceDate,
-        BigDecimal totalCost
+        BigDecimal totalCost,
+        String veterinarianName,
+        String ownerName,
+        String petName
 ) {
 }

@@ -2,10 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.invoice.InvoiceDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.InvoiceEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.InvoiceMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
@@ -36,43 +33,55 @@ public class InvoiceService {
 
         BigDecimal total = consultationEntity.getCostConsultation();
 
+        // Acumular costos de los diagnósticos
         for (DiagnosticEntity diagnostic : consultationEntity.getDiagnostics()) {
 
             // Acumula el costo de las cirugías del diagnóstico
-            /*total = total.add(diagnostic.getSurgery().stream()
-                    .map(Surgery::getCost)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add));*/
+            total = total.add(diagnostic.getSurgerys().stream()
+                    .map(Surgery::getSurgeryCost)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
 
             // Acumula el costo de los tratamientos del diagnóstico
             for (Treatment treatment : diagnostic.getTreatments()) {
                 total = total.add(treatment.getTreatmentCost());
 
-                // Acumula el costo de las hospitalizaciones del tratamiento
-                /*for (Hospitalization hospitalization : treatment.getHospitalizations()) {
-                    total = total.add(hospitalization.getCost());
+                // Verifica si el tratamiento está asociado a una hospitalización
+                if (treatment.getHospitalization() != null) {
+                    Hospitalization hospitalization = treatment.getHospitalization();
+
+                    // Acumula el costo base de la hospitalización
+                    total = total.add(hospitalization.getHospitalizationCost());
+
+                    // Acumula el costo de los tratamientos de la hospitalización
+                    total = total.add(hospitalization.getTreatments().stream()
+                            .map(Treatment::getTreatmentCost)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add));
 
                     // Acumula el costo de los estudios complementarios de la hospitalización
                     total = total.add(hospitalization.getComplementaryStudies().stream()
-                            .map(ComplementaryStudy::getCost)
+                            .map(ComplementaryStudy::getStudyCost)
                             .reduce(BigDecimal.ZERO, BigDecimal::add));
-                }*/
+                }
             }
 
             // Acumula el costo de los estudios complementarios del diagnóstico
-           /* total = total.add(diagnostic.getComplementaryStudies().stream()
+            total = total.add(diagnostic.getComplementaryStudies().stream()
                     .map(ComplementaryStudy::getStudyCost)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add));*/
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
         }
 
         // Acumula el costo de los estudios complementarios fuera de los diagnósticos
-        /*total = total.add(consultationEntity.getComplementaryStudies().stream()
+        total = total.add(consultationEntity.getComplementaryStudies().stream()
                 .map(ComplementaryStudy::getStudyCost)
-                .reduce(BigDecimal.ZERO, BigDecimal::add));*/
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
 
         InvoiceEntity invoiceEntity = new InvoiceEntity();
         invoiceEntity.setConsultation(consultationEntity);
         invoiceEntity.setTotalCost(total);
         invoiceEntity.setInvoiceDate(LocalDate.now());
+        invoiceEntity.setVeterinarianName(consultationEntity.getVeterinarian().getUsername());
+        invoiceEntity.setPetName(consultationEntity.getPet().getName());
+        invoiceEntity.setOwnerName(consultationEntity.getPet().getOwner().getName());
 
         InvoiceEntity savedInvoice = invoiceRepository.save(invoiceEntity);
 

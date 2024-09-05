@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record RequestEditSurgery(
@@ -29,6 +30,6 @@ public record RequestEditSurgery(
 
         @NotNull(message = "surgeryCost cannot be null")
         @Positive(message = "surgeryCost must be a positive number")
-        Double surgeryCost
+        BigDecimal surgeryCost
 ) {
 }

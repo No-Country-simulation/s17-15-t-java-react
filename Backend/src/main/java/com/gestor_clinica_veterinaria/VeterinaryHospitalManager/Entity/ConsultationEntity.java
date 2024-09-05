@@ -34,6 +34,11 @@ public class ConsultationEntity{
     private EnumState state;
     private BigDecimal costConsultation;
 
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Veterinarian.class)
+    @JoinColumn(name = "veterinarian_id")
+    private Veterinarian veterinarian;
+
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Pet.class)
     @JoinColumn(name = "pet_id")
     private Pet pet;

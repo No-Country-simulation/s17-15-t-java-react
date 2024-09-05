@@ -16,6 +16,9 @@ public class InvoiceMapper {
 
     public InvoiceDto toDto(InvoiceEntity invoiceEntity) {
         return new InvoiceDto(invoiceEntity.getInvoiceDate(),
-                invoiceEntity.getTotalCost());
+                invoiceEntity.getTotalCost(),
+                invoiceEntity.getVeterinarianName(),
+                invoiceEntity.getOwnerName(),
+                invoiceEntity.getPetName());
     }
 }
