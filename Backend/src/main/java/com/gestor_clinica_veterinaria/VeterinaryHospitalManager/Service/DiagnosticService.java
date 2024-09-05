@@ -137,7 +137,7 @@ public class DiagnosticService {
     /*public DiagnosticDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
         ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("La cirugiá no existe"));
         DiagnosticEntity diagnostic = complementaryStudy.getDiagnosis();
-        return diagnosticMapper.toDto(diagnostic);
+        return diagnosticMapper.toDto(diagnostic);asdasd
     }*/
 
 
