@@ -1,6 +1,9 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumSexPet;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -9,7 +12,7 @@ import java.time.LocalDate;
 
 public record PetRequest(
     @NotBlank(message = "El name no puede ir vacio")
-    @Size(min = 8, max = 45)
+    @Size(min = 3)
     String name,
 
     @NotBlank(message = "El race no puede ir vacio")
@@ -24,19 +27,20 @@ public record PetRequest(
     @Past(message = "El campo birthdate debe ser pasada")
     LocalDate birthdate,
 
+    @Enumerated(EnumType.STRING)
     @NotBlank(message = "El campo sex no puede ir vacio")
     @Size(min = 2)
-    String sex,
+    EnumSexPet sex,
 
     @NotBlank(message = "El campo allergies no puede ir vacio")
     @Size(min = 10, max = 100)
     String allergies,
 
-    @NotNull(message = "El campo castrated no puede ir vacio")
+    @NotNull(message = "El campo castrated no puede ir vacio y deber ser true o false")
     Boolean castrated,
 
-    @NotNull(message = "El campo alive no puede ir vacio")
-    Boolean alive,
+    @NotNull(message = "El campo active no puede ir vacio")
+    Boolean active,
 
     @Size(min = 10, max = 255, message = "El campo details debe tener una longitud de 10 a 255 "
         + "caracteres")

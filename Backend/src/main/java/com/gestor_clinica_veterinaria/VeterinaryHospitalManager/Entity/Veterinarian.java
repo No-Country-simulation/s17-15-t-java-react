@@ -23,7 +23,7 @@ public class Veterinarian {
     private String name;
 
     @Column(nullable = false)
-    private String lastname;
+    private String lastName;
 
     @Column(nullable = false)
     private String specialty;
@@ -31,7 +31,7 @@ public class Veterinarian {
     @Column(nullable = false, unique = true)
     private String professionalLicenceNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "veterinarian")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Surgery> surgeries;
 
     /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "veterinarian")

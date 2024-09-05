@@ -29,7 +29,7 @@ public class TreatmentService {
         Treatment treatment = treatmentMapper.toEntity(dto);
 
         DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
-                .orElseThrow(()-> new EntityNotFoundException("Diagnosis not found wwith id: " + dto.diagnosisId()));
+                .orElseThrow(()-> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
 
         treatment.setDiagnosis(diagnosisEntity);
         treatment = treatmentRepository.save(treatment);

@@ -3,7 +3,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.EnumStudyState;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,7 +28,15 @@ public class ComplementaryStudyController {
             description = "Add a new complementary study",
             tags = {"Complementary Study"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Complementary Study objetct with fields: examinationDate, studyType, studyResult, studyResult, studyState, studyType, studyCost, consultation and possible or not a diagnosis and/or a hospitalization",
+                    description = "Complementary Study objetct with fields: examinationDate, studyType, studyResult, studyResult, studyState, studyType, studyCost, consultation and possible or not a diagnosis and/or a hospitalization; to studyState there are some options:\n" +
+                            " PENDIENTE, //study is scheduled but has not been performed yet\n" +
+                            " EN_PROGRESO, // The study is currently being conducted\n" +
+                            " COMPLETADO, //The study has been completed.\n" +
+                            " ESPERANDO_RESULTADOS, // The study has been completed, but the results are not yet available.\n" +
+                            " RESULTADOS_LISTOS, // The results of the study are ready for review\n" +
+                            " REVISADOS, // The results have been reviewed by the veterinarian.\n" +
+                            " CANCELADOS, //The study was scheduled but then cancelled.\n" +
+                            " FALLIDOS, // The study could not be completed due to technical or other issues.",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
