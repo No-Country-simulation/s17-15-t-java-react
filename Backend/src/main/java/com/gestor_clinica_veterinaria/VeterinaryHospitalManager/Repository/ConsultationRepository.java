@@ -13,7 +13,5 @@ public interface ConsultationRepository extends JpaRepository<ConsultationEntity
 
     Page<ConsultationEntity> findByPetId(Long petId, Pageable pageable);
 
-    Page<ConsultationEntity> findByVeterinaryId(Long vetId, Pageable pageable);
-
-    Page<ConsultationEntity> findByOwnerId(Long ownerId, Pageable pageable);
+    Page<ConsultationEntity> findByVeterinarian(Long vetId, Pageable pageable);
 }

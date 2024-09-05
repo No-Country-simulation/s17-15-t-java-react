@@ -3,11 +3,13 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Owner;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ConsultationMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ComplementaryStudyRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.OwnerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,6 +28,7 @@ public class ConsultationService {
     private final ConsultationMapper consultationMapper;
     private final DiagnosticRepository diagnosticRepository;
     private final ComplementaryStudyRepository complementaryStudyRepository;
+    private final OwnerRepository ownerRepository;
 
 
     @Transactional
@@ -113,18 +116,10 @@ public class ConsultationService {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinaryId(vetId, pageable);
+        Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinarian(vetId, pageable);
         return consultationPage.map(consultationMapper::toDto);
     }
 
-    public Page<ConsultationDto> getConsultationsByOwnerId(int page, int size, Long ownerId) {
-        if (page < 0 || size <= 0) {
-            throw new IllegalArgumentException("Invalid page or size parameters");
-        }
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        Page<ConsultationEntity> consultationPage = consultationRepository.findByOwnerId(ownerId, pageable);
-        return consultationPage.map(consultationMapper::toDto);
-    }
 
 
 

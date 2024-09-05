@@ -148,18 +148,6 @@ public class ConsultationController {
         return ResponseEntity.ok(consultationService.getConsultationsByVeterinaryId(page, size, veterinaryId));
     }
 
-    @GetMapping("/owner/{ownerId}")
-    @Operation(
-            summary = "Get Consultations by Owner",
-            description = "Get Consultations by Owner",
-            tags = {"Consultation"}
-    )
-    public ResponseEntity<Page<ConsultationDto>> getConsultationsByOwnerId(@RequestParam(defaultValue = "0") int page,
-                                                                          @RequestParam(defaultValue = "10") int size,
-                                                                          @PathVariable Long ownerId) {
-        return ResponseEntity.ok(consultationService.getConsultationsByOwnerId(page, size, ownerId));
-    }
-
 
     @GetMapping("/complementaryStudy/{complementaryStudyId}")
     @Operation(
