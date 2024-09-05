@@ -33,6 +33,7 @@ public class TreatmentService {
 
         treatment.setDiagnosis(diagnosisEntity);
         treatment = treatmentRepository.save(treatment);
+        diagnosisEntity.getTreatments().add(treatment);
         return treatment;
     }
 

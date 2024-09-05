@@ -29,7 +29,14 @@ public class ComplementaryStudyService {
 
     public ComplementaryStudy addComplementaryStudy(ComplementaryStudyDto dto){
         ComplementaryStudy study = complementaryStudyMapper.toEntity(dto);
-        return complementaryStudyRepository.save(study);
+
+        Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
+                .orElseThrow(()-> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
+        study.setHospitalization(hospitalization);
+        study = complementaryStudyRepository.save(study);
+        hospitalization.getComplementaryStudies().add(study);
+
+        return study;
     }
 
     public List<ComplementaryStudy> getAllComplementaryStudies(){
