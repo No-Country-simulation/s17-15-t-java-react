@@ -1,37 +1,28 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name = "veterinarians")
-public class Veterinarian {
+public class Veterinarian extends UserEntity {
 
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String lastname;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @Column(nullable = false)
     private String specialty;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "professional_licence_number", nullable = false, unique = true)
     private String professionalLicenceNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "veterinarian")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Surgery> surgeries;
 
     /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "veterinarian")
