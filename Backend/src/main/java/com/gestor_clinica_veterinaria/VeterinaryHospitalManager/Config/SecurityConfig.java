@@ -43,7 +43,7 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(authorize -> authorize
                         //Rutas públicas
                         //.requestMatchers(HttpMethod.POST,"/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/auth/register").hasRole("ADMIN")
+                        //.requestMatchers(HttpMethod.POST,"/auth/register").hasRole("ADMIN")
 
                         //Rutas privadas
                         //.requestMatchers(HttpMethod.GET, "/hello").hasRole("USER")

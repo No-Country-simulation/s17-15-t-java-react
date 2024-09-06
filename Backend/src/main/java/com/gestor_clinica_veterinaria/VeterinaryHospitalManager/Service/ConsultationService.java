@@ -1,16 +1,20 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ConsultationMapper;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ComplementaryStudyRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.OwnerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +26,8 @@ public class ConsultationService {
     private final ConsultationRepository consultationRepository;
     private final ConsultationMapper consultationMapper;
     private final DiagnosticRepository diagnosticRepository;
-    //private final ComplementaryStudyRepository complementaryStudyRepository;
+    private final ComplementaryStudyRepository complementaryStudyRepository;
+    private final OwnerRepository ownerRepository;
 
 
     @Transactional
@@ -88,31 +93,32 @@ public class ConsultationService {
         return consultationMapper.toDto(consultation);
     }
 
-    /*public ConsultationDto getConsultationByComplementaryStudyId(Long complementaryStudyId) {
+    public ConsultationDto getConsultationByComplementaryStudyId(Long complementaryStudyId) {
         ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId)
                 .orElseThrow(() -> new EntityNotFoundException("Estudio complementario no encontrado con ID: " + complementaryStudyId));
 
         ConsultationEntity consultation = complementaryStudy.getConsultation();
         return consultationMapper.toDto(consultation);
-    }*/
+    }
 
-    /*public Page<ConsultationDto> getConsultationsByPetId(int page, int size, Long petId) {
+    public Page<ConsultationDto> getConsultationsByPetId(int page, int size, Long petId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<ConsultationEntity> consultationPage = consultationRepository.findByPetId(petId, pageable);
         return consultationPage.map(consultationMapper::toDto);
-    }*/
+    }
 
-    /*public  Page<ConsultationDto> getConsultationsByVeterinaryId(int page, int size, Long vetId) {
+    public  Page<ConsultationDto> getConsultationsByVeterinaryId(int page, int size, Long vetId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinaryId(vetId, pageable);
+        Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinarian(vetId, pageable);
         return consultationPage.map(consultationMapper::toDto);
-    }*/
+    }
+
 
 
 

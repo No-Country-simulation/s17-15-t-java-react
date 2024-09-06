@@ -1,12 +1,12 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.DiagnosticMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.*;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.ComplementaryStudyNotFoundException;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.SurgeryNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -124,17 +124,17 @@ public class DiagnosticService {
         return diagnosticPage.map(diagnosticMapper::toDto);
     }
 
-    /*public DiagnosticDto getDiagnosisBySurgeryId(Long surgeryId) {
+    public DiagnosticDto getDiagnosisBySurgeryId(Long surgeryId) {
         Surgery surgery = surgeryRepository.findById(surgeryId).orElseThrow(() -> new SurgeryNotFoundException("La cirugiá no existe"));
-        DiagnosticEntity diagnostic = surgery.getDiagnosis();
+        DiagnosticEntity diagnostic = surgery.getDiagnosticEntity();
         return diagnosticMapper.toDto(diagnostic);
-    }*/
+    }
 
-    /*public DiagnosticDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
+    public DiagnosticDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
         ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("La cirugiá no existe"));
         DiagnosticEntity diagnostic = complementaryStudy.getDiagnosis();
         return diagnosticMapper.toDto(diagnostic);
-    }*/
+    }
 
 
 }

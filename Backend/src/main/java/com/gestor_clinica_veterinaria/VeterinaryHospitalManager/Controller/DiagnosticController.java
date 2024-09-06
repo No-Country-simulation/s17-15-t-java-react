@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/diagnosis")
 @RequiredArgsConstructor
-@Tag(name = "diagnosis", description = "Endpoints for managing diagnosis")
+@Tag(name = "Diagnosis", description = "Endpoints for managing diagnosis")
 @Slf4j
 public class DiagnosticController {
 
@@ -33,7 +33,7 @@ public class DiagnosticController {
     @Operation(
             summary = "Add a new diagnosis",
             description = "Creates a new diagnosis entry in the system.",
-            tags = {"diagnosis"},
+            tags = {"Diagnosis"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "diagnosis data to be added",
                     required = true,
@@ -94,7 +94,7 @@ public class DiagnosticController {
     @Operation(
             summary = "Retrieve paginated diagnosis",
             description = "Fetch a paginated list of diagnosis based on the provided page and size parameters.",
-            tags = {"diagnosis"},
+            tags = {"Diagnosis"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -143,7 +143,7 @@ public class DiagnosticController {
     @Operation(
             summary = "Retrieve diagnosis by ID",
             description = "Fetch a diagnosis by its unique identifier (ID).",
-            tags = {"diagnosis"},
+            tags = {"Diagnosis"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -190,17 +190,77 @@ public class DiagnosticController {
 
 
     @GetMapping("/consultation/{consultationId}")
+    @Operation(
+            summary = "Retrieve diagnosis by consultation ID",
+            description = "Fetch a list of diagnosis associated with a specific consultation.",
+            tags = {"Diagnosis"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "List of diagnosis retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Page.class,
+                                            description = "Page object containing a list of DiagnosticDto",
+                                            example = "List of diagnosis retrieved successfully"
+                                    )
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Error.class)
+                            )
+                    )
+            },
+            parameters = {
+                    @Parameter(
+                            name = "page",
+                            description = "Page number to retrieve (zero-based index)",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(type = "integer", defaultValue = "0")
+                    ),
+                    @Parameter(
+                            name = "size",
+                            description = "Number of records per page",
+                            in = ParameterIn.QUERY,
+                            schema = @Schema(type = "integer", defaultValue = "10")
+                    )
+            }
+    )
     public ResponseEntity<Page<DiagnosticDto>> getDiagnosticsByConsultationId(@RequestParam(defaultValue = "0") int page,
                                                                               @RequestParam(defaultValue = "10") int size,
                                                                               @PathVariable Long consultationId) {
         return ResponseEntity.ok(diagnosticService.getDiagnosticsByConsultationId(page, size, consultationId));
     }
 
+    @GetMapping("/surgery/{surgeryId}")
+    @Operation(
+            summary = "Retrieve diagnosis by surgery ID",
+            description = "Retrieve one diagnosis associated with a specific surgery.",
+            tags = {"Diagnosis"}
+    )
+    public ResponseEntity<?> getDiagnosticBySurgeryId(@PathVariable Long surgeryId) {
+        return ResponseEntity.ok(diagnosticService.getDiagnosisBySurgeryId(surgeryId));
+    }
+
+    @GetMapping("/complementary-study/{complementaryStudyId}")
+    @Operation(
+            summary = "Retrieve diagnosis by complementary study ID",
+            description = "Retrieve one diagnosis associated with a specific complementary study.",
+            tags = {"Diagnosis"}
+    )
+    public ResponseEntity<?> getDiagnosisByComplementaryStudyId(@PathVariable Long complementaryStudyId) {
+        return ResponseEntity.ok(diagnosticService.getDiagnosisByComplementaryStudyId(complementaryStudyId));
+    }
+
     @GetMapping("/search")
     @Operation(
             summary = "Search diagnosis",
             description = "Search for diagnosis based on a query string.",
-            tags = {"diagnosis"},
+            tags = {"Diagnosis"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -253,7 +313,7 @@ public class DiagnosticController {
     @Operation(
             summary = "Update an existing diagnosis",
             description = "Modify the details of an existing diagnosis identified by its ID.",
-            tags = {"diagnosis"},
+            tags = {"Diagnosis"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "diagnosis data to be updated",
                     required = true,
@@ -312,7 +372,7 @@ public class DiagnosticController {
     @Operation(
             summary = "Delete a diagnosis",
             description = "Remove a diagnosis from the system by its unique identifier (ID).",
-            tags = {"diagnosis"},
+            tags = {"Diagnosis"},
             responses = {
                     @ApiResponse(
                             responseCode = "204",

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/consultation")
 @RequiredArgsConstructor
+@Tag(name = "Consultation", description = "The Consultation API")
 public class ConsultationController {
 
     private final ConsultationService consultationService;
@@ -119,6 +121,54 @@ public class ConsultationController {
                                                                      @RequestParam(defaultValue = "10") int size,
                                                                      @RequestParam(defaultValue = "") String query) {
         return ResponseEntity.ok(consultationService.searchConsultations(page, size, query));
+    }
+
+
+    @GetMapping("/pet/{petId}")
+    @Operation(
+            summary = "Get Consultations by Pet",
+            description = "Get Consultations by Pet",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> getConsultationsByPetId(@RequestParam(defaultValue = "0") int page,
+                                                                          @RequestParam(defaultValue = "10") int size,
+                                                                          @PathVariable Long petId) {
+        return ResponseEntity.ok(consultationService.getConsultationsByPetId(page, size, petId));
+    }
+
+    @GetMapping("/veterinary/{veterinaryId}")
+    @Operation(
+            summary = "Get Consultations by Veterinary",
+            description = "Get Consultations by Vet",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> getConsultationsByVeterinaryId(@RequestParam(defaultValue = "0") int page,
+                                                                          @RequestParam(defaultValue = "10") int size,
+                                                                          @PathVariable Long veterinaryId) {
+        return ResponseEntity.ok(consultationService.getConsultationsByVeterinaryId(page, size, veterinaryId));
+    }
+
+
+    @GetMapping("/complementaryStudy/{complementaryStudyId}")
+    @Operation(
+            summary = "Get Consultation by Complementary Study",
+            description = "Get Consultation by Complementary Study",
+            tags = {"Consultation"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Consultation retrieved successfully",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationDto.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Consultation not found",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+                    )
+            }
+    )
+    public ResponseEntity<ConsultationDto> getConsultationByComplementaryStudyId(@PathVariable Long complementaryStudyId) {
+        return ResponseEntity.ok(consultationService.getConsultationByComplementaryStudyId(complementaryStudyId));
     }
 
 
