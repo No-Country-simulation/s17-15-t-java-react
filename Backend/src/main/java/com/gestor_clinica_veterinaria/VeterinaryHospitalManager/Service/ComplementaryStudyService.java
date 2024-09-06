@@ -1,12 +1,14 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ComplementaryStudyMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ComplementaryStudyRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.HospitalizationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.ComplementaryStudyNotFoundException;
@@ -26,6 +28,8 @@ public class ComplementaryStudyService {
     private final ComplementaryStudyMapper complementaryStudyMapper;
     private final HospitalizationRepository hospitalizationRepository;
     private final DiagnosticRepository diagnosisRepository;
+
+    private final ConsultationRepository consultationRepository;
 
     public ComplementaryStudy addComplementaryStudy(ComplementaryStudyDto dto){
         ComplementaryStudy study = complementaryStudyMapper.toEntity(dto);
@@ -78,9 +82,11 @@ public class ComplementaryStudyService {
             if (dto.studyFile() != null){
                 existingStudy.setStudyFile(dto.studyFile());
             }
-//            if (dto.consultation() != null){
-//                existingStudy.setConsultation(dto.consultation());
-//            }
+            if (dto.consultationId() != null) {
+                ConsultationEntity consultation = consultationRepository.findById(dto.consultationId())
+                        .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + dto.consultationId()));
+                existingStudy.setConsultation(consultation);
+            }
             if (dto.diagnosisId() != null) {
                 DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
                         .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
@@ -104,5 +110,4 @@ public class ComplementaryStudyService {
             throw  new  TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
         }
     }
-
 }

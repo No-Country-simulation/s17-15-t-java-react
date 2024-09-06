@@ -1,9 +1,11 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.HospitalizationRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,8 +15,8 @@ import java.util.List;
 
 @Component
 public class ComplementaryStudyMapper {
-    //@Autowired
-    //private ConsultationRepository consultationRepository;
+    @Autowired
+    private ConsultationRepository consultationRepository;
 
     @Autowired
     private DiagnosticRepository diagnosticEntityRepository;
@@ -31,11 +33,11 @@ public class ComplementaryStudyMapper {
         study.setStudyFile(dto.studyFile());
         study.setStudyCost(dto.studyCost());
 
-//        if (dto.consultationId() != null) {
-//            Consultation consultation = consultationRepository.findById(dto.consultationId())
-//                    .orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada con ID: " + dto.consultationId()));
-//            study.setConsultation(consultation);
-//        }
+        if (dto.consultationId() != null) {
+            ConsultationEntity consultation = consultationRepository.findById(dto.consultationId())
+                    .orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada con ID: " + dto.consultationId()));
+            study.setConsultation(consultation);
+        }
 
         if (dto.diagnosisId() != null) {
             DiagnosticEntity diagnosis = diagnosticEntityRepository.findById(dto.diagnosisId())
@@ -60,10 +62,10 @@ public class ComplementaryStudyMapper {
                 entity.getStudyFile(),
                 entity.getStudyCost(),
                 entity.getDiagnosis() != null ? entity.getDiagnosis().getId() : null,
-                entity.getHospitalization() != null ? entity.getHospitalization().getId() : null
+                entity.getHospitalization() != null ? entity.getHospitalization().getId() : null,
+                entity.getConsultation() != null ? entity.getConsultation().getId() : null
         );
     }
-    //entity.getConsultation() != null ? entity.getConsultation().getId() : null,
 
     public List<ComplementaryStudyDto> toDtoList(List<ComplementaryStudy>  studyList){
         return studyList.stream().map(this::toDto).toList();

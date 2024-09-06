@@ -2,7 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import io.swagger.v3.oas.annotations.Operation;

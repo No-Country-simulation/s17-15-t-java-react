@@ -1,9 +1,8 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.invoice.InvoiceDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.InvoiceMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.InvoiceRepository;

@@ -1,7 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumGravedad;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import jakarta.persistence.*;
 import lombok.*;
 
