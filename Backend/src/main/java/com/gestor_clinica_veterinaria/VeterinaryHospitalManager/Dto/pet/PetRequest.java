@@ -28,8 +28,7 @@ public record PetRequest(
     LocalDate birthdate,
 
 
-    @NotBlank(message = "El campo sex no puede ir vacio")
-    @Size(min = 2)
+    @NotNull(message = "El campo sex no puede ir vacio")
     EnumSexPet sex,
 
     @NotBlank(message = "El campo allergies no puede ir vacio")

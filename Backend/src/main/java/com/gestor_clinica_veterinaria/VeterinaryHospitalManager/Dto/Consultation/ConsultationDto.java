@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record ConsultationDto(
+    @NotNull(message = "You must provide an id of the veterinarian") Long id_veterinarian,
+    @NotNull(message = "You must provide an id of the pet ") Long id_pet,
     @NotBlank(message = "Name cannot be blank") String name,
     @NotNull(message = "Consultation date cannot be null") LocalDate consultationDate,
     @NotBlank(message = "Anamnesis cannot be blank") String anamnesis,

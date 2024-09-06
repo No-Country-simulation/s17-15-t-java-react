@@ -2,6 +2,9 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Owner;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OwnerRepository extends JpaRepository<Owner, Long> {

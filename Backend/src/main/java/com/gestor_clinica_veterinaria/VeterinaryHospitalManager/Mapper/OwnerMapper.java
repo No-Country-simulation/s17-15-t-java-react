@@ -18,8 +18,8 @@ public class OwnerMapper {
         owner.getLastname(),
         owner.getPhone(),
         owner.getEmail(),
-        owner.getAddress(),
-        PetMapper.toListDto(owner.getPets()));
+        owner.getAddress()
+    );
   }
 
   public static List<OwnerResponse> toListDto(List<Owner> ownerList) {

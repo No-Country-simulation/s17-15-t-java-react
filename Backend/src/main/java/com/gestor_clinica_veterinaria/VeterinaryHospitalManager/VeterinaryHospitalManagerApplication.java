@@ -8,22 +8,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
-public class VeterinaryHospitalManagerApplication {
-	/*@Autowired
+public class VeterinaryHospitalManagerApplication implements CommandLineRunner {
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	private VeterinarianRepository veterinarianRepository;*/
+	private VeterinarianRepository veterinarianRepository;
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(VeterinaryHospitalManagerApplication.class, args);
 	}
 
-	/*@Override
+	@Override
 	public void run(String... args) throws Exception {
 
-		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 1, "CREATE");
+		/*jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 1, "CREATE");
 		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 2, "READ");
 		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 3, "WRITE");
 		jdbcTemplate.update("INSERT INTO permissions (id, name) VALUES (?, ?) ON CONFLICT (id) DO NOTHING", 4, "DELETE");
@@ -61,7 +61,7 @@ public class VeterinaryHospitalManagerApplication {
 		jdbcTemplate.update("INSERT INTO users_roles (user_id, role_id) VALUES (?, ?) ON CONFLICT DO NOTHING", veterinarianId, 1);*/
 
 
-		/*// Insertar permisos
+		// Insertar permisos
 		jdbcTemplate.update("INSERT IGNORE INTO permissions (id, name) VALUES (?, ?)", 1, "CREATE");
 		jdbcTemplate.update("INSERT IGNORE INTO permissions (id, name) VALUES (?, ?)", 2, "READ");
 		jdbcTemplate.update("INSERT IGNORE INTO permissions (id, name) VALUES (?, ?)", 3, "WRITE");
@@ -82,7 +82,7 @@ public class VeterinaryHospitalManagerApplication {
 		/*jdbcTemplate.update("INSERT IGNORE INTO veterinarians (id, username, password, email, is_enabled, account_no_expired, account_no_locked, credentials_no_expired, last_name, specialty, professional_licence_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				100000, "admin", "$2a$10$Dxnp0wJeF8L9Ftd8./ExcuaJ62jKKVezB3gvBLcgo1qNOjAnR6QJi", "admin@example.com", true, true, true, true, "admin", "admin", "12345");*/
 
-		/*Veterinarian veterinarian = new Veterinarian();
+		Veterinarian veterinarian = new Veterinarian();
 		veterinarian.setUsername("admin");
 		veterinarian.setPassword("$2a$10$Dxnp0wJeF8L9Ftd8./ExcuaJ62jKKVezB3gvBLcgo1qNOjAnR6QJi");
 		veterinarian.setEmail("admin@example.com");
@@ -98,5 +98,5 @@ public class VeterinaryHospitalManagerApplication {
 		Long veterinarianId = savedVeterinarian.getId();
 		// Relacionar el usuario administrador con el rol ADMIN
 		jdbcTemplate.update("INSERT IGNORE INTO users_roles (user_id, role_id) VALUES (?, ?)", veterinarianId, 1);
-	}*/
+	}
 }

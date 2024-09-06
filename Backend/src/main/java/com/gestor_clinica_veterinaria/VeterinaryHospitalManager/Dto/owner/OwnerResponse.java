@@ -9,8 +9,7 @@ public record OwnerResponse(
     String lastname,
     String phone,
     String email,
-    String address,
-    List<PetResponse> pets
+    String address
 ) {
 
 }

@@ -39,6 +39,4 @@ public class Owner {
   @Column(nullable = false)
   private String address;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-  private List<Pet> pets;
 }

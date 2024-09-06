@@ -239,7 +239,7 @@ public class DiagnosticController {
 
     @GetMapping("/surgery/{surgeryId}")
     @Operation(
-            summary = "Retrieve diagnosis by surgery ID",
+            summary = "Retrieve one diagnosis by surgery ID",
             description = "Retrieve one diagnosis associated with a specific surgery.",
             tags = {"Diagnosis"}
     )

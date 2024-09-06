@@ -1,6 +1,9 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet.PetResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Owner;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Pet;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ConsultationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -123,6 +126,31 @@ public class ConsultationController {
                                                                      @RequestParam(defaultValue = "10") int size,
                                                                      @RequestParam(defaultValue = "") String query) {
         return ResponseEntity.ok(consultationService.searchConsultations(page, size, query));
+    }
+
+    @GetMapping("/search/name-pet")
+    @Operation(
+            summary = "Search Consultations by name of Pet",
+            description = "Search Consultations by name of Pet",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> searchConsultationsByNameOfPet(@RequestParam(defaultValue = "0") int page,
+                                                                            @RequestParam(defaultValue = "10") int size,
+                                                                            @RequestParam(defaultValue = "") String query) {
+        return ResponseEntity.ok(consultationService.searchConsultationsByPetName(page, size, query));
+    }
+
+
+    @GetMapping("/search/name-owner")
+    @Operation(
+            summary = "Search Consultations by name of Owner",
+            description = "Search Consultations by name of Owner",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> searchConsultationsByOwnerName(@RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "10") int size,
+                                                                    @RequestParam(defaultValue = "") String query) {
+        return ResponseEntity.ok(consultationService.searchConsultationsByOwnerName(page, size, query));
     }
 
 

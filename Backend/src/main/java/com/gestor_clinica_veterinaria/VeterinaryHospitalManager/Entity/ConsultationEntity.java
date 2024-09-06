@@ -40,7 +40,7 @@ public class ConsultationEntity{
     @JoinColumn(name = "veterinarian_id")
     private Veterinarian veterinarian;
 
-    @ManyToOne(fetch = FetchType.LAZY,targetEntity = Pet.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Pet.class)
     @JoinColumn(name = "pet_id")
     private Pet pet;
 

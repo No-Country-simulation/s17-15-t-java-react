@@ -42,10 +42,10 @@ public class SecurityConfig  {
                 .csrf(AbstractHttpConfigurer::disable)  // Deshabilitar CSRF completamente
                 .authorizeHttpRequests(authorize -> authorize
                         //Rutas públicas
-                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                        //.requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
 
                         //Rutas privadas
-                        .requestMatchers(HttpMethod.POST,"/auth/register").hasRole("ADMIN")
+                        //.requestMatchers(HttpMethod.POST,"/auth/register").hasRole("ADMIN")
 
                         //Cualquier otro endpoint está denegado
                         .anyRequest().permitAll()

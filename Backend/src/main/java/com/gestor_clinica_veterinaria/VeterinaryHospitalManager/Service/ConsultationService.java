@@ -1,18 +1,15 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Owner;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet.PetResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ConsultationMapper;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ComplementaryStudyRepository;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.OwnerRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Validated
 public class ConsultationService {
 
@@ -31,19 +29,22 @@ public class ConsultationService {
     private final ConsultationMapper consultationMapper;
     private final DiagnosticRepository diagnosticRepository;
     private final ComplementaryStudyRepository complementaryStudyRepository;
+    private final OwnerRepository ownerRepository;
+    private final PetRepository petRepository;
+    private final VeterinarianRepository veterinarianRepository;
 
 
     @Transactional
     public ConsultationDto addConsultation(@Valid ConsultationDto dto) {
-        try{
-            ConsultationEntity entity = consultationMapper.toEntity(dto);
-            ConsultationEntity savedEntity = consultationRepository.save(entity);
-            return consultationMapper.toDto(savedEntity);
-        }catch (DataIntegrityViolationException e){
-            throw new IllegalArgumentException("Error de integridad de datos al crear la consulta");
-        }catch (Exception e){
-            throw new IllegalArgumentException("Error al crear la consulta");
-        }
+       Veterinarian veterinarian = veterinarianRepository.findById(dto.id_veterinarian())
+               .orElseThrow(() -> new EntityNotFoundException("Veterinario no encontrado con ID: " + dto.id_veterinarian()));
+       Pet pet = petRepository.findById(dto.id_pet())
+               .orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada con ID: " + dto.id_pet()));
+       ConsultationEntity entity = consultationMapper.toEntity(dto);
+       entity.setVeterinarian(veterinarian);
+       entity.setPet(pet);
+       ConsultationEntity savedEntity = consultationRepository.save(entity);
+       return consultationMapper.toDto(savedEntity);
     }
 
     @Transactional
@@ -57,12 +58,21 @@ public class ConsultationService {
             consultationEntity.setState(dto.state());
             consultationEntity.setCostConsultation(dto.costConsultation());
 
+            if(dto.id_veterinarian() != null){
+                Veterinarian veterinarian = veterinarianRepository.findById(dto.id_veterinarian())
+                        .orElseThrow(() -> new EntityNotFoundException("Veterinario no encontrado con ID: " + dto.id_veterinarian()));
+                Pet pet = petRepository.findById(dto.id_pet())
+                        .orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada con ID: " + dto.id_pet()));
+                consultationEntity.setVeterinarian(veterinarian);
+                consultationEntity.setPet(pet);
+            }
+
             ConsultationEntity savedEntity = consultationRepository.save(consultationEntity);
             return consultationMapper.toDto(savedEntity);
         }catch (DataIntegrityViolationException e){
             throw new IllegalArgumentException("Error de integridad de datos al actualizar la consulta");
         }catch (Exception e){
-            throw new IllegalArgumentException("Error al actualizar la consulta");
+            throw new IllegalArgumentException("El id de la mascota o el id del veterinario no existen");
         }
     }
 
@@ -87,8 +97,33 @@ public class ConsultationService {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
-        Page<ConsultationEntity> consultationPage = consultationRepository.findByNameContainingIgnoreCase(query, PageRequest.of(page, size, Sort.by("name")));
+        try{
+            Page<ConsultationEntity> consultationPage = consultationRepository.findByNameContainingIgnoreCase(query, PageRequest.of(page, size, Sort.by("name")));
+            return consultationPage.map(consultationMapper::toDto);
+        }catch (Exception e){
+            throw new IllegalArgumentException("La consulta con el nombre: " + query + " no existe");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ConsultationDto> searchConsultationsByPetName(int page, int size, String petName) {
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("Invalid page or size parameters");
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ConsultationEntity> consultationPage = consultationRepository.findByPet_NameContainingIgnoreCase(petName, pageable);
         return consultationPage.map(consultationMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ConsultationDto> searchConsultationsByOwnerName(int page, int size, String query) {
+       if(page < 0 || size <= 0){
+           throw new IllegalArgumentException("Invalid page or size parameters");
+       }
+       Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+       Page<ConsultationEntity> consultationPage = consultationRepository.findByPet_Owner_NameContainingIgnoreCase(query, pageable);
+       return consultationPage.map(consultationMapper::toDto);
+
     }
 
     @Transactional(readOnly = true)
@@ -114,9 +149,9 @@ public class ConsultationService {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        Page<ConsultationEntity> consultationPage = consultationRepository.findByPetId(petId, pageable);
-        return consultationPage.map(consultationMapper::toDto);
+            Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+            Page<ConsultationEntity> consultationPage = consultationRepository.findByPetId(petId, pageable);
+            return consultationPage.map(consultationMapper::toDto);
     }
 
     @Transactional(readOnly = true)
@@ -124,8 +159,9 @@ public class ConsultationService {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinarian(vetId, pageable);
-        return consultationPage.map(consultationMapper::toDto);
+            Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+            Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinarian(vetId, pageable);
+            return consultationPage.map(consultationMapper::toDto);
+
     }
 }

@@ -6,6 +6,8 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Sexo;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,10 +51,7 @@ public class Pet {
 
   private String details;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Owner.class)
   @JoinColumn(name = "owner_id", nullable = false)
   private Owner owner;
-
-//  @OneToMany(mappedBy = "consultation")
-//  private Lis<Consultation> consultationList;
 }

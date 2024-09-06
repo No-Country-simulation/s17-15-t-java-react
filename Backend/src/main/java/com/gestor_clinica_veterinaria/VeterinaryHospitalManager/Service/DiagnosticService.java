@@ -39,22 +39,14 @@ public class DiagnosticService {
 
     @Transactional
     public DiagnosticDto addDiagnostic(@Valid DiagnosticDto dto) {
-        ConsultationEntity consultationEntity = consultationRepository.findById(dto.consulta_id())
-                .orElseThrow(() -> new IllegalArgumentException("Consulta no encontrada"));
-        try {
-
+            ConsultationEntity consultationEntity = consultationRepository.findById(dto.consulta_id())
+                    .orElseThrow(() -> new IllegalArgumentException("Consulta no encontrada"));
             DiagnosticEntity diagnostico = diagnosticMapper.toEntity(dto);
 
             diagnostico = diagnosticRepository.save(diagnostico);
 
             consultationEntity.getDiagnostics().add(diagnostico);
-
             return diagnosticMapper.toDto(diagnostico);
-        }catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Error de integridad de datos al agregar el diagnóstico", e);
-        } catch (Exception e) {
-            throw new RuntimeException("Error inesperado al agregar el diagnóstico", e);
-        }
     }
 
     @Transactional(readOnly = true)
@@ -71,16 +63,17 @@ public class DiagnosticService {
     @Transactional(readOnly = true)
     public DiagnosticDto getDiagnosticById(Long id) {
         DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
-                .orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico buscado no existe"));
+                .orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico no existe"));
         return diagnosticMapper.toDto(diagnostic);
     }
 
     @Transactional
     public DiagnosticDto updateDiagnostic(Long id, @Valid DiagnosticDto dto) {
-        DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
-                .orElseThrow(() -> new DiagnosticNotFoundException("El diagnóstico no se puede actualizar porque no existe"));
 
         try {
+            DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
+                    .orElseThrow(() -> new DiagnosticNotFoundException("El diagnóstico no se puede actualizar porque no existe"));
+            diagnostic.setName(dto.name());
             diagnostic.setDiagnosisDate(dto.diagnosisDate());
             diagnostic.setDescription(dto.description());
             diagnostic.setSeveridad(dto.severidad());

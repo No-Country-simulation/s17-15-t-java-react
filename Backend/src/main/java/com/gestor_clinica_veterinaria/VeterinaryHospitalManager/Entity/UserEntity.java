@@ -36,6 +36,7 @@ public class UserEntity {
     @Email
     @NotBlank
     @Size(max = 80)
+    @Column(unique = true)
     private String email;
 
     @Column(name = "is_enabled")
