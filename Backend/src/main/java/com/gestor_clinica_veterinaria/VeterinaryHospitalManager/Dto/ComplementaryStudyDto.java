@@ -2,7 +2,6 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import jakarta.validation.constraints.NotBlank;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -23,7 +22,7 @@ public record ComplementaryStudyDto (
         @NotBlank(message = "El estudio debe tener un costo.")
         BigDecimal studyCost,
 
-        //Long consultationId,
+        Long consultationId,
 
         Long  diagnosisId,
 

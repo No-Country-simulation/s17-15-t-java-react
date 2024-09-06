@@ -1,9 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet.PetResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.study.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ConsultationMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.*;
 import jakarta.persistence.EntityNotFoundException;
