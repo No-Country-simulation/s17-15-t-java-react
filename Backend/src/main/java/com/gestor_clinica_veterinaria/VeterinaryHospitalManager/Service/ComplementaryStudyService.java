@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
@@ -31,7 +31,7 @@ public class ComplementaryStudyService {
 
     private final ConsultationRepository consultationRepository;
 
-    public ComplementaryStudy addComplementaryStudy(ComplementaryStudyDto dto){
+    public ComplementaryStudy addComplementaryStudy(StudyRequest dto){
         ComplementaryStudy study = complementaryStudyMapper.toEntity(dto);
 
         Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
@@ -59,7 +59,7 @@ public class ComplementaryStudyService {
     public List<ComplementaryStudy> getAllStudiesByState(EnumStudyState state) {
         return complementaryStudyRepository.findByStudyState(state);
     }
-    public ComplementaryStudy updateStudy(Long studyId, ComplementaryStudyDto dto){
+    public ComplementaryStudy updateStudy(Long studyId, StudyRequest dto){
 
         Optional<ComplementaryStudy> studyOptional = complementaryStudyRepository.findById(studyId);
 

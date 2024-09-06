@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.TreatmentService;
 import io.swagger.v3.oas.annotations.Operation;

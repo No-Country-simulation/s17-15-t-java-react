@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import org.springframework.stereotype.Component;

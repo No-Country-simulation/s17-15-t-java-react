@@ -1,7 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
@@ -40,7 +40,7 @@ public class ComplementaryStudyController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ComplementaryStudyDto.class)
+                            schema = @Schema(implementation = StudyRequest.class)
                     )
             ),
             responses = {
@@ -53,7 +53,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudy> addStudy(@RequestBody ComplementaryStudyDto dto) {
+    public ResponseEntity<ComplementaryStudy> addStudy(@RequestBody StudyRequest dto) {
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(dto));
     }
     @PatchMapping("/update/{id}")
@@ -65,7 +65,7 @@ public class ComplementaryStudyController {
                     description = "Complementary Study object with fields to update",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ComplementaryStudyDto.class)
+                            schema = @Schema(implementation = StudyRequest.class)
                     )
             ),
             responses = {
@@ -78,7 +78,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody ComplementaryStudyDto dto) {
+    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto) {
         return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto));
     }
 
@@ -92,7 +92,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudyDto.class)
+                                    schema = @Schema(implementation = StudyRequest.class)
                             )
                     )
             }
@@ -111,7 +111,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudyDto.class)
+                                    schema = @Schema(implementation = StudyRequest.class)
                             )
                     )
             }
@@ -130,7 +130,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudyDto.class)
+                                    schema = @Schema(implementation = StudyRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -154,7 +154,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudyDto.class)
+                                    schema = @Schema(implementation = StudyRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -178,7 +178,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudyDto.class)
+                                    schema = @Schema(implementation = StudyRequest.class)
                             )
                     ),
                     @ApiResponse(

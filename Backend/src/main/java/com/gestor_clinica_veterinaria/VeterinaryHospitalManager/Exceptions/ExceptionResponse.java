@@ -1,4 +1,4 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;

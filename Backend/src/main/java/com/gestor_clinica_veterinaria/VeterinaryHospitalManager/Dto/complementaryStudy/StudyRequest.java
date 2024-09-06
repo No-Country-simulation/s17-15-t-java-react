@@ -1,12 +1,16 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record ComplementaryStudyDto (
-        @NotBlank(message = "El estudio debe contener una fecha correspondiente al día que se ejecuta el mismo.")
+public record StudyRequest(
+        @NotNull(message = "El estudio debe contener una fecha correspondiente al día que se ejecuta el mismo.")
+                @DateTimeFormat()
         LocalDate examinationDate,
 
         @NotBlank(message = "El estudio debe tener un tipo.")
@@ -15,11 +19,11 @@ public record ComplementaryStudyDto (
         @NotBlank(message = "El estudio debe tener un resultado.")
         String studyResult,
 
-        @NotBlank(message = "El estudio debe tener un estado.")
+        @NotNull(message = "El estudio debe tener un estado.")
         EnumStudyState studyState,
         //byte[] studyFile,
         String studyFile,
-        @NotBlank(message = "El estudio debe tener un costo.")
+        @NotNull(message = "El estudio debe tener un costo.")
         BigDecimal studyCost,
 
         Long consultationId,

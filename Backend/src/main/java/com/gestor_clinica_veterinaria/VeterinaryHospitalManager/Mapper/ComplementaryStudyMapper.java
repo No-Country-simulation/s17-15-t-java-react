@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ComplementaryStudyDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
@@ -24,7 +24,7 @@ public class ComplementaryStudyMapper {
     @Autowired
     private HospitalizationRepository hospitalizationRepository;
 
-    public ComplementaryStudy toEntity(ComplementaryStudyDto dto){
+    public ComplementaryStudy toEntity(StudyRequest dto){
         ComplementaryStudy study = new ComplementaryStudy();
         study.setExaminationDate(dto.examinationDate());
         study.setStudyType(dto.studyType());
@@ -53,8 +53,8 @@ public class ComplementaryStudyMapper {
         return study;
     }
 
-    public ComplementaryStudyDto toDto(ComplementaryStudy entity) {
-        return new ComplementaryStudyDto(
+    public StudyRequest toDto(ComplementaryStudy entity) {
+        return new StudyRequest(
                 entity.getExaminationDate(),
                 entity.getStudyType(),
                 entity.getStudyResult(),
@@ -67,7 +67,7 @@ public class ComplementaryStudyMapper {
         );
     }
 
-    public List<ComplementaryStudyDto> toDtoList(List<ComplementaryStudy>  studyList){
+    public List<StudyRequest> toDtoList(List<ComplementaryStudy>  studyList){
         return studyList.stream().map(this::toDto).toList();
     }
 }

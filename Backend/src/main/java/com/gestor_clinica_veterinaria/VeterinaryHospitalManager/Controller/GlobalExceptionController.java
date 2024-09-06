@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.ExceptionResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.ExceptionResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.ResourceDuplicatedException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;

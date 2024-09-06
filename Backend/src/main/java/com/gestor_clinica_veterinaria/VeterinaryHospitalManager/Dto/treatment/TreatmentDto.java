@@ -1,4 +1,4 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment;
 
 import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
