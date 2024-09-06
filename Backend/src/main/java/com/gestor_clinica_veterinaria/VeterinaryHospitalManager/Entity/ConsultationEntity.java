@@ -32,6 +32,7 @@ public class ConsultationEntity{
 
     @Enumerated(EnumType.STRING)
     private EnumState state;
+    @Column(name = "cost_consultation")
     private BigDecimal costConsultation;
 
 

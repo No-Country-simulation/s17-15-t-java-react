@@ -12,6 +12,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.ComplementaryStudyNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.SurgeryNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,9 +22,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class DiagnosticService {
 
     private final DiagnosticRepository diagnosticRepository;
@@ -35,7 +38,7 @@ public class DiagnosticService {
 
 
     @Transactional
-    public DiagnosticDto addDiagnostic(DiagnosticDto dto) {
+    public DiagnosticDto addDiagnostic(@Valid DiagnosticDto dto) {
         ConsultationEntity consultationEntity = consultationRepository.findById(dto.consulta_id())
                 .orElseThrow(() -> new IllegalArgumentException("Consulta no encontrada"));
         try {
@@ -54,6 +57,7 @@ public class DiagnosticService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<DiagnosticDto> getAllDiagnostics(int page, int size) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
@@ -64,7 +68,7 @@ public class DiagnosticService {
 
         return diagnosticPage.map(diagnosticMapper::toDto);
     }
-
+    @Transactional(readOnly = true)
     public DiagnosticDto getDiagnosticById(Long id) {
         DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
                 .orElseThrow(() -> new DiagnosticNotFoundException("El diagnostico buscado no existe"));
@@ -72,7 +76,7 @@ public class DiagnosticService {
     }
 
     @Transactional
-    public DiagnosticDto updateDiagnostic(Long id, DiagnosticDto dto) {
+    public DiagnosticDto updateDiagnostic(Long id, @Valid DiagnosticDto dto) {
         DiagnosticEntity diagnostic = diagnosticRepository.findById(id)
                 .orElseThrow(() -> new DiagnosticNotFoundException("El diagnóstico no se puede actualizar porque no existe"));
 
@@ -100,6 +104,7 @@ public class DiagnosticService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<DiagnosticDto> searchDiagnostics(int page, int size, String query) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
@@ -111,6 +116,7 @@ public class DiagnosticService {
         return diagnosticPage.map(diagnosticMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
     public DiagnosticDto getDiagnosisByTreatmentId(Long treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId).orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento no existe"));
 
@@ -119,6 +125,7 @@ public class DiagnosticService {
         return diagnosticMapper.toDto(diagnostic);
     }
 
+    @Transactional(readOnly = true)
     public Page<DiagnosticDto> getDiagnosticsByConsultationId(int page, int size, Long consultationId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
@@ -128,14 +135,16 @@ public class DiagnosticService {
         return diagnosticPage.map(diagnosticMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
     public DiagnosticDto getDiagnosisBySurgeryId(Long surgeryId) {
         Surgery surgery = surgeryRepository.findById(surgeryId).orElseThrow(() -> new SurgeryNotFoundException("La cirugiá no existe"));
         DiagnosticEntity diagnostic = surgery.getDiagnosticEntity();
         return diagnosticMapper.toDto(diagnostic);
     }
 
+    @Transactional(readOnly = true)
     public DiagnosticDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
-        ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("La cirugiá no existe"));
+        ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("El estudio complementario no existe"));
         DiagnosticEntity diagnostic = complementaryStudy.getDiagnosis();
         return diagnosticMapper.toDto(diagnostic);
     }

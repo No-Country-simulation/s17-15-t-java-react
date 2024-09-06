@@ -11,6 +11,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.Consu
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.OwnerRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -19,20 +20,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class ConsultationService {
 
     private final ConsultationRepository consultationRepository;
     private final ConsultationMapper consultationMapper;
     private final DiagnosticRepository diagnosticRepository;
     private final ComplementaryStudyRepository complementaryStudyRepository;
-    private final OwnerRepository ownerRepository;
 
 
     @Transactional
-    public ConsultationDto addConsultation(ConsultationDto dto) {
+    public ConsultationDto addConsultation(@Valid ConsultationDto dto) {
         try{
             ConsultationEntity entity = consultationMapper.toEntity(dto);
             ConsultationEntity savedEntity = consultationRepository.save(entity);
@@ -45,7 +47,7 @@ public class ConsultationService {
     }
 
     @Transactional
-    public ConsultationDto updateConsultation(Long id, ConsultationDto dto) {
+    public ConsultationDto updateConsultation(Long id, @Valid ConsultationDto dto) {
         ConsultationEntity consultationEntity = consultationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada con ID: " + id));
         try{
@@ -64,12 +66,14 @@ public class ConsultationService {
         }
     }
 
+    @Transactional(readOnly = true)
     public ConsultationDto getConsultationById(Long id) {
         ConsultationEntity consultationEntity = consultationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada con ID: " + id));
         return consultationMapper.toDto(consultationEntity);
     }
 
+    @Transactional(readOnly = true)
     public Page<ConsultationDto> getAllConsultations(int page, int size) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
@@ -78,6 +82,7 @@ public class ConsultationService {
         return consultationPage.map(consultationMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
     public Page<ConsultationDto> searchConsultations(int page, int size, String query) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
@@ -86,6 +91,7 @@ public class ConsultationService {
         return consultationPage.map(consultationMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
     public ConsultationDto getConsultationByDiagnosisId(Long diagnosisId) {
         DiagnosticEntity diagnosis = diagnosticRepository.findById(diagnosisId)
                 .orElseThrow(() -> new EntityNotFoundException("Diagnostico no encontrado con ID: " + diagnosisId));
@@ -94,6 +100,7 @@ public class ConsultationService {
         return consultationMapper.toDto(consultation);
     }
 
+    @Transactional(readOnly = true)
     public ConsultationDto getConsultationByComplementaryStudyId(Long complementaryStudyId) {
         ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId)
                 .orElseThrow(() -> new EntityNotFoundException("Estudio complementario no encontrado con ID: " + complementaryStudyId));
@@ -102,6 +109,7 @@ public class ConsultationService {
         return consultationMapper.toDto(consultation);
     }
 
+    @Transactional(readOnly = true)
     public Page<ConsultationDto> getConsultationsByPetId(int page, int size, Long petId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
@@ -111,6 +119,7 @@ public class ConsultationService {
         return consultationPage.map(consultationMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
     public  Page<ConsultationDto> getConsultationsByVeterinaryId(int page, int size, Long vetId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
@@ -119,8 +128,4 @@ public class ConsultationService {
         Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinarian(vetId, pageable);
         return consultationPage.map(consultationMapper::toDto);
     }
-
-
-
-
 }
