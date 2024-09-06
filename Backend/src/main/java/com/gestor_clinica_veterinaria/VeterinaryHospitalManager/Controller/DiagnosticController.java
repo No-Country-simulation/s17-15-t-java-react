@@ -249,7 +249,7 @@ public class DiagnosticController {
 
     @GetMapping("/complementary-study/{complementaryStudyId}")
     @Operation(
-            summary = "Retrieve diagnosis by complementary study ID",
+            summary = "Retrieve one diagnosis by complementary study ID",
             description = "Retrieve one diagnosis associated with a specific complementary study.",
             tags = {"Diagnosis"}
     )

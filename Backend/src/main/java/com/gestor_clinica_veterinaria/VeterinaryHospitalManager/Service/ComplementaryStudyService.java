@@ -32,9 +32,12 @@ public class ComplementaryStudyService {
 
         Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
                 .orElseThrow(()-> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
+        DiagnosticEntity diagnosis = diagnosisRepository.findById(dto.diagnosisId())
+                .orElseThrow(()-> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
         study.setHospitalization(hospitalization);
         study = complementaryStudyRepository.save(study);
         hospitalization.getComplementaryStudies().add(study);
+        diagnosis.getComplementaryStudies().add(study);
 
         return study;
     }

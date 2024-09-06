@@ -30,10 +30,13 @@ public class TreatmentService {
 
         DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
                 .orElseThrow(()-> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
+        Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
+                        .orElseThrow(()-> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
 
         treatment.setDiagnosis(diagnosisEntity);
         treatment = treatmentRepository.save(treatment);
         diagnosisEntity.getTreatments().add(treatment);
+        hospitalization.getTreatments().add(treatment);
         return treatment;
     }
 
