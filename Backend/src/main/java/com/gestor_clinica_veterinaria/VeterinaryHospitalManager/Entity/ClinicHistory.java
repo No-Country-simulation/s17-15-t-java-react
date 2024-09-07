@@ -20,8 +20,11 @@ public class ClinicHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idClinicHistory;
 
-    @ManyToOne
-    @JoinColumn(name = "pet_id")
+   // @ManyToOne
+   // @JoinColumn(name = "pet_id")
+   // private Pet pet;
+    @OneToOne
+    @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private Pet pet;
 
    // @OneToMany(cascade = CascadeType.ALL)

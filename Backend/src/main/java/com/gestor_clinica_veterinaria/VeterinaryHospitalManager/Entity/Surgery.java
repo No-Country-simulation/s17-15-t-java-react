@@ -28,7 +28,7 @@ public class Surgery {
     private BigDecimal surgeryCost;
 
 
-  /*
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veterinarian_id")
     private Veterinarian veterinarian;
@@ -36,8 +36,8 @@ public class Surgery {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consultation_id")
-    private  Consultation consultation;
-  */
+    private  ConsultationEntity consultationEntity;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diagnostic_entity_id")
