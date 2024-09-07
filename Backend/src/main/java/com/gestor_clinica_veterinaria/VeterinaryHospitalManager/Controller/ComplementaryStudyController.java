@@ -49,7 +49,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful Complementary study created",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudyController.class)
+                                    schema = @Schema(implementation = StudyCreatedResponse.class)
                             )
                     )
             }

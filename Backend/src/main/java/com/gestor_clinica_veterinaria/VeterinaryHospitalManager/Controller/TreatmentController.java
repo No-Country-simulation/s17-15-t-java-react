@@ -43,7 +43,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful treatment created",
                             content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TreatmentRequest.class)
+                            schema = @Schema(implementation = TreatmentCreationResponse.class)
                             )
                     )
             }

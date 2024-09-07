@@ -40,7 +40,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful hospitalization created",
                             content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = HospitalizationRequest.class)
+                            schema = @Schema(implementation = HospitalizationCreationResponse.class)
                             )
                     )
             }
