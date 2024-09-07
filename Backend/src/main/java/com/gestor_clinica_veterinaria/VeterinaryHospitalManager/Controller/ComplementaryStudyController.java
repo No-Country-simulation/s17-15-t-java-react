@@ -1,7 +1,8 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
@@ -53,8 +54,8 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudy> addStudy(@RequestBody StudyRequest dto) {
-        return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(dto));
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest) {
+        return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest));
     }
     @PatchMapping("/update/{id}")
     @Operation(
@@ -73,7 +74,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Complementary Study Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentRequest.class)
                             )
                     )
             }

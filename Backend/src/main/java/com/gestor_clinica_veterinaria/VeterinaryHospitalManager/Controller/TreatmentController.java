@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.TreatmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +35,7 @@ public class TreatmentController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = TreatmentDto.class)
+                            schema = @Schema(implementation = TreatmentRequest.class)
                     )
             ),
             responses = {
@@ -42,12 +43,12 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful treatment created",
                             content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TreatmentDto.class)
+                            schema = @Schema(implementation = TreatmentRequest.class)
                             )
                     )
             }
     )
-    public ResponseEntity<Treatment> addTreatment(@RequestBody TreatmentDto dto) {
+    public ResponseEntity<TreatmentCreationResponse> addTreatment(@RequestBody TreatmentRequest dto) {
         return ResponseEntity.ok(treatmentService.addTreatment(dto));
     }
 
@@ -61,7 +62,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentRequest.class)
                             )
                     )
             }
@@ -80,7 +81,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -105,7 +106,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -130,7 +131,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -154,7 +155,7 @@ public class TreatmentController {
                     description = "Treatment object with fields to update",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = TreatmentDto.class)
+                            schema = @Schema(implementation = TreatmentRequest.class)
                     )
             ),
             responses = {
@@ -162,7 +163,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Treatment Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -172,7 +173,7 @@ public class TreatmentController {
                     )
             }
     )
-    public ResponseEntity<Treatment> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentDto dto) {
+    public ResponseEntity<Treatment> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentRequest dto) {
         return ResponseEntity.ok(treatmentService.updateTreatment(treatmentId, dto));
     }
 }

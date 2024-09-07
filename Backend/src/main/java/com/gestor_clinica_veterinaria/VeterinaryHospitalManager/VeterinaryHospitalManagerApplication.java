@@ -1,10 +1,5 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Veterinarian;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.VeterinarianRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
@@ -76,7 +71,7 @@ public class VeterinaryHospitalManagerApplication {
 		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 1, 2);
 		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 1, 3);
 		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 1, 4);
-		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 2, 2);
+		jdbcTemplate.update("INSERT IGNORE INTO role_permission (role_id, permission_id) VALUES (?, ?)", 2, 2);*/
 
 		// Insertar usuario administrador
 		/*jdbcTemplate.update("INSERT IGNORE INTO veterinarians (id, username, password, email, is_enabled, account_no_expired, account_no_locked, credentials_no_expired, last_name, specialty, professional_licence_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",

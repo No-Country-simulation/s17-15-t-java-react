@@ -1,4 +1,4 @@
-package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
+package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.ExceptionResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.ResourceDuplicatedException;

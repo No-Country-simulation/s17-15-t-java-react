@@ -24,8 +24,4 @@ public class Veterinarian extends UserEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Surgery> surgeries;
-
-    /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "veterinarian")
-    private List<Consultation> consultation;*/
-
 }

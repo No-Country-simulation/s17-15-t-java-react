@@ -1,6 +1,8 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
@@ -25,16 +27,32 @@ public class TreatmentService {
      private final DiagnosticRepository diagnosisRepository;
      private final HospitalizationRepository hospitalizationRepository;
 
-    public Treatment addTreatment(TreatmentDto dto){
-        Treatment treatment = treatmentMapper.toEntity(dto);
+    public TreatmentCreationResponse addTreatment(TreatmentRequest treatmentRequest){
+        Treatment treatment = treatmentMapper.toEntity(treatmentRequest);
 
-        DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
-                .orElseThrow(()-> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
+        if (treatmentRequest.diagnosisId() != null){
+            DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(treatmentRequest.diagnosisId())
+                    .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + treatmentRequest.diagnosisId()));
+            treatment.setDiagnosis(diagnosisEntity);
+            diagnosisEntity.getTreatments().add(treatment);
+            diagnosisRepository.save(diagnosisEntity);
+        }
 
-        treatment.setDiagnosis(diagnosisEntity);
+        if (treatmentRequest.hospitalizationId() != null){
+            Hospitalization hospitalization = hospitalizationRepository.findById(treatmentRequest.hospitalizationId())
+                    .orElseThrow(()-> new EntityNotFoundException("Hospitalization not found with id: " + treatmentRequest.hospitalizationId()));
+            treatment.setHospitalization(hospitalization);
+            hospitalization.getTreatments().add(treatment);
+            hospitalizationRepository.save(hospitalization);
+        }
+
         treatment = treatmentRepository.save(treatment);
-        diagnosisEntity.getTreatments().add(treatment);
-        return treatment;
+
+        if (treatment.getId() == null) {
+            return new TreatmentCreationResponse("Error al crear el tratamiento.", null);
+        }
+
+        return new TreatmentCreationResponse("¡Tratamiento creado exitosamente!", treatment.getId());
     }
 
     public List<Treatment> getAllTreatments(){
@@ -50,7 +68,7 @@ public class TreatmentService {
         return treatmentRepository.findAllById(Collections.singleton(ownerId));
     }
 
-    public Treatment updateTreatment(Long treatmentId, TreatmentDto dto){
+    public Treatment updateTreatment(Long treatmentId, TreatmentRequest dto){
 
         Optional<Treatment> treatmentOptional = treatmentRepository.findById(treatmentId);
 

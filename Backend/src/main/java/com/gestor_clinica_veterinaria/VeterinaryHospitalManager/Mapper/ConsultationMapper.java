@@ -20,6 +20,8 @@ public class ConsultationMapper {
 
     public ConsultationDto toDto(ConsultationEntity entity) {
         return new ConsultationDto(
+                entity.getVeterinarian().getId(),
+                entity.getPet().getId(),
                 entity.getName(),
                 entity.getConsultationDate(),
                 entity.getAnamnesis(),

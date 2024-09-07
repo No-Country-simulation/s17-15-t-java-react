@@ -2,8 +2,6 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumSexPet;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -28,8 +26,7 @@ public record PetRequest(
     LocalDate birthdate,
 
 
-    @NotBlank(message = "El campo sex no puede ir vacio")
-    @Size(min = 2)
+    @NotNull(message = "El campo sex no puede ir vacio")
     EnumSexPet sex,
 
     @NotBlank(message = "El campo allergies no puede ir vacio")

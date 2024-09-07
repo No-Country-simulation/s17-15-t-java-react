@@ -28,13 +28,13 @@ public class ComplementaryStudy {
     @Column(name = "examination_day", length = 10, nullable = false)
     private LocalDate examinationDate;
 
-    @Column(name = "study_type", length = 50)
+    @Column(name = "study_type", length = 50, nullable = false)
     private String studyType;
 
     @Column(name = "study_result", length = 300)
     private String studyResult;
 
-    @Column(name = "study_state" , length = 20)
+    @Column(name = "study_state" , nullable = false)
     @Enumerated(EnumType.STRING)
     private EnumStudyState studyState;
 
@@ -45,7 +45,7 @@ public class ComplementaryStudy {
 //    @Column(name = "file")
 //    private byte[] studyFile;
 
-    @Column(name = "study_cost", precision = 10, scale = 2 )
+    @Column(name = "study_cost", precision = 10, scale = 2, nullable = false )
     private BigDecimal studyCost ;
 
     @ManyToOne

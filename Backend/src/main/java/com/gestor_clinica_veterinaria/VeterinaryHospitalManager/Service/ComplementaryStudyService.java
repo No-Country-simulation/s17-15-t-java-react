@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
@@ -28,19 +29,40 @@ public class ComplementaryStudyService {
     private final ComplementaryStudyMapper complementaryStudyMapper;
     private final HospitalizationRepository hospitalizationRepository;
     private final DiagnosticRepository diagnosisRepository;
-
     private final ConsultationRepository consultationRepository;
 
-    public ComplementaryStudy addComplementaryStudy(StudyRequest dto){
-        ComplementaryStudy study = complementaryStudyMapper.toEntity(dto);
+    public StudyCreatedResponse addComplementaryStudy(StudyRequest studyRequest){
+        ComplementaryStudy study = complementaryStudyMapper.toEntity(studyRequest);
 
-        Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
-                .orElseThrow(()-> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
-        study.setHospitalization(hospitalization);
+        if (studyRequest.hospitalizationId() != null) {
+            Hospitalization hospitalization = hospitalizationRepository.findById(studyRequest.hospitalizationId())
+                    .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + studyRequest.hospitalizationId()));
+            study.setHospitalization(hospitalization);
+            hospitalization.getComplementaryStudies().add(study);
+            hospitalizationRepository.save(hospitalization);
+        }
+        if (studyRequest.diagnosisId() != null) {
+            DiagnosticEntity diagnosis = diagnosisRepository.findById(studyRequest.diagnosisId())
+                    .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + studyRequest.diagnosisId()));
+            study.setDiagnosis(diagnosis);
+            diagnosis.getComplementaryStudies().add(study);
+            diagnosisRepository.save(diagnosis);
+        }
+        if (studyRequest.consultationId() != null) {
+            ConsultationEntity consultation = consultationRepository.findById(studyRequest.consultationId())
+                    .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + studyRequest.consultationId()));
+            study.setConsultation(consultation);
+            consultation.getComplementaryStudies().add(study);
+            consultationRepository.save(consultation);
+        }
+
         study = complementaryStudyRepository.save(study);
-        hospitalization.getComplementaryStudies().add(study);
 
-        return study;
+        if (study.getId() == null) {
+            return new StudyCreatedResponse("Error al crear el estudio complementario.", null);
+        }
+
+        return new StudyCreatedResponse("¡El estudio complementario se registró exitosamente!", study.getId());
     }
 
     public List<ComplementaryStudy> getAllComplementaryStudies(){

@@ -1,9 +1,12 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.HospitalizationMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.HospitalizationRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.TreatmentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +25,24 @@ public class HospitalizationService {
     private final HospitalizationRepository hospitalizationRepository;
     private final HospitalizationMapper hospitalizationMapper;
 
-    public Hospitalization addHospitalization(HospitalizationDto dto){
-        Hospitalization hospitalization = hospitalizationMapper.toEntity(dto);
+    public HospitalizationCreationResponse addHospitalization(HospitalizationRequest hospitalizationRequest){
+        Hospitalization hospitalization = hospitalizationMapper.toEntity(hospitalizationRequest);
 
-        hospitalization.setHospitalizationCost(calculateCost(hospitalization.getStartDate(), hospitalization.getEnd_date()));
+        if (hospitalization.getStartDate() == null) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser nula.");
+        }
+        if (hospitalization.getEnd_date() != null && hospitalization.getEnd_date().isBefore(hospitalization.getStartDate())) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
+        }
+        if (hospitalization.getEnd_date() != null) {
+            hospitalization.setHospitalizationCost(calculateCost(hospitalization.getStartDate(), hospitalization.getEnd_date()));
+        } else {
+            hospitalization.setHospitalizationCost(BigDecimal.ZERO);
+        }
 
         hospitalization = hospitalizationRepository.save(hospitalization);
-        return hospitalization;
+
+        return new HospitalizationCreationResponse("¡La hospitalización se creó exitosamente!", hospitalization.getId() );
     }
 
     public List<Hospitalization> getAllHospitalizations(){
@@ -47,7 +61,7 @@ public class HospitalizationService {
         return hospitalizationRepository.findByComplementaryStudies_Id(complementaryStudyId);
     }
 
-    public Hospitalization updateHospitalization(Long hospitalizationId, HospitalizationDto dto){
+    public Hospitalization updateHospitalization(Long hospitalizationId, HospitalizationRequest dto){
 
         Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
                 .orElseThrow(() -> new EntityNotFoundException("No se ha podido actualizar la hospitalización porque el id ingresado es incorrecto o no existe: " + hospitalizationId));

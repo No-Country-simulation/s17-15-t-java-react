@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class HospitalizationMapper {
 
-    public Hospitalization toEntity(HospitalizationDto dto){
+    public Hospitalization toEntity(HospitalizationRequest dto){
         Hospitalization hospitalization = new Hospitalization();
         hospitalization.setStartDate(dto.startDate());
         hospitalization.setEnd_date(dto.endDate());
@@ -17,8 +17,8 @@ public class HospitalizationMapper {
         hospitalization.setHospitalizationCost(dto.hospitalizationCost());
         return hospitalization;
     }
-    public HospitalizationDto toDto(Hospitalization entity) {
-        return new HospitalizationDto(
+    public HospitalizationRequest toDto(Hospitalization entity) {
+        return new HospitalizationRequest(
                 entity.getStartDate(),
                 entity.getEnd_date(),
                 entity.getHospitalizationCost(),
@@ -28,7 +28,7 @@ public class HospitalizationMapper {
         );
     }
 
-    public List<HospitalizationDto> toDtoList(List<Hospitalization> hospitalizationList) {
+    public List<HospitalizationRequest> toDtoList(List<Hospitalization> hospitalizationList) {
         return hospitalizationList.stream().map(this::toDto).toList();
     }
 }

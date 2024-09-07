@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.HospitalizationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +32,7 @@ public class HospitalizationController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = HospitalizationDto.class)
+                            schema = @Schema(implementation = HospitalizationRequest.class)
                     )
             ),
             responses = {
@@ -39,12 +40,12 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful hospitalization created",
                             content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = HospitalizationDto.class)
+                            schema = @Schema(implementation = HospitalizationRequest.class)
                             )
                     )
             }
     )
-    public ResponseEntity<Hospitalization> addHospitalization(@RequestBody HospitalizationDto dto){
+    public ResponseEntity<HospitalizationCreationResponse> addHospitalization(@RequestBody HospitalizationRequest dto){
         return ResponseEntity.ok(hospitalizationService.addHospitalization(dto));
     }
 
@@ -58,7 +59,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = HospitalizationDto.class)
+                                    schema = @Schema(implementation = HospitalizationRequest.class)
                             )
                     )
             }
@@ -77,7 +78,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = HospitalizationDto.class)
+                                    schema = @Schema(implementation = HospitalizationRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -149,7 +150,7 @@ public class HospitalizationController {
                     description = "Hospitalization object with fields to update",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = HospitalizationDto.class)
+                            schema = @Schema(implementation = HospitalizationRequest.class)
                     )
             ),
             responses = {
@@ -157,7 +158,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Hospitalization Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = HospitalizationDto.class)
+                                    schema = @Schema(implementation = HospitalizationRequest.class)
                             )
                     ),
                     @ApiResponse(
@@ -167,7 +168,7 @@ public class HospitalizationController {
                     )
             }
     )
-    public ResponseEntity<Hospitalization> updateHospitalization(@PathVariable Long hospitalizationId, @RequestBody HospitalizationDto dto) {
+    public ResponseEntity<Hospitalization> updateHospitalization(@PathVariable Long hospitalizationId, @RequestBody HospitalizationRequest dto) {
         return ResponseEntity.ok(hospitalizationService.updateHospitalization(hospitalizationId, dto));
     }
 }

@@ -11,11 +11,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/consultation")
 @RequiredArgsConstructor
+@Validated
 @Tag(name = "Consultation", description = "The Consultation API")
 public class ConsultationController {
 
@@ -121,6 +123,31 @@ public class ConsultationController {
                                                                      @RequestParam(defaultValue = "10") int size,
                                                                      @RequestParam(defaultValue = "") String query) {
         return ResponseEntity.ok(consultationService.searchConsultations(page, size, query));
+    }
+
+    @GetMapping("/search/name-pet")
+    @Operation(
+            summary = "Search Consultations by name of Pet",
+            description = "Search Consultations by name of Pet",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> searchConsultationsByNameOfPet(@RequestParam(defaultValue = "0") int page,
+                                                                            @RequestParam(defaultValue = "10") int size,
+                                                                            @RequestParam(defaultValue = "") String query) {
+        return ResponseEntity.ok(consultationService.searchConsultationsByPetName(page, size, query));
+    }
+
+
+    @GetMapping("/search/name-owner")
+    @Operation(
+            summary = "Search Consultations by name of Owner",
+            description = "Search Consultations by name of Owner",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<Page<ConsultationDto>> searchConsultationsByOwnerName(@RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "10") int size,
+                                                                    @RequestParam(defaultValue = "") String query) {
+        return ResponseEntity.ok(consultationService.searchConsultationsByOwnerName(page, size, query));
     }
 
 

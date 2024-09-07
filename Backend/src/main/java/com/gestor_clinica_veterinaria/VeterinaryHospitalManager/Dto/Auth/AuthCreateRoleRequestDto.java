@@ -1,9 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Auth;
 
 import jakarta.validation.constraints.Size;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-@Validated
-public record AuthCreateRoleRequestDto(@Size(min = 1) List<String> roles) {
+public record AuthCreateRoleRequestDto(@Size(max = 1, message = "roles must be a maximum of 1 character in length" ) List<String> roles) {
 }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record HospitalizationDto(
+public record HospitalizationRequest(
 
         @NotBlank(message = "la hospitalización debe tener una fecha de inicio.")
         LocalDate startDate,

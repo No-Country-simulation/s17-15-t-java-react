@@ -30,8 +30,13 @@ public class InvoiceEntity {
 
     private BigDecimal totalCost;
 
+    @Column(name = "veterinarian_name", nullable = false)
     private String veterinarianName;
+
+    @Column(name = "owner_name", nullable = false)
     private String ownerName;
+
+    @Column(name = "pet_name", nullable = false)
     private String petName;
 
 }

@@ -1,6 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class TreatmentMapper {
 
-    public Treatment toEntity(TreatmentDto dto){
+    public Treatment toEntity(TreatmentRequest dto){
         Treatment treatment = new Treatment();
         treatment.setTreatmentDescription(dto.treatmentDescription());
         treatment.setDuration(dto.duration());
@@ -23,8 +23,8 @@ public class TreatmentMapper {
         return treatment;
     }
 
-    public TreatmentDto toDto(Treatment entity) {
-        return new TreatmentDto(
+    public TreatmentRequest toDto(Treatment entity) {
+        return new TreatmentRequest(
                 entity.getTreatmentDescription(),
                 entity.getDuration(),
                 entity.getAdditionalObservations(),
@@ -35,7 +35,7 @@ public class TreatmentMapper {
     }
 
 
-    public List<TreatmentDto> toDtoList(List<Treatment> treatmentList) {
+    public List<TreatmentRequest> toDtoList(List<Treatment> treatmentList) {
         return treatmentList.stream().map(this::toDto).toList();
     }
 }

@@ -2,9 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumSexPet;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Especie;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Sexo;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,10 +47,7 @@ public class Pet {
 
   private String details;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Owner.class)
   @JoinColumn(name = "owner_id", nullable = false)
   private Owner owner;
-
-//  @OneToMany(mappedBy = "consultation")
-//  private Lis<Consultation> consultationList;
 }

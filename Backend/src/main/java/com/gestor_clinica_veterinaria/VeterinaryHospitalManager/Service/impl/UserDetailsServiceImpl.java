@@ -11,6 +11,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Veterinar
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.RoleRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.UserRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.VeterinarianRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,12 +25,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
@@ -61,7 +65,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 userEntity.isAccountNoLocked(),
                 authorities);
     }*/
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Veterinarian userEntity = veterinarianRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
@@ -69,9 +72,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        userEntity.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_".concat(role.getEnumRole().name())));
-        });
+        userEntity.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_".concat(role.getEnumRole().name()))));
 
         userEntity.getRoles().stream()
                 .flatMap(role -> role.getPermissions().stream())
@@ -86,7 +87,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 authorities);
     }
 
-    public AuthResponseDto loginUser(AuthLoginRequestDto authDto) {
+    public AuthResponseDto loginUser(@Valid AuthLoginRequestDto authDto) {
         String username = authDto.username();
         String password = authDto.password();
 
@@ -181,7 +182,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //return new AuthResponseRegisterDto(username, "User created successfully", accessToken, true);
     }*/
 
-    public AuthResponseRegisterDto createUser(AuthCreateUserRequestDto authCreateUserDto) {
+    @Transactional
+    public AuthResponseRegisterDto createUser(@Valid AuthCreateUserRequestDto authCreateUserDto) {
 
         String username = authCreateUserDto.username();
         String apellido = authCreateUserDto.lastName();
@@ -221,9 +223,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         ArrayList<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
 
-        veterinarioCreated.getRoles().forEach(role -> {
-            authoritiesList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getEnumRole().name())));
-        });
+        veterinarioCreated.getRoles().forEach(role -> authoritiesList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getEnumRole().name()))));
 
         veterinarioCreated.getRoles().stream()
                 .flatMap(role -> role.getPermissions().stream())

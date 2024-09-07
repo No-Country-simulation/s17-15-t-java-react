@@ -1,4 +1,8 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy;
 
-public class StudyResponse {
+public record StudyCreatedResponse(
+        String message,
+        Long studyId
+){
+
 }
