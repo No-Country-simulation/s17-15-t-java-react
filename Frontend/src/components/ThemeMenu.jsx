@@ -3,41 +3,41 @@ function ThemeMenu() {
         "default",
         "light",
         "dark",
-        "cupcake",
-        "bumblebee",
-        "emerald",
-        "corporate",
+        // "cupcake",
+        // "bumblebee",
+        // "emerald",
+        // "corporate",
         "synthwave",
-        "retro",
-        "cyberpunk",
-        "valentine",
+        // "retro",
+        // "cyberpunk",
+        // "valentine",
         "halloween",
-        "garden",
-        "forest",
+        // "garden",
+        // "forest",
         "aqua",
         "lofi",
-        "pastel",
-        "fantasy",
-        "wireframe",
+        // "pastel",
+        // "fantasy",
+        // "wireframe",
         "black",
         "luxury",
         "dracula",
         "cmyk",
-        "autumn",
-        "business",
-        "acid",
-        "lemonade",
-        "night",
+        // "autumn",
+        // "business",
+        // "acid",
+        // "lemonade",
+        // "night",
         "coffee",
-        "winter",
-        "dim",
-        "nord",
-        "sunset"
+        // "winter",
+        // "dim",
+        // "nord",
+        // "sunset"
     ];
 
     return (
         <div className="dropdown">
-            <div tabIndex={1} role="button" className="btn btn-primary btn-sm m-1">
+            <div tabIndex={1} role="button" className="btn btn-blue btn-sm m-1 bg-base-300 opacity-80  border-opacity-60">
                 Theme
                 <svg
                     width="12px"

@@ -60,7 +60,7 @@ function Login() {
                     //             return profileResponse.json();
                     //         })
                     //         .then((profileData) =>
-                    //             login(responseData.token, profileData.user__id)
+                    //             login(responseData.jwt, profileData.user__id)
                     //         )
                     //         .catch((error) => {
                     //             console.error(
@@ -198,7 +198,7 @@ function Login() {
                             />
                         </div>
 
-                        <div className="form-control">
+                        <div className="form-control relative">
                             <label className="label">
                                 <span className="label-text">Contraseña:</span>
                             </label>
@@ -211,6 +211,12 @@ function Login() {
                                 className="input input-bordered"
                                 required
                             />
+                            <div
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                onClick={togglePasswordVisibility}
+                            >
+                                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                            </div>
                             <label className="label">
                                 <Link to="/" className="label-text-alt link link-hover">¿Olvidaste tu contraseña?</Link>
                             </label>
@@ -219,13 +225,13 @@ function Login() {
                         <div className="form-control mt-4 flex items-center justify-between w-full">
                             <button
                                 type="submit"
-                                className="btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-sm w-1/2">
+                                className="btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-sm w-1/2 opacity-90 text-base-100">
                                 {isLoading ? (
                                     <div className="inline-flex items-center">
                                         <span className="loading loading-spinner text-success"></span>
-                                        <p className="ml-2">Loading...</p>
+                                        <p className="ml-2">Iniciar...</p>
                                     </div>
-                                ) : "Login"}
+                                ) : "Iniciar"}
                             </button>
                         </div>
 
