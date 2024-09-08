@@ -1,33 +1,92 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import EditPet from './EditPet';
 
-function PetCard({ pet }) {
-  return (
-    <li>
-      <Link to={`/pets/${pet.id}`} className="hover:bg-blue-500 hover:ring-blue-500 hover:shadow-md group rounded-md p-3 bg-black ring-1 ring-slate-800 shadow-sm">
-        <dl className="grid sm:block lg:grid xl:block grid-cols-2 grid-rows-2 items-center">
-          <div>
-            <dt className="sr-only">Name</dt>
-            <dd className="group-hover:text-white font-semibold text-slate-900">
-              {pet.name}
-            </dd>
-          </div>
-          <div>
-            <dt className="sr-only">Species</dt>
-            <dd className="group-hover:text-blue-200">{pet.species}</dd>
-          </div>
-          <div>
-            <dt className="sr-only">Race</dt>
-            <dd className="group-hover:text-blue-200">{pet.race}</dd>
-          </div>
-          <div>
-            <dt className="sr-only">Details</dt>
-            <dd className="group-hover:text-blue-200">{pet.details}</dd>
-          </div>
-        </dl>
-      </Link>
-    </li>
-  );
+import { useAuth } from '../../contexts/AuthContext';
+import ConfirmDeleteModal from '../UI/ConfirmDeleteModal';
+
+
+function PetCard({ petObj, deletePet, updateListArray}) {
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth('state');
+    // const imagenDefault = 'https://www.forumchaves.com.br/listach/site/imagens/imagem_indisponivel_es.jpg';
+    const [modal, setModal] = useState(false);
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); //  modal de confirm delete
+
+    const toggle = () => {
+        setModal(!modal);
+    };
+
+    const updatePet = (fromData, id) => {
+        updateListArray(fromData, id);
+    };
+
+    const handleDelete = () => {
+        deletePet(petObj.id);
+    };
+
+    return (
+        <div className="shadow-lg rounded-lg relative gap-1"
+        onClick={() => navigate("/mascota/" + petObj.id)}>
+            {/* <div className="bg-gradient-to-r from-red-400 via-pink-500 to-purple-600 h-2 w-full rounded-t-lg"></div> */}
+            {/* <div className="bg-gradient-to-r from-blue-600 to-cyan-400 h-2 w-full rounded-t-lg"></div> */}
+            {/* <div className="bg-gradient-to-r from-cyan-400 to-blue-600 w-full rounded-t-lg"></div> */}
+
+
+            <div className="">
+                {/* <span className="glass text-slate-200 text-center text-sm font-semibold bg-gray-700 p-2 bg-opacity-90 rounded-lg block">
+                    {songArtistObj.title}
+                </span> */}
+               
+                
+                        <p className="btn btn-xs bg-primary bg-opacity-90 rounded-xl text-base-100 shadow-2xl text-center min-w-20 border-[1px] border-primary border-opacity-60 overflow-ellipsis">{petObj.name ? petObj.name : "No disponible"}</p>
+                        {/* <p className="text-xs overflow-hidden overflow-ellipsis">{songArtistObj.song ? songArtistObj.song : "informacion no disponible"}</p> */}
+       
+
+
+                {/* {isAuthenticated && (
+                    <div className="absolute bottom-0 flex right-0 px-0.5 space-x-1 bg-base-300 rounded-lg bg-opacity-95">
+                        <FaEdit
+                            className=" cursor-pointer text-green-700"
+                            onClick={() => setModal(true)}
+                            size={7}
+                        />
+                        <FaTrashAlt
+                            className="cursor-pointer text-red-700"
+                            // onClick={handleDelete}
+                            onClick={() => setIsDeleteModalOpen(true)}
+
+                            size={7}
+
+                        />
+                    </div>)} */}
+                {/* <div className="bg-gradient-to-r from-blue-600 to-cyan-400 h-2 w-full rounded-b-lg"></div> */}
+
+                {/* <div className="bg-gradient-to-r from-red-400 via-pink-500 to-purple-600 h-2 w-full rounded-b-lg"></div> */}
+
+
+                {/* <div className="h-2 w-full bg-blue-500 rounded-b-lg"></div> */}
+            </div>
+            <EditPet
+                modal={modal}
+                toggle={toggle}
+                updatePet={updatePet}
+                objPet={petObj}
+            />
+
+            <ConfirmDeleteModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={() => {
+                    handleDelete();
+                    setIsDeleteModalOpen(false);
+                }}
+                message="Are you sure you want to delete this Artists?"
+            />
+        </div>
+    );
 }
 
 export default PetCard;

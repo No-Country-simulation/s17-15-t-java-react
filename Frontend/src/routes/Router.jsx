@@ -8,6 +8,7 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
+import PetDetail from "../pages/PetDetail";
 
 const Router = createBrowserRouter(
     [
@@ -20,7 +21,12 @@ const Router = createBrowserRouter(
                 },
                 {
                     path: "/home",
-                    element: <Home />,
+                    element:
+                        (
+                            <ProtectedRoute>
+                                <Home />
+                            </ProtectedRoute>
+                        ),
                 },
                 {
                     path: "/profile",
@@ -31,9 +37,23 @@ const Router = createBrowserRouter(
                     ),
                 },
                 {
-                    path: "/login",
-                    element: <Login />,
-                },            
+                    path: "/mascota",
+                    children: [
+                        {
+                            path: ":id",
+                            element: (
+                                <ProtectedRoute>
+                                    <PetDetail />
+                                </ProtectedRoute>
+                            ),
+                        },
+                    ]
+
+                },
+                // {
+                //     path: "/login",
+                //     element: <Login />,
+                // },            
 
             ],
         },
