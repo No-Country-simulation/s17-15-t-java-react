@@ -34,6 +34,8 @@ public record RequestCreateSurgery(
 
       //  @NotNull(message = "consultationId cannot be null")
       //  Long consultationId
+     Long diagnosticId,
+     Long veterinarianId,
      LocalDate dateSurgery,
      String surgeryType,
      String surgeryProcedure,

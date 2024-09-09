@@ -34,13 +34,13 @@ public class Surgery {
     private Veterinarian veterinarian;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consultation_id")
-    private  ConsultationEntity consultationEntity;
+    private  ConsultationEntity consultationEntity;*/
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diagnostic_entity_id")
-    private DiagnosticEntity DiagnosticEntity;
+    @ManyToOne(targetEntity = DiagnosticEntity.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "diagnostic_id")
+    private DiagnosticEntity diagnosis;
 
 }

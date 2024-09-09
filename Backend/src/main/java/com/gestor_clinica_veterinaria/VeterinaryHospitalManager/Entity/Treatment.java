@@ -34,7 +34,7 @@ public class Treatment {
     @JoinColumn(name = "diagnosis_id" )
     private DiagnosticEntity diagnosis;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Hospitalization.class)
     @JoinColumn(name = "hospitalization_id")
     private Hospitalization hospitalization;
 

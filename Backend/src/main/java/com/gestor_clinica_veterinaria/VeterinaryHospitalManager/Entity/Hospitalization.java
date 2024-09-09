@@ -34,10 +34,10 @@ public class Hospitalization {
     @Column(name = "paid")
     private boolean paid = false;
 
-    @OneToMany(mappedBy = "hospitalization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hospitalization", targetEntity = ComplementaryStudy.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ComplementaryStudy> complementaryStudies;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hospitalization", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hospitalization", fetch = FetchType.LAZY, targetEntity = Treatment.class)
     private List<Treatment> treatments;
 
 }

@@ -48,7 +48,7 @@ public class ConsultationEntity{
     private List<DiagnosticEntity> diagnostics;
 
 
-    @OneToMany(targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "consultation", targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY)
     private List<ComplementaryStudy> complementaryStudies;
 
 }

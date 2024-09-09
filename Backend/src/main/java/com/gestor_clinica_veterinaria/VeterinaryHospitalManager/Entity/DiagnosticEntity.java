@@ -40,11 +40,9 @@ public class DiagnosticEntity {
     @OneToMany(mappedBy = "diagnosis", targetEntity = Treatment.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Treatment> treatments;
 
-    @OneToMany(targetEntity = Surgery.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_diagnosis")
+    @OneToMany(mappedBy = "diagnosis", targetEntity = Surgery.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Surgery> surgerys;
 
-    @OneToMany(targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_diagnosis")
+    @OneToMany(mappedBy = "diagnosis", targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ComplementaryStudy> complementaryStudies;
 }

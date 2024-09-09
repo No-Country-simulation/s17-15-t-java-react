@@ -127,7 +127,7 @@ public class DiagnosticService {
     @Transactional(readOnly = true)
     public DiagnosticDto getDiagnosisBySurgeryId(Long surgeryId) {
         Surgery surgery = surgeryRepository.findById(surgeryId).orElseThrow(() -> new SurgeryNotFoundException("La cirugiá no existe"));
-        DiagnosticEntity diagnostic = surgery.getDiagnosticEntity();
+        DiagnosticEntity diagnostic = surgery.getDiagnosis();
         return diagnosticMapper.toDto(diagnostic);
     }
 
