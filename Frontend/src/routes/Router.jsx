@@ -9,58 +9,60 @@ import About from "../pages/About";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import PetDetail from "../pages/PetDetail";
+import EditConsultation from "../components/consultationpet/editConsultation";
 
 const Router = createBrowserRouter(
-    [
+  [
+    {
+      element: <Layout />,
+      children: [
         {
-            element: <Layout />,
-            children: [
-                {
-                    path: "/",
-                    element: <Login />,
-                },
-                {
-                    path: "/home",
-                    element:
-                        (
-                            <ProtectedRoute>
-                                <Home />
-                            </ProtectedRoute>
-                        ),
-                },
-                {
-                    path: "/profile",
-                    element: (
-                        <ProtectedRoute>
-                            <Profile />
-                        </ProtectedRoute>
-                    ),
-                },
-                {
-                    path: "/mascota",
-                    children: [
-                        {
-                            path: ":id",
-                            element: (
-                                <ProtectedRoute>
-                                    <PetDetail />
-                                </ProtectedRoute>
-                            ),
-                        },
-                    ]
-
-                },
-                // {
-                //     path: "/login",
-                //     element: <Login />,
-                // },            
-
-            ],
+          path: "/",
+          element: <Login />,
         },
-    ],
-    // {
-    //     basename: "/....",
-    // }
+        {
+          path: "/home",
+          element: (
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/profile",
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/mascota",
+          children: [
+            {
+              path: ":id",
+              element: (
+                <ProtectedRoute>
+                  <PetDetail />
+                </ProtectedRoute>
+              ),
+            },
+          ],
+        },
+        {
+          path: "/editConsult",
+          element: <EditConsultation />,
+        },
+        // {
+        //     path: "/login",
+        //     element: <Login />,
+        // },
+      ],
+    },
+  ]
+  // {
+  //     basename: "/....",
+  // }
 );
 
 export default Router;
