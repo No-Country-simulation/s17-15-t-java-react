@@ -14,17 +14,17 @@ export default {
     themes: [
       {
         mytheme: {
-          "primary": "#f7911f",
-          "primary-content": "#e6d9ff",
-          "secondary": "#00c5ff",
-          "secondary-content": "#000e16",
+          "primary": "#f7911f", //color naranja
+          "primary-content": "#e6d9ff", 
+          "secondary": "#00c5ff", 
+          "secondary-content": "#000e16", 
           "accent": "#00baff",
           "accent-content": "#000d16",
           "neutral": "#ffffff",
           "neutral-content": "#cacaca",
           "base-100": "#e6ffff",
           "base-200": "#c8dede",
-          "base-300": "#986c34",
+          "base-300": "#986c34", //color marron
           "base-content": "#131616",
           "info": "#009ec3",
           "info-content": "#00090e",

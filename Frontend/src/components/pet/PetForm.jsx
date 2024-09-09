@@ -48,7 +48,7 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const perData = {
+        const petData = {
             name: petName,
             race: race,
             species: species,

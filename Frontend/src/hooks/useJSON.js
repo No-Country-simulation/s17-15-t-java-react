@@ -158,8 +158,8 @@ const useFormData = (baseURL, token, filter = '') => {
     const updateItem = useCallback(async (jsonData, id) => {
         dispatch({ type: actionTypes.UPDATE_INIT });
         try {
-            const result = await fetchRequest(`${baseURL}${id}/`, {
-                method: 'PATCH',
+            const result = await fetchRequest(`${baseURL}/${id}`, {
+                method: 'PUT',
                 headers: {
                     'Authorization': `Token ${token}`,
                     'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ const useFormData = (baseURL, token, filter = '') => {
     const deleteItem = useCallback(async (id) => {
         dispatch({ type: actionTypes.DELETE_INIT });
         try {
-            await fetchRequest(`${baseURL}${id}/`, {
+            await fetchRequest(`${baseURL}/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`

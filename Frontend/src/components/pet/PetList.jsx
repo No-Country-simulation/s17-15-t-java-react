@@ -24,8 +24,8 @@ function PetList(id) {
     // if (!artistsData) return <p>No hay datos disponibles de artist</p>;
 
 
-    const baseURL = `https://veterinaria-bef3.onrender.com/`;
-    const filter = `pet/owner/${id.id}`
+    const baseURL = `https://veterinaria-bef3.onrender.com/pet`;
+    const filter = `/owner/${id.id}`
 
 
     const {
@@ -110,18 +110,9 @@ function PetList(id) {
             {/* <h3 className="text-2xl font-bold mb-4">Albums List</h3> */}
 
 
-            <div className="flex justify-between items-center pr-5 pb-2">
+            <div className="flex justify-between items-center pb-2">
                 <h2 className='font-semibold'>Mascota:</h2>
-                <button
-                    className="tooltip tooltip-right btn btn-xs bg-base-300 bg-opacity-90 text-base-100 px-2 inline-flex items-center justify-center text-[8px]" data-tip="Agregar Mascota"
-                    onClick={() => setModal(true)}
-                >
 
-                    <FaPlus size={10} />
-
-
-
-                </button>
                 {/* <button className={`${previous ? "text-blue-500" : "text-gray-400 cursor-not-allowed"
                     }`} onClick={handlePreviousPage} disabled={!previous}><GrFormPreviousLink size={20} /></button> */}
 
@@ -129,6 +120,14 @@ function PetList(id) {
 
                 {/* <button className={`${next ? "text-blue-500" : "text-gray-400 cursor-not-allowed"
                     }`} onClick={handleNextPage} disabled={!next}><GrFormNextLink size={20} /></button> */}
+                <button
+                    className="tooltip tooltip-right btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis border-base-300" data-tip="Agregar Mascota"
+                    onClick={() => setModal(true)}
+                >
+                    <FaPlus size={10} />
+
+                </button>
+
             </div>
             {/* </div> */}
 
@@ -144,7 +143,17 @@ function PetList(id) {
                     />
 
                 ))}
+
             </div>
+            {/* <button
+                    className="absolute buttom-0 right-3 tooltip tooltip-right btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis" data-tip="Agregar Mascota"
+                    onClick={() => setModal(true)}
+                >
+                    <FaPlus size={10} />Agregar
+
+                </button> */}
+
+
 
 
             <CreatePet toggle={() => setModal(!modal)} modal={modal} save={handleSave} idpet={id.id} />

@@ -12,8 +12,8 @@ import useFormData from '../../hooks/useJSON.js';
 function OwnerList() {
     const { jwt, user__id } = useAuth("state");
     const [modal, setModal] = useState(false);
-    const baseURL = "https://veterinaria-bef3.onrender.com/";
-    const filtro = `owner`;
+    const baseURL = "https://veterinaria-bef3.onrender.com/owner";
+    const filtro = ``;
 
 
     const {
@@ -23,7 +23,7 @@ function OwnerList() {
         updateItem, isUpdating, updateError,
         deleteItem, isDeleting, deleteError,
         fetchData, fetchNextPage, fetchPreviousPage
-    } = useFormData(baseURL, jwt, filtro);
+    } = useFormData(baseURL, jwt);
 
 
     //READ
@@ -99,7 +99,7 @@ function OwnerList() {
                 <h3 className="text-2xl font-bold mb-4">
 
                     {/* <h3 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-700 via-green-700 to-blue-700"> */}
-                    Owner List</h3>
+                    Aqui va la barra Busqueda</h3>
 
                 <button
                     className="bg-primary text-white p-2 rounded-full inline-flex items-center justify-center bg-opacity-90"
