@@ -8,7 +8,7 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
-import PetDetail from "../pages/PetDetail";
+import PetDetail2 from "../pages/PetDetail2";
 
 const Router = createBrowserRouter(
     [
@@ -43,7 +43,7 @@ const Router = createBrowserRouter(
                             path: ":id",
                             element: (
                                 <ProtectedRoute>
-                                    <PetDetail />
+                                    <PetDetail2 />
                                 </ProtectedRoute>
                             ),
                         },
