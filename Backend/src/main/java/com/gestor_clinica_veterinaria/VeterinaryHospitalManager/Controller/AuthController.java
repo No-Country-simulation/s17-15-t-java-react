@@ -83,14 +83,8 @@ public class AuthController {
             }
     )
     public ResponseEntity<?> login(@RequestBody @Valid AuthLoginRequestDto authDto) {
-        try {
             AuthResponseDto response = this.userDetailsServiceImpl.loginUser(authDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (BadCredentialsException e) {
-            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred during login", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PostMapping("/register")
