@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ComplementaryStudyMapper {
@@ -34,19 +35,19 @@ public class ComplementaryStudyMapper {
         study.setStudyCost(dto.studyCost());
 
         if (dto.consultationId() != null) {
-            ConsultationEntity consultation = consultationRepository.findById(dto.consultationId())
+            ConsultationEntity consultation = consultationRepository.findById(dto.consultationId().get())
                     .orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada con ID: " + dto.consultationId()));
             study.setConsultation(consultation);
         }
 
         if (dto.diagnosisId() != null) {
-            DiagnosticEntity diagnosis = diagnosticEntityRepository.findById(dto.diagnosisId())
+            DiagnosticEntity diagnosis = diagnosticEntityRepository.findById(dto.diagnosisId().get())
                     .orElseThrow(() -> new EntityNotFoundException("Diagnóstico no encontrado con ID: " + dto.diagnosisId()));
             study.setDiagnosis(diagnosis);
         }
 
         if (dto.hospitalizationId() != null) {
-            Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
+            Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId().get())
                     .orElseThrow(() -> new EntityNotFoundException("Hospitalización no encontrada con ID: " + dto.hospitalizationId()));
             study.setHospitalization(hospitalization);
         }
@@ -61,9 +62,9 @@ public class ComplementaryStudyMapper {
                 entity.getStudyState(),
                 entity.getStudyFile(),
                 entity.getStudyCost(),
-                entity.getDiagnosis() != null ? entity.getDiagnosis().getId() : null,
-                entity.getHospitalization() != null ? entity.getHospitalization().getId() : null,
-                entity.getConsultation() != null ? entity.getConsultation().getId() : null
+                Optional.ofNullable(entity.getDiagnosis() != null ? entity.getDiagnosis().getId() : null),
+                Optional.ofNullable(entity.getConsultation() != null ? entity.getConsultation().getId() : null),
+                Optional.ofNullable(entity.getHospitalization() != null ? entity.getHospitalization().getId() : null)
         );
     }
 

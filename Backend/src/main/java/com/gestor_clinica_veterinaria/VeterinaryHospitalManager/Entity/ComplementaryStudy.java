@@ -1,15 +1,11 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -40,10 +36,6 @@ public class ComplementaryStudy {
 
     @Column(name = "file")
     private String studyFile;
-
-//    @Lob
-//    @Column(name = "file")
-//    private byte[] studyFile;
 
     @Column(name = "study_cost", precision = 10, scale = 2, nullable = false )
     private BigDecimal studyCost ;

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public record StudyRequest(
         @NotNull(message = "El estudio debe contener una fecha correspondiente al día que se ejecuta el mismo, con este formato: yyyy-MM-dd")
@@ -21,15 +22,14 @@ public record StudyRequest(
 
         @NotNull(message = "El estudio debe tener un estado.")
         EnumStudyState studyState,
-        //byte[] studyFile,
         String studyFile,
         @NotNull(message = "El estudio debe tener un costo.")
         BigDecimal studyCost,
 
-        Long consultationId,
+        Optional<Long> consultationId,
 
-        Long diagnosisId,
+        Optional<Long> diagnosisId,
 
-        Long hospitalizationId
+        Optional<Long> hospitalizationId
     ){
 }
