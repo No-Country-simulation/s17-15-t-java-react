@@ -22,7 +22,7 @@ public record StudyRequest(
 
         @NotNull(message = "El estudio debe tener un estado.")
         EnumStudyState studyState,
-        String studyFile,
+        Optional<String> studyFile,
         @NotNull(message = "El estudio debe tener un costo.")
         BigDecimal studyCost,
 

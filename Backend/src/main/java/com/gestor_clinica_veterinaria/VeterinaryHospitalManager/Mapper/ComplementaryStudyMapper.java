@@ -1,13 +1,11 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.HospitalizationRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.FileStorageService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,7 +29,6 @@ public class ComplementaryStudyMapper {
         study.setStudyType(dto.studyType());
         study.setStudyResult(dto.studyResult());
         study.setStudyState(dto.studyState());
-        study.setStudyFile(dto.studyFile());
         study.setStudyCost(dto.studyCost());
 
         if (dto.consultationId() != null) {
@@ -60,7 +57,7 @@ public class ComplementaryStudyMapper {
                 entity.getStudyType(),
                 entity.getStudyResult(),
                 entity.getStudyState(),
-                entity.getStudyFile(),
+                Optional.ofNullable(entity.getStudyFile()),
                 entity.getStudyCost(),
                 Optional.ofNullable(entity.getDiagnosis() != null ? entity.getDiagnosis().getId() : null),
                 Optional.ofNullable(entity.getConsultation() != null ? entity.getConsultation().getId() : null),

@@ -21,7 +21,7 @@ public class ComplementaryStudy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "examination_day", length = 10, nullable = false)
+    @Column(name = "examination_day", length = 11, nullable = false)
     private LocalDate examinationDate;
 
     @Column(name = "study_type", length = 50, nullable = false)
