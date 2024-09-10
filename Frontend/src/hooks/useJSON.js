@@ -56,7 +56,12 @@ const apiReducer = (state, action) => {
         case actionTypes.CREATE_INIT:
             return { ...state, isCreating: true, createError: null };
         case actionTypes.CREATE_SUCCESS:
-            return { ...state, isCreating: false, data: [...state.data, action.payload] };
+            return { 
+                ...state, 
+                isCreating: false, 
+                data: [...state.data, action.payload],
+                newItemId: action.payload.id // Aquí se guarda el id del nuevo elemento 
+            };
         case actionTypes.CREATE_FAILURE:
             return { ...state, isCreating: false, createError: action.error };
 

@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-
 function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner = null }) {
     const [petName, setPetName] = useState('');
     const [race, setRace] = useState('');
-    const [species, setSpecies] = useState('');
+    const [species, setSpecies] = useState('PERRO');
     const [birthdate, setBirthdate] = useState('');
-    const [sex, setSex] = useState('')
-    const [allergies, setAllergies] = useState('')
-    const [castrated, setCastrated] = useState(false)
-    const [active, setActive] = useState(true)
-    const [details, setDetails] = useState('')
-    const [ownerID, setOwnerID] = useState(0)
+    const [sex, setSex] = useState('MACHO');
+    const [allergies, setAllergies] = useState('');
+    const [castrated, setCastrated] = useState(false);
+    const [active, setActive] = useState(true);
+    const [details, setDetails] = useState('');
+    const [ownerID, setOwnerID] = useState(0);
 
     useEffect(() => {
         if (isEdit && objPet) {
@@ -23,28 +22,48 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
             setSex(objPet.sex || 'MACHO');
             setAllergies(objPet.allergies || '');
             setCastrated(objPet.castrated || false);
-            setActive(objPet.active || true)
-            setDetails(objPet.active || '')
-            setOwnerID(objPet.owner_id || 0)
+            setActive(objPet.active || true);
+            setDetails(objPet.details || '');
+            setOwnerID(objPet.owner_id || 0);
         } else {
-            setOwnerID(idOwner)
+            setOwnerID(idOwner);
         }
     }, [isEdit, objPet]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === "petName") setPetName(value);
-        if (name === "race") setRace(value);
-        if (name === "species") setSpecies(value);
-        if (name === "birthdate") setBirthdate(value);
-        if (name === "sex") setSex(value);
-        if (name === "allergies") setAllergies(value);
-        if (name === "castrated") setCastrated(value);
-        if (name === "active") setActive(value);
-        if (name === "details") setDetails(value);
-
+        const { name, value, type, checked } = e.target;
+        switch (name) {
+            case 'petName':
+                setPetName(value);
+                break;
+            case 'race':
+                setRace(value);
+                break;
+            case 'species':
+                setSpecies(value);
+                break;
+            case 'birthdate':
+                setBirthdate(value);
+                break;
+            case 'sex':
+                setSex(value);
+                break;
+            case 'allergies':
+                setAllergies(value);
+                break;
+            case 'castrated':
+                setCastrated(type === 'checkbox' ? checked : value);
+                break;
+            case 'active':
+                setActive(type === 'checkbox' ? checked : value);
+                break;
+            case 'details':
+                setDetails(value);
+                break;
+            default:
+                break;
+        }
     };
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -56,10 +75,10 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
             sex: sex,
             allergies: allergies,
             castrated: castrated,
-            castrated: active,
+            active: active,
             details: details,
-            owner_id: ownerID
-        }
+            owner_id: ownerID,
+        };
 
         onSave(petData, isEdit ? objPet.id : null);
         toggle(false);
@@ -79,44 +98,151 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                     </button>
                 </div>
                 <form onSubmit={handleSubmit} className="px-4 pb-4">
-
-                    <label className="form-control w-full max-w-xs pb-2">
-                        <div className="label">
-                            <span className="label-text font-semibold text-base-300">Nombre:</span>
-                            <span className="label-text-alt text-red-500">Requerido</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Nombre:</span>
+                                <span className="label-text-alt text-red-500">Requerido</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="petName"
+                                value={petName}
+                                onChange={handleChange}
+                                placeholder="Ingresar nombre"
+                                required
+                                className="input input-bordered w-full"
+                            />
                         </div>
-                        <input
-                            type="text"
-                            name="petName"
-                            value={petName}
-                            onChange={handleChange}
-                            placeholder="Ingresar nombre"
-                            required
-                            className="input input-bordered w-full max-w-xs"
-                        />
-                    </label>
 
-                    <label className="form-control w-full max-w-xs pb-2">
-                        <div className="label">
-                            <span className="label-text font-semibold text-base-300">Raza:</span>
-                            {/* <span className="label-text-alt text-red-500">Requerido</span> */}
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Raza:</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="race"
+                                value={race}
+                                onChange={handleChange}
+                                placeholder="Ingresar raza"
+                                required
+                                className="input input-bordered w-full"
+                            />
                         </div>
-                        <input
-                            type="text"
-                            name="race"
-                            value={race}
-                            onChange={handleChange}
-                            placeholder="Ingresar raza"
-                            required
-                            className="input input-bordered w-full max-w-xs"
-                        />
-                    </label>
 
-                    <div className="join">
-                        <label className="block text-gray-700 text-sm font-medium mb-2 pr-2">Sexo:</label>
-                        <input className="join-item btn" type="radio" name="options" aria-label="MACHO" />
-                        <input className="join-item btn" type="radio" name="options" aria-label="HEMBRA" />
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Especie:</span>
+                            </div>
+                            <select
+                                name="species"
+                                value={species}
+                                onChange={handleChange}
+                                className="input input-bordered w-full"
+                            >
+                                <option value="PERRO">PERRO</option>
+                                <option value="GATO">GATO</option>
+                                <option value="OTRO">OTRO</option>
+                            </select>
+                        </div>
+
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Fecha de Nacimiento:</span>
+                            </div>
+                            <input
+                                type="date"
+                                name="birthdate"
+                                value={birthdate}
+                                onChange={handleChange}
+                                className="input input-bordered w-full"
+                            />
+                        </div>
+
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Sexo:</span>
+                            </div>
+                            <div className="join">
+                                <label className="cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="sex"
+                                        value="MACHO"
+                                        checked={sex === 'MACHO'}
+                                        onChange={handleChange}
+                                        className="radio"
+                                    />
+                                    <span className="ml-2">MACHO</span>
+                                </label>
+                                <label className="cursor-pointer ml-4">
+                                    <input
+                                        type="radio"
+                                        name="sex"
+                                        value="HEMBRA"
+                                        checked={sex === 'HEMBRA'}
+                                        onChange={handleChange}
+                                        className="radio"
+                                    />
+                                    <span className="ml-2">HEMBRA</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Alergias:</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="allergies"
+                                value={allergies}
+                                onChange={handleChange}
+                                placeholder="Ingresar alergias"
+                                className="input input-bordered w-full"
+                            />
+                        </div>
+
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Castrado:</span>
+                            </div>
+                            <input
+                                type="checkbox"
+                                name="castrated"
+                                checked={castrated}
+                                onChange={handleChange}
+                                className="checkbox"
+                            />
+                        </div>
+
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Activo:</span>
+                            </div>
+                            <input
+                                type="checkbox"
+                                name="active"
+                                checked={active}
+                                onChange={handleChange}
+                                className="checkbox"
+                            />
+                        </div>
                     </div>
+
+                    <div className="form-control w-full pb-2">
+                        <div className="label">
+                            <span className="label-text font-semibold text-base-300">Detalles:</span>
+                        </div>
+                        <textarea
+                            name="details"
+                            value={details}
+                            onChange={handleChange}
+                            placeholder="Ingresar detalles"
+                            className="textarea textarea-bordered w-full"
+                        />
+                    </div>
+
                     <div className="flex justify-end">
                         <button
                             type="submit"
@@ -139,3 +265,4 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
 }
 
 export default PetForm;
+

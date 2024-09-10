@@ -19,9 +19,6 @@ function PetList(id) {
     const { jwt } = useAuth("state");
     const [modal, setModal] = useState(false);
 
-    // if ( isArtistsLoading ) return <p>Cargando Artists...</p>;
-    // if (isArtistsError ) return <p>Error al cargar artists</p>;
-    // if (!artistsData) return <p>No hay datos disponibles de artist</p>;
 
 
     const baseURL = `https://veterinaria-bef3.onrender.com/pet`;
@@ -121,10 +118,10 @@ function PetList(id) {
                 {/* <button className={`${next ? "text-blue-500" : "text-gray-400 cursor-not-allowed"
                     }`} onClick={handleNextPage} disabled={!next}><GrFormNextLink size={20} /></button> */}
                 <button
-                    className="tooltip tooltip-right btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis border-base-300" data-tip="Agregar Mascota"
+                    className="absolute bottom-3 right-3 tooltip tooltip-right btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis border-base-300" data-tip="Agregar Mascota"
                     onClick={() => setModal(true)}
                 >
-                    <FaPlus size={10} />
+                    <FaPlus size={10} /> Agregar
 
                 </button>
 
@@ -156,7 +153,7 @@ function PetList(id) {
 
 
 
-            <CreatePet toggle={() => setModal(!modal)} modal={modal} save={handleSave} idpet={id.id} />
+            <CreatePet toggle={() => setModal(!modal)} modal={modal} save={handleSave} idOwner={id.id} />
 
 
             <Status

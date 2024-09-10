@@ -4,8 +4,9 @@ import { MdOutlineEdit } from "react-icons/md";
 import EditOwner from './EditOwner';
 import { useAuth } from '../../contexts/AuthContext';
 import PetList from '../pet/PetList';
+import ConfirmDeleteModal from '../UI/ConfirmDeleteModal';
 
-// taskObj = artistObjDDDDDD    DDDDDDDDDD                                                                                                                                                          SSSDDDDDD S DSSSSSSSSSSSSSSSSSSSSS 
+// taskObj = artistObj                                                                                                                                                     SSSDDDDDD S DSSSSSSSSSSSSSSSSSSSSS 
 // deleteTask = deleteArtist
 // updateListArray = updateArtist
 
@@ -13,6 +14,8 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
     const { isAuthenticated } = useAuth('state');
     const imagenDefault = 'https://www.forumchaves.com.br/listach/site/imagens/imagem_indisponivel_es.jpg';
     const [modal, setModal] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); //  modal de confirm delete
+    const [showPetModal, setShowPetModal] = useState(false);
 
     const toggle = () => {
         setModal(!modal);
@@ -23,7 +26,7 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
     };
 
     const handleDelete = () => {
-        deleteOwner(OwnerObj.id);
+        deleteOwner(ownerObj.id);
     };
 
     return (
@@ -45,7 +48,7 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
                             className="h-full w-full object-cover rounded-lg"
                         />
                     </figure> */}
-  
+
                     <div className="grid grid-cols-1 gap-2 pl-4">
                         <div>
                             {/* <p className='font-bold'>Email:</p> */}
@@ -93,6 +96,15 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
 
                         /> */}
                     </div>)}
+
+                <FaTrashAlt
+                    className="absolute top-16 right-5 text-xl cursor-pointer text-red-700"
+                    //onClick={handleDelete}
+                    onClick={() => setIsDeleteModalOpen(true)}
+
+                    size={15}
+
+                />
                 {/* <div className="bg-gradient-to-r from-blue-600 to-cyan-400 h-2 w-full rounded-b-lg"></div> */}
 
                 {/* <div className="bg-gradient-to-r from-red-400 via-pink-500 to-purple-600 h-2 w-full rounded-b-lg"></div> */}
@@ -105,6 +117,16 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
                 toggle={toggle}
                 updateOwner={updateOwner}
                 objOwner={ownerObj}
+            />
+
+            <ConfirmDeleteModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={() => {
+                    handleDelete();
+                    setIsDeleteModalOpen(false);
+                }}
+                message="Are you sure you want to delete this Owner?"
             />
         </div>
     );
