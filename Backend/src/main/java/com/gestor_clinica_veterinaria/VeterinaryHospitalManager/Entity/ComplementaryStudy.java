@@ -40,11 +40,11 @@ public class ComplementaryStudy {
     @Column(name = "study_cost", precision = 10, scale = 2, nullable = false )
     private BigDecimal studyCost ;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = DiagnosticEntity.class)
     @JoinColumn(name = "diagnosis_id")
-    private DiagnosticEntity diagnosis ;
+    private DiagnosticEntity diagnosis;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = ConsultationEntity.class)
     @JoinColumn(name = "consultation_id")
     private ConsultationEntity consultation;
 

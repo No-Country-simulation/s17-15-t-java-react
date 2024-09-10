@@ -1,9 +1,15 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Veterinarian;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.VeterinarianRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 @SpringBootApplication
-public class VeterinaryHospitalManagerApplication {
+public class VeterinaryHospitalManagerApplication{
 	/*@Autowired
 	private JdbcTemplate jdbcTemplate;
 

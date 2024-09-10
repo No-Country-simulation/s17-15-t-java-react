@@ -8,6 +8,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.Resou
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.SurgeryMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.SurgeryRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.VeterinarianRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.SurgeryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,16 @@ public class SurgeryServiceImpl implements SurgeryService {
     private final SurgeryRepository surgeryRepository;
     private final SurgeryMapper surgeryMapper;
     private final DiagnosticRepository diagnosticRepository;
+    private final VeterinarianRepository veterinarianRepository;
 
     @Override
     public ResponseSurgery addSurgery(RequestCreateSurgery requestCreateSurgery) {
         // Mapeo manual
         Surgery surgery = new Surgery();
+        surgery.setDiagnosis(diagnosticRepository.findById(requestCreateSurgery.diagnosticId())
+                .orElseThrow(() -> new ResourceNotFoundException("El diagnostico solicitado no existe")));
+        surgery.setVeterinarian(veterinarianRepository.findById(requestCreateSurgery.veterinarianId())
+                .orElseThrow(() -> new ResourceNotFoundException("El veterinario solicitado no existe")));
         surgery.setDateSurgery(requestCreateSurgery.dateSurgery());
         surgery.setSurgeryType(requestCreateSurgery.surgeryType());
         surgery.setSurgeryProcedure(requestCreateSurgery.surgeryProcedure());
@@ -36,6 +42,9 @@ public class SurgeryServiceImpl implements SurgeryService {
 
         // Guardar en la base de datos
         Surgery savedSurgery = surgeryRepository.save(surgery);
+
+        savedSurgery.getDiagnosis().getSurgerys().add(savedSurgery);
+        //savedSurgery.getVeterinarian().getSurgeries().add(savedSurgery);
 
         // Mapeo manual de respuesta
         return new ResponseSurgery(

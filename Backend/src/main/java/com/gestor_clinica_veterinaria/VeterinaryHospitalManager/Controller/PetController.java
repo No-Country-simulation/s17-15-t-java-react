@@ -3,6 +3,8 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet.PetRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.pet.PetResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.PetService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/pet")
+@Tag(name = "Pet", description = "Pet API")
 public class PetController {
 
   private final PetService petService;
@@ -33,6 +36,11 @@ public class PetController {
   }
 
   @GetMapping
+  @Operation(
+    summary = "Get all pets",
+    description = "Get all pets",
+    tags = {"Pet"}
+  )
   public ResponseEntity<List<PetResponse>> findAll(
       @RequestParam(required = false) String race,
       @RequestParam(required = false) String especie,
@@ -56,24 +64,55 @@ public class PetController {
   }
 
   @GetMapping("/owner/{ownerId}")
+  @Operation(
+    summary = "Get pets by owner id",
+    description = "Get pets by owner id",
+    tags = {"Pet"}
+  )
   public ResponseEntity<List<PetResponse>> findAllByOwner(@PathVariable("ownerId") Long ownerId) {
     return ResponseEntity.ok(petService.getAllPetsByOwnerId(ownerId));
   }
 
   @PostMapping
+  @Operation(
+    summary = "Create pet",
+    description = "Create pet",
+    tags = {"Pet"}
+  )
   public ResponseEntity<PetResponse> create(@RequestBody @Valid PetRequest petRequest) {
     PetResponse petCreated = petService.savePet(petRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body(petCreated);
   }
 
   @PutMapping("/{id}")
+  @Operation(
+    summary = "Update pet by id",
+    description = "Update pet by id",
+    tags = {"Pet"}
+  )
   public ResponseEntity<PetResponse> update(@PathVariable("id") Long id,
       @RequestBody @Valid PetRequest petRequest) {
     PetResponse petUpdated = petService.updatePet(id, petRequest);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(petUpdated);
   }
 
+  @GetMapping("/{id}")
+  @Operation(
+    summary = "Get pet by id",
+    description = "Get pet by id",
+    tags = {"Pet"}
+  )
+  public ResponseEntity<PetResponse> getPetById(@PathVariable("id") Long id) {
+    PetResponse pet = petService.getPetById(id);
+    return ResponseEntity.ok(pet);
+  }
+
   @DeleteMapping("/{id}")
+  @Operation(
+    summary = "Delete pet by id",
+    description = "Delete pet by id",
+    tags = {"Pet"}
+  )
   public ResponseEntity<Map<String, String>> delete(@PathVariable("id") Long id) {
     petService.deletePet(id);
     Map<String, String> response = new HashMap<>();
