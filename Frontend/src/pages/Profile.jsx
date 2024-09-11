@@ -3,56 +3,42 @@ import mascot from "../assets/mascot.jpg";
 import crearlogo from "../assets/crearlogo.png";
 import pencil from "../assets/bxpencil.png";
 import Active from "../assets/active";
-// import loginicon from "../assets/loginicon.png";
-import Navbar from "../components/Navbar";
-// import useFetchData from "../hooks/useMascot";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 
 function Profile() {
-  const data = [
-    {
-      id: 1,
-      name: "Emir",
-      race: "caniche",
-      species: "PERRO",
-      owner_name: "Maria",
-      birthdate: "2018-08-01",
-      sex: "MACHO",
-      allergies: "no 10 caracteres",
-      castrated: false,
-      active: true,
-      details: "stringstri",
-      owner_id: 1,
-    },
-    {
-      id: 2,
-      name: "Emir",
-      race: "caniche",
-      species: "PERRO",
-      owner_name: "Carl",
-      birthdate: "2018-08-01",
-      sex: "MACHO",
-      allergies: "no 10 caracteres",
-      castrated: false,
-      active: true,
-      details: "stringstri",
-      owner_id: 1,
-    },
-  ];
+  const { id } = useParams();
+  const [pet, setPet] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const baseURL = "https://veterinaria-bef3.onrender.com/pet/{id}"
+  useEffect(() => {
+    const fetchPetDetails = async () => {
+      try {
+        const response = await fetch(baseURL);
+        if (!response.ok) {
+          throw new Error('Failed to fetch pet details');
+        }
+        const data = await response.json();
+        setPet(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
 
-  {
-    console.log(data);
-  }
+    fetchPetDetails();
+  }, [baseURL]);
+  if (loading) return <p className="text-center">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
+  if (!pet) return <p className="text-center">No pet data found</p>;
+
   return (
     <div>
-      {/* <div className="bg-base-300 flex items-center justify-between p-4">
-        <div className="flex justify-center items-center flex-grow">
-          <img src={logo} alt="logo" className="mx-auto" />
-        </div>
-        <div className="flex justify-end items-center">
-          <img src={loginicon} alt="loginicon" />
-        </div>
-      </div> */}
-      <Navbar />
+
+   
       <div className="flex justify-between items-center w-full">
         <button className="ml-4 text-warning-content italic font-semibold">
           Volver
@@ -65,7 +51,7 @@ function Profile() {
 
         <div className="mr-4 flex justify-center items-center bg-primary rounded-md space-x-5 mt-3 h-8 w-36">
           <button className="text-white text-sm flex items-center justify-center">
-            Crear consulta{" "}
+            Crear consulta
             <img src={crearlogo} className="w-5" alt="crearlogo" />
           </button>
         </div>
@@ -74,31 +60,31 @@ function Profile() {
         <div className="bg-secondary-content rounded-lg m-5 w-3/5">
           <div className="relative flex justify-between items-center p-4">
             <div className="flex flex-col space-y-6">
-              {data.map((user) => (
+             
                 <div
-                  key={user.id}
+               
                   className="flex justify-between w-full ml-6 space-x-8"
                 >
                   {/* Primera columna de datos del usuario */}
                   <img src={mascot} alt="mascot" className="w-32 h-32 mr-4 " />
                   <div className="w-1/2">
                     <section>
-                      <h3 className="text-lg font-bold">{user.name}</h3>
+                      <h3 className="text-lg font-bold">{pet.name}</h3>
                     </section>
                     <section>
                       <h3 className="text-md">
-                        Nombre Propietario: {user.owner_name}
+                        Nombre Propietario: {pet.owner_name}
                       </h3>
                     </section>
                     <section>
-                      <h3 className="text-md">Especie: {user.species}</h3>
+                      <h3 className="text-md">Especie: {pet.species}</h3>
                     </section>
                     <section>
-                      <h3 className="text-md">Raza: {user.race}</h3>
+                      <h3 className="text-md">Raza: {pet.race}</h3>
                     </section>
                     <section>
                       <h3 className="text-md">
-                        Fecha nacimiento: {user.birthdate}
+                        Fecha nacimiento: {pet.birthdate}
                       </h3>
                     </section>
                   </div>
@@ -107,20 +93,20 @@ function Profile() {
                       <h3>123456789</h3>
                     </section>
                     <section>
-                      <h3>Sexo:{user.sex} </h3>
+                      <h3>Sexo:{pet.sex} </h3>
                     </section>
                     <section>
-                      <h3>Alergias:{user.allergies} </h3>
+                      <h3>Alergias:{pet.allergies} </h3>
                     </section>
                     <section>
-                      {user.castrated ? (
+                      {pet.castrated ? (
                         <h3>Castrado: Si </h3>
                       ) : (
                         <h3>Castrado: No </h3>
                       )}
                     </section>
                     <section>
-                      {user.active ? (
+                      {pet.active ? (
                         <h3 className="flex items-center space-x-2">
                           Estado: Activo <Active fill="active" />
                         </h3>
@@ -132,7 +118,7 @@ function Profile() {
                     </section>
                   </div>
                 </div>
-              ))}
+          
             </div>
             <div className="absolute top-0 right-0 m-4 ">
               <button>
