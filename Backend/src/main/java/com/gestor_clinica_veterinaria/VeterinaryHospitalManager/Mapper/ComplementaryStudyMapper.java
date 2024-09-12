@@ -5,7 +5,6 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.HospitalizationRepository;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.FileStorageService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,6 @@ public class ComplementaryStudyMapper {
         ComplementaryStudy study = new ComplementaryStudy();
         study.setExaminationDate(dto.examinationDate());
         study.setStudyType(dto.studyType());
-        study.setStudyResult(dto.studyResult());
         study.setStudyState(dto.studyState());
         study.setStudyCost(dto.studyCost());
 
@@ -55,7 +53,7 @@ public class ComplementaryStudyMapper {
         return new StudyRequest(
                 entity.getExaminationDate(),
                 entity.getStudyType(),
-                entity.getStudyResult(),
+                Optional.ofNullable(entity.getStudyResult()),
                 entity.getStudyState(),
                 Optional.ofNullable(entity.getStudyFile()),
                 entity.getStudyCost(),

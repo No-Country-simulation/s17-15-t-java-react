@@ -118,7 +118,7 @@ public class ComplementaryStudyService {
                     existingStudy.setStudyState(dto.studyState());
                 }
                 if (dto.studyResult() != null) {
-                    existingStudy.setStudyResult(dto.studyResult());
+                    existingStudy.setStudyResult(dto.studyResult().get());
                 }
                 if (studyFile != null) {
                     String filePath = fileStorageService.saveFile(studyFile);

@@ -16,12 +16,12 @@ public record StudyRequest(
         @Size(max=50, message = "el tipo de estudio no puede tener más de 50 caracteres")
         String studyType,
 
-        @NotBlank(message = "El estudio debe tener un resultado.")
         @Size(max=300, message = "el resultado no puede tener más de 300 caracteres")
-        String studyResult,
+        Optional<String> studyResult,
 
         @NotNull(message = "El estudio debe tener un estado.")
         EnumStudyState studyState,
+
         Optional<String> studyFile,
         @NotNull(message = "El estudio debe tener un costo.")
         BigDecimal studyCost,
