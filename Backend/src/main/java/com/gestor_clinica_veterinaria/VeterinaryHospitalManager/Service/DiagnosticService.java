@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticResponseDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.DiagnosticMapper;
@@ -34,7 +35,7 @@ public class DiagnosticService {
 
 
     @Transactional
-    public DiagnosticDto addDiagnostic(@Valid DiagnosticDto dto) {
+    public DiagnosticResponseDto addDiagnostic(@Valid DiagnosticDto dto) {
             ConsultationEntity consultationEntity = consultationRepository.findById(dto.consulta_id())
                     .orElseThrow(() -> new IllegalArgumentException("Consulta no encontrada"));
             DiagnosticEntity diagnostico = diagnosticMapper.toEntity(dto);
@@ -42,7 +43,7 @@ public class DiagnosticService {
             diagnostico = diagnosticRepository.save(diagnostico);
 
             consultationEntity.getDiagnostics().add(diagnostico);
-            return diagnosticMapper.toDto(diagnostico);
+            return diagnosticMapper.toResponseDto(diagnostico);
     }
 
     @Transactional(readOnly = true)
