@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -49,6 +50,6 @@ public class ConsultationEntity{
 
 
     @OneToMany(mappedBy = "consultation", targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY)
-    private List<ComplementaryStudy> complementaryStudies;
+    private List<ComplementaryStudy> complementaryStudies = new ArrayList<>();
 
 }

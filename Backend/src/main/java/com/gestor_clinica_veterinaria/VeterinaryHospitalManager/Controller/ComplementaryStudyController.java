@@ -1,20 +1,27 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.FileRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.File;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/complementaryStudies")
@@ -22,6 +29,7 @@ import java.util.List;
 @Tag(name="Complementary Study", description = "Endpoints to manage Complementary Studies")
 public class ComplementaryStudyController {
     private final ComplementaryStudyService complementaryStudyService;
+    private final FileStorageService fileStorageService;
 
     @PostMapping("/add")
     @Operation(
@@ -54,9 +62,14 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest) {
-        return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest));
+
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestParam("studyRequest") StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) {
+
+        String filePath = fileStorageService.saveFile(studyFile);
+        FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
+        return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
     }
+
     @PatchMapping("/update/{id}")
     @Operation(
             summary = "Update Complementary Study",
@@ -79,9 +92,13 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto) {
-        return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto));
+//    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto) {
+//        return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto));
+//    }
+    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto, @RequestParam("file") MultipartFile studyFile) {
+        return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto, studyFile));
     }
+
 
     @GetMapping("/all")
     @Operation(

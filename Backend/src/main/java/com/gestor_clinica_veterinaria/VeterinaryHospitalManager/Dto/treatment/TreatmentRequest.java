@@ -1,10 +1,10 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.math.BigDecimal;
+import java.util.Optional;
+
 public record TreatmentRequest(
         @NotBlank(message = "debe dar una descipción al tratamiento.")
         @Size(max = 500, message = "la descripción del tratamiento no debe tener más de 500 caracteres.")
@@ -16,9 +16,8 @@ public record TreatmentRequest(
         String aditionalObservations,
 
         BigDecimal treatmentCost,
-        @NotNull(message = "debe proporcionar el id del diagnostico para que se genera el tratamiento.")
-        Long diagnosisId,
+        Optional<Long>  diagnosisId,
 
-        Long hospitalizationId
+        Optional<Long> hospitalizationId
 ) {
 }

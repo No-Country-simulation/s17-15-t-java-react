@@ -15,8 +15,10 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.Hospi
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.ComplementaryStudyNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,40 +32,58 @@ public class ComplementaryStudyService {
     private final HospitalizationRepository hospitalizationRepository;
     private final DiagnosticRepository diagnosisRepository;
     private final ConsultationRepository consultationRepository;
+    private final FileStorageService fileStorageService;
 
-    public StudyCreatedResponse addComplementaryStudy(StudyRequest studyRequest){
-        ComplementaryStudy study = complementaryStudyMapper.toEntity(studyRequest);
 
-        if (studyRequest.hospitalizationId() != null) {
-            Hospitalization hospitalization = hospitalizationRepository.findById(studyRequest.hospitalizationId())
-                    .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + studyRequest.hospitalizationId()));
-            study.setHospitalization(hospitalization);
-            hospitalization.getComplementaryStudies().add(study);
-            hospitalizationRepository.save(hospitalization);
+        @Transactional
+        public StudyCreatedResponse addComplementaryStudy(StudyRequest studyRequest, MultipartFile file){
+            try {
+                ComplementaryStudy study = complementaryStudyMapper.toEntity(studyRequest);
+
+                if (file != null && !file.isEmpty()) {
+                    String uploadedFileUrl = fileStorageService.saveFile(file);
+                    study.setStudyFile(uploadedFileUrl);
+                }
+
+                if (studyRequest.hospitalizationId() != null) {
+                    Hospitalization hospitalization = hospitalizationRepository.findById(studyRequest.hospitalizationId().get())
+                            .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + studyRequest.hospitalizationId()));
+                    study.setHospitalization(hospitalization);
+                    hospitalization.getComplementaryStudies().add(study);
+                    hospitalizationRepository.save(hospitalization);
+                }
+
+                if (studyRequest.diagnosisId() != null) {
+                    DiagnosticEntity diagnosis = diagnosisRepository.findById(studyRequest.diagnosisId().get())
+                            .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + studyRequest.diagnosisId()));
+                    study.setDiagnosis(diagnosis);
+                    diagnosis.getComplementaryStudies().add(study);
+                    diagnosisRepository.save(diagnosis);
+                }
+
+                if (studyRequest.consultationId() != null) {
+                    ConsultationEntity consultation = consultationRepository.findById(studyRequest.consultationId().get())
+                            .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + studyRequest.consultationId()));
+                    study.setConsultation(consultation);
+                    consultation.getComplementaryStudies().add(study);
+                    consultationRepository.save(consultation);
+                }
+
+                study = complementaryStudyRepository.save(study);
+
+                System.out.println(study);
+                if (study.getId() == null) {
+                    return new StudyCreatedResponse("Error al crear el estudio complementario.", null);
+                }
+
+                return new StudyCreatedResponse("¡El estudio complementario se registró exitosamente!", study.getId());
+
+            } catch (Exception e) {
+                return new StudyCreatedResponse("Error: " + e.getMessage(), null);
+            }
         }
-        if (studyRequest.diagnosisId() != null) {
-            DiagnosticEntity diagnosis = diagnosisRepository.findById(studyRequest.diagnosisId())
-                    .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + studyRequest.diagnosisId()));
-            study.setDiagnosis(diagnosis);
-            diagnosis.getComplementaryStudies().add(study);
-            diagnosisRepository.save(diagnosis);
-        }
-        if (studyRequest.consultationId() != null) {
-            ConsultationEntity consultation = consultationRepository.findById(studyRequest.consultationId())
-                    .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + studyRequest.consultationId()));
-            study.setConsultation(consultation);
-            consultation.getComplementaryStudies().add(study);
-            consultationRepository.save(consultation);
-        }
 
-        study = complementaryStudyRepository.save(study);
 
-        if (study.getId() == null) {
-            return new StudyCreatedResponse("Error al crear el estudio complementario.", null);
-        }
-
-        return new StudyCreatedResponse("¡El estudio complementario se registró exitosamente!", study.getId());
-    }
 
     public List<ComplementaryStudy> getAllComplementaryStudies(){
         return complementaryStudyRepository.findAll();
@@ -81,55 +101,57 @@ public class ComplementaryStudyService {
     public List<ComplementaryStudy> getAllStudiesByState(EnumStudyState state) {
         return complementaryStudyRepository.findByStudyState(state);
     }
-    public ComplementaryStudy updateStudy(Long studyId, StudyRequest dto){
-
+    public ComplementaryStudy updateStudy(Long studyId, StudyRequest dto, MultipartFile studyFile) {
         Optional<ComplementaryStudy> studyOptional = complementaryStudyRepository.findById(studyId);
 
         if (studyOptional.isPresent()) {
-
             ComplementaryStudy existingStudy = studyOptional.get();
 
-            if (dto.examinationDate() != null){
-                existingStudy.setExaminationDate(dto.examinationDate());
-            }
-            if (dto.studyCost() != null){
-                existingStudy.setStudyCost(dto.studyCost());
-            }
-            if (dto.studyState() != null){
-                existingStudy.setStudyState(dto.studyState());
-            }
-            if (dto.studyResult() != null){
-                existingStudy.setStudyResult(dto.studyResult());
-            }
-            if (dto.studyFile() != null){
-                existingStudy.setStudyFile(dto.studyFile());
-            }
-            if (dto.consultationId() != null) {
-                ConsultationEntity consultation = consultationRepository.findById(dto.consultationId())
-                        .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + dto.consultationId()));
-                existingStudy.setConsultation(consultation);
-            }
-            if (dto.diagnosisId() != null) {
-                DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
-                        .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
-                existingStudy.setDiagnosis(diagnosisEntity);
-            }
-            if (dto.studyType() != null){
-                existingStudy.setStudyType(dto.studyType());
-            }
+            if (existingStudy != null) {
+                if (dto.examinationDate() != null) {
+                    existingStudy.setExaminationDate(dto.examinationDate());
+                }
+                if (dto.studyCost() != null) {
+                    existingStudy.setStudyCost(dto.studyCost());
+                }
+                if (dto.studyState() != null) {
+                    existingStudy.setStudyState(dto.studyState());
+                }
+                if (dto.studyResult() != null) {
+                    existingStudy.setStudyResult(dto.studyResult());
+                }
+                if (studyFile != null) {
+                    String filePath = fileStorageService.saveFile(studyFile);
+                    existingStudy.setStudyFile(filePath);
+                }
+                if (dto.consultationId() != null) {
+                    ConsultationEntity consultation = consultationRepository.findById(dto.consultationId().get())
+                            .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + dto.consultationId()));
+                    existingStudy.setConsultation(consultation);
+                }
+                if (dto.diagnosisId() != null) {
+                    DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId().get())
+                            .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
+                    existingStudy.setDiagnosis(diagnosisEntity);
+                }
+                if (dto.studyType() != null) {
+                    existingStudy.setStudyType(dto.studyType());
+                }
 
-            if (dto.hospitalizationId() != null) {
-                Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
-                        .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
-                existingStudy.setHospitalization(hospitalization);
+                if (dto.hospitalizationId() != null) {
+                    Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId().get())
+                            .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
+                    existingStudy.setHospitalization(hospitalization);
+                } else {
+                    existingStudy.setHospitalization(null);
+                }
+
+                return complementaryStudyRepository.save(existingStudy);
             } else {
-                existingStudy.setHospitalization(null);
+                throw new NullPointerException("Existing study is null");
             }
-
-            return  complementaryStudyRepository.save(existingStudy);
-
-        } else{
-            throw  new  TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
+        } else {
+            throw new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
         }
     }
 }

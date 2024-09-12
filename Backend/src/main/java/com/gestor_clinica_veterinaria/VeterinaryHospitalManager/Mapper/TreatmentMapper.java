@@ -5,6 +5,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitali
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TreatmentMapper {
@@ -17,7 +18,7 @@ public class TreatmentMapper {
         treatment.setTreatmentCost(dto.treatmentCost());
         if (dto.hospitalizationId() != null) {
             Hospitalization hospitalization = new Hospitalization();
-            hospitalization.setId(dto.hospitalizationId());
+            hospitalization.setId(dto.hospitalizationId().get());
             treatment.setHospitalization(hospitalization);
         }
         return treatment;
@@ -29,8 +30,8 @@ public class TreatmentMapper {
                 entity.getDuration(),
                 entity.getAdditionalObservations(),
                 entity.getTreatmentCost(),
-                entity.getDiagnosis() != null ? entity.getDiagnosis().getId() : null,
-                entity.getHospitalization() != null ? entity.getHospitalization().getId() : null
+                Optional.ofNullable(entity.getDiagnosis() != null ? entity.getDiagnosis().getId() : null),
+                Optional.ofNullable(entity.getHospitalization() != null ? entity.getHospitalization().getId() : null)
         );
     }
 
