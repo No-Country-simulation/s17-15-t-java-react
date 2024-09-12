@@ -9,7 +9,7 @@ import java.util.List;
 public interface SurgeryService {
 
     ResponseSurgery addSurgery(RequestCreateSurgery requestCreateSurgery);
-    List<ResponseSurgery> getAllSurgeries();
+    List<ResponseSurgery> getAllSurgeries(String surgeryName);
     ResponseSurgery getSurgeryById(Long surgeryId);
    // List<ResponseSurgery> getSurgeriesByOwnerId(Long ownerId);
    // List<ResponseSurgery> getSurgeriesByPetId(Long petId);

@@ -12,6 +12,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.Veter
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.SurgeryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +47,7 @@ public class SurgeryServiceImpl implements SurgeryService {
         savedSurgery.getDiagnosis().getSurgerys().add(savedSurgery);
         //savedSurgery.getVeterinarian().getSurgeries().add(savedSurgery);
 
+
         // Mapeo manual de respuesta
         return new ResponseSurgery(
                 savedSurgery.getId(),
@@ -58,9 +60,17 @@ public class SurgeryServiceImpl implements SurgeryService {
         );
     }
 
+    @Transactional
     @Override
-    public List<ResponseSurgery> getAllSurgeries() {
-        List<Surgery> surgeries = surgeryRepository.findAll();
+    public List<ResponseSurgery> getAllSurgeries(String surgeryName) {
+        List<Surgery> surgeries;
+
+        if (surgeryName != null && !surgeryName.isEmpty()) {
+            surgeries = surgeryRepository.findBySurgeryTypeContainingIgnoreCase(surgeryName);
+        } else {
+            surgeries = surgeryRepository.findAll();
+        }
+
         return surgeries.stream().map(surgery -> new ResponseSurgery(
                 surgery.getId(),
                 surgery.getDateSurgery(),
@@ -71,7 +81,6 @@ public class SurgeryServiceImpl implements SurgeryService {
                 surgery.getSurgeryCost()
         )).collect(Collectors.toList());
     }
-
     @Override
     public ResponseSurgery getSurgeryById(Long surgeryId) {
         Surgery surgery = surgeryRepository.findById(surgeryId)

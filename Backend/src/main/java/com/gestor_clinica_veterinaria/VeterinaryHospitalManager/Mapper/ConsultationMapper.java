@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationResponseDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,20 @@ public class ConsultationMapper {
                 entity.getObservations(),
                 entity.getState(),
                 entity.getCostConsultation()
+        );
+    }
+
+    public ConsultationResponseDto toResponseDto(ConsultationEntity entity) {
+        return new ConsultationResponseDto(
+                entity.getVeterinarian().getId(),
+                entity.getPet().getId(),
+                entity.getName(),
+                entity.getConsultationDate(),
+                entity.getAnamnesis(),
+                entity.getObservations(),
+                entity.getState(),
+                entity.getCostConsultation(),
+                entity.getId()
         );
     }
 }

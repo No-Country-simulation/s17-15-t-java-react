@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticResponseDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.DiagnosticService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -78,9 +79,9 @@ public class DiagnosticController {
                     )
             }
     )
-    public ResponseEntity<DiagnosticDto> addDiagnostic(@Valid @RequestBody DiagnosticDto dto) {
+    public ResponseEntity<?> addDiagnostic(@Valid @RequestBody DiagnosticDto dto) {
         try {
-            DiagnosticDto diagnosticDto = diagnosticService.addDiagnostic(dto);
+            DiagnosticResponseDto diagnosticDto = diagnosticService.addDiagnostic(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(diagnosticDto);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)

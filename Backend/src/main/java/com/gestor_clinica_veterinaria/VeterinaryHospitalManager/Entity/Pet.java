@@ -47,7 +47,13 @@ public class Pet {
 
   private String details;
 
-  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Owner.class)
+ // @ManyToOne(fetch = FetchType.LAZY, targetEntity = Owner.class)
+ // @JoinColumn(name = "owner_id", nullable = false)
+ // private Owner owner;
+
+
+
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "owner_id", nullable = false)
   private Owner owner;
 }

@@ -157,7 +157,7 @@ public class ConsultationController {
             description = "Get Consultations by Pet",
             tags = {"Consultation"}
     )
-    public ResponseEntity<Page<ConsultationDto>> getConsultationsByPetId(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<?>> getConsultationsByPetId(@RequestParam(defaultValue = "0") int page,
                                                                           @RequestParam(defaultValue = "10") int size,
                                                                           @PathVariable Long petId) {
         return ResponseEntity.ok(consultationService.getConsultationsByPetId(page, size, petId));

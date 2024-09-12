@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Consultation.ConsultationResponseDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.ConsultationMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.*;
@@ -33,7 +34,7 @@ public class ConsultationService {
 
 
     @Transactional
-    public ConsultationDto addConsultation(@Valid ConsultationDto dto) {
+    public ConsultationResponseDto addConsultation(@Valid ConsultationDto dto) {
        Veterinarian veterinarian = veterinarianRepository.findById(dto.id_veterinarian())
                .orElseThrow(() -> new EntityNotFoundException("Veterinario no encontrado con ID: " + dto.id_veterinarian()));
        Pet pet = petRepository.findById(dto.id_pet())
@@ -42,7 +43,7 @@ public class ConsultationService {
        entity.setVeterinarian(veterinarian);
        entity.setPet(pet);
        ConsultationEntity savedEntity = consultationRepository.save(entity);
-       return consultationMapper.toDto(savedEntity);
+       return consultationMapper.toResponseDto(savedEntity);
     }
 
     @Transactional
@@ -143,13 +144,13 @@ public class ConsultationService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ConsultationDto> getConsultationsByPetId(int page, int size, Long petId) {
+    public Page<ConsultationResponseDto> getConsultationsByPetId(int page, int size, Long petId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
             Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
             Page<ConsultationEntity> consultationPage = consultationRepository.findByPetId(petId, pageable);
-            return consultationPage.map(consultationMapper::toDto);
+            return consultationPage.map(consultationMapper::toResponseDto);
     }
 
     @Transactional(readOnly = true)

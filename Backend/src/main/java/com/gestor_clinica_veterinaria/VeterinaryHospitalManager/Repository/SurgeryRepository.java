@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface SurgeryRepository extends JpaRepository<Surgery, Long> {
 
+    List<Surgery> findBySurgeryTypeContainingIgnoreCase(String surgeryType);
   //  List<Surgery> findByOwnerId(Long ownerId);
    // List<Surgery> findByPetId(Long petId);
 }
