@@ -144,13 +144,13 @@ public class ConsultationService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ConsultationDto> getConsultationsByPetId(int page, int size, Long petId) {
+    public Page<ConsultationResponseDto> getConsultationsByPetId(int page, int size, Long petId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
             Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
             Page<ConsultationEntity> consultationPage = consultationRepository.findByPetId(petId, pageable);
-            return consultationPage.map(consultationMapper::toDto);
+            return consultationPage.map(consultationMapper::toResponseDto);
     }
 
     @Transactional(readOnly = true)
