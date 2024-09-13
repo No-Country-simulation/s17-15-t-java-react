@@ -59,7 +59,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = HospitalizationRequest.class)
+                                    schema = @Schema(implementation = Hospitalization.class)
                             )
                     )
             }
@@ -78,7 +78,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = HospitalizationRequest.class)
+                                    schema = @Schema(implementation = Hospitalization.class)
                             )
                     ),
                     @ApiResponse(
@@ -158,7 +158,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Hospitalization Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = HospitalizationRequest.class)
+                                    schema = @Schema(implementation = Hospitalization.class)
                             )
                     ),
                     @ApiResponse(

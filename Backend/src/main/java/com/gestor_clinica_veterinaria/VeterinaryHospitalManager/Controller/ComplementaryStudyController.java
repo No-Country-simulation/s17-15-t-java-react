@@ -7,6 +7,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.Tr
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.File;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -87,7 +88,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Complementary Study Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentRequest.class)
+                                    schema = @Schema(implementation = ComplementaryStudy.class)
                             )
                     )
             }
@@ -110,7 +111,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = StudyRequest.class)
+                                    schema = @Schema(implementation = ComplementaryStudy.class)
                             )
                     )
             }
@@ -129,7 +130,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = StudyRequest.class)
+                                    schema = @Schema(implementation = ComplementaryStudy.class)
                             )
                     )
             }
@@ -148,7 +149,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = StudyRequest.class)
+                                    schema = @Schema(implementation = ComplementaryStudy.class)
                             )
                     ),
                     @ApiResponse(
@@ -172,7 +173,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = StudyRequest.class)
+                                    schema = @Schema(implementation = ComplementaryStudy.class)
                             )
                     ),
                     @ApiResponse(
@@ -196,7 +197,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = StudyRequest.class)
+                                    schema = @Schema(implementation = ComplementaryStudy.class)
                             )
                     ),
                     @ApiResponse(

@@ -62,7 +62,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentRequest.class)
+                                    schema = @Schema(implementation = Treatment.class)
                             )
                     )
             }
@@ -81,7 +81,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentRequest.class)
+                                    schema = @Schema(implementation = Treatment.class)
                             )
                     ),
                     @ApiResponse(
@@ -106,7 +106,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentRequest.class)
+                                    schema = @Schema(implementation = Treatment.class)
                             )
                     ),
                     @ApiResponse(
@@ -131,7 +131,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentRequest.class)
+                                    schema = @Schema(implementation = Treatment.class)
                             )
                     ),
                     @ApiResponse(
@@ -163,7 +163,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Treatment Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentRequest.class)
+                                    schema = @Schema(implementation = Treatment.class)
                             )
                     ),
                     @ApiResponse(
