@@ -98,7 +98,7 @@ public class ConsultationController {
                     )
             }
     )
-    public ResponseEntity<ConsultationDto> getConsultationById(@PathVariable Long consultationId) {
+    public ResponseEntity<?> getConsultationById(@PathVariable Long consultationId) {
         return ResponseEntity.ok(consultationService.getConsultationById(consultationId));
     }
 
@@ -108,7 +108,7 @@ public class ConsultationController {
             description = "Get all Consultations",
             tags = {"Consultation"}
     )
-    public ResponseEntity<Page<ConsultationDto>> getAllConsultations(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<?>> getAllConsultations(@RequestParam(defaultValue = "0") int page,
                                                                      @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(consultationService.getAllConsultations(page, size));
     }
@@ -120,7 +120,7 @@ public class ConsultationController {
             description = "Search Consultations",
             tags = {"Consultation"}
     )
-    public ResponseEntity<Page<ConsultationDto>> searchConsultations(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<?>> searchConsultations(@RequestParam(defaultValue = "0") int page,
                                                                      @RequestParam(defaultValue = "10") int size,
                                                                      @RequestParam(defaultValue = "") String query) {
         return ResponseEntity.ok(consultationService.searchConsultations(page, size, query));
@@ -132,7 +132,7 @@ public class ConsultationController {
             description = "Search Consultations by name of Pet",
             tags = {"Consultation"}
     )
-    public ResponseEntity<Page<ConsultationDto>> searchConsultationsByNameOfPet(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<?>> searchConsultationsByNameOfPet(@RequestParam(defaultValue = "0") int page,
                                                                             @RequestParam(defaultValue = "10") int size,
                                                                             @RequestParam(defaultValue = "") String query) {
         return ResponseEntity.ok(consultationService.searchConsultationsByPetName(page, size, query));
@@ -145,7 +145,7 @@ public class ConsultationController {
             description = "Search Consultations by name of Owner",
             tags = {"Consultation"}
     )
-    public ResponseEntity<Page<ConsultationDto>> searchConsultationsByOwnerName(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<?>> searchConsultationsByOwnerName(@RequestParam(defaultValue = "0") int page,
                                                                     @RequestParam(defaultValue = "10") int size,
                                                                     @RequestParam(defaultValue = "") String query) {
         return ResponseEntity.ok(consultationService.searchConsultationsByOwnerName(page, size, query));
@@ -170,7 +170,7 @@ public class ConsultationController {
             description = "Get Consultations by Vet",
             tags = {"Consultation"}
     )
-    public ResponseEntity<Page<ConsultationDto>> getConsultationsByVeterinaryId(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<?>> getConsultationsByVeterinaryId(@RequestParam(defaultValue = "0") int page,
                                                                           @RequestParam(defaultValue = "10") int size,
                                                                           @PathVariable Long veterinaryId) {
         return ResponseEntity.ok(consultationService.getConsultationsByVeterinaryId(page, size, veterinaryId));
@@ -195,7 +195,7 @@ public class ConsultationController {
                     )
             }
     )
-    public ResponseEntity<ConsultationDto> getConsultationByComplementaryStudyId(@PathVariable Long complementaryStudyId) {
+    public ResponseEntity<?> getConsultationByComplementaryStudyId(@PathVariable Long complementaryStudyId) {
         return ResponseEntity.ok(consultationService.getConsultationByComplementaryStudyId(complementaryStudyId));
     }
 
@@ -218,7 +218,7 @@ public class ConsultationController {
                     )
             }
     )
-    public ResponseEntity<ConsultationDto> getConsultationByDiagnosisId(@PathVariable Long diagnosisId) {
+    public ResponseEntity<?> getConsultationByDiagnosisId(@PathVariable Long diagnosisId) {
         return ResponseEntity.ok(consultationService.getConsultationByDiagnosisId(diagnosisId));
     }
 
