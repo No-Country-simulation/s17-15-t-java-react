@@ -7,7 +7,7 @@ const Status = ({ isLoading, isError, isCreating, isUpdating, isDeleting, create
             {isLoading && (
                 <div className="flex items-center space-x-2 text-gray-500">
                     <FaSpinner className="animate-spin" />
-                    <p>Loading...</p>
+                    <p>Cargando...</p>
                 </div>
             )}
             {isError && (
@@ -19,7 +19,7 @@ const Status = ({ isLoading, isError, isCreating, isUpdating, isDeleting, create
             {isCreating && (
                 <div className="flex items-center space-x-2 text-blue-500">
                     <FaSpinner className="animate-spin" />
-                    <p>Creating item...</p>
+                    <p>Creando...</p>
                 </div>
             )}
             {createError && (
@@ -31,7 +31,7 @@ const Status = ({ isLoading, isError, isCreating, isUpdating, isDeleting, create
             {isUpdating && (
                 <div className="flex items-center space-x-2 text-green-500">
                     <FaSpinner className="animate-spin" />
-                    <p>Updating item...</p>
+                    <p>Actualizando...</p>
                 </div>
             )}
             {updateError && (
@@ -43,13 +43,13 @@ const Status = ({ isLoading, isError, isCreating, isUpdating, isDeleting, create
             {isDeleting && (
                 <div className="flex items-center space-x-2 text-gray-500">
                     <FaSpinner className="animate-spin" />
-                    <p>Deleting item...</p>
+                    <p>Eliminando...</p>
                 </div>
             )}
             {deleteError && (
                 <div className="flex items-center space-x-2 text-red-500">
                     <FaExclamationTriangle />
-                    <p>Error deleting item</p>
+                    <p>Error al Eliminar</p>
                 </div>
             )}
         </>

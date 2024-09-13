@@ -142,7 +142,6 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                             >
                                 <option value="PERRO">PERRO</option>
                                 <option value="GATO">GATO</option>
-                                <option value="OTRO">REPTIL</option>
                                 <option value="OTRO">OTRO</option>
                             </select>
                         </div>

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaSpinner, FaExclamationTriangle } from "react-icons/fa";
 
 function Login() {
     const usernameRef = useRef("");
@@ -228,8 +229,9 @@ function Login() {
                                 className="btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-sm w-1/2 opacity-90 text-base-100">
                                 {isLoading ? (
                                     <div className="inline-flex items-center">
-                                        <span className="loading loading-spinner text-success"></span>
-                                        <p className="ml-2">Iniciar...</p>
+                                        {/* <span className="loading loading-spinner text-success"></span> */}
+                                        <FaSpinner className="animate-spin" />
+                                        <p className="ml-2">Iniciando...</p>
                                     </div>
                                 ) : "Iniciar"}
                             </button>

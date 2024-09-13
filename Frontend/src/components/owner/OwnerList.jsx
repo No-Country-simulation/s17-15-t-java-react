@@ -8,12 +8,18 @@ import OwnerCard from './OwnerCard.jsx';
 import Status from '../UI/Status.jsx';
 import useFormData from '../../hooks/useJSON.js';
 
+import PetList from '../pet/PetList.jsx';
+import CreatePet from '../pet/CreatePet.jsx';
+
 
 function OwnerList() {
     const { jwt, user__id } = useAuth("state");
     const [modal, setModal] = useState(false);
-    const baseURL = "https://veterinaria-bef3.onrender.com/";
-    const filtro = `owner`;
+    const baseURL = "https://veterinaria-bef3.onrender.com/owner";
+    const filtro = ``;
+
+    const [showPetModal, setShowPetModal] = useState(false);
+    const [newOwnerId, setNewOwnerId] = useState(null);
 
 
     const {
@@ -23,7 +29,7 @@ function OwnerList() {
         updateItem, isUpdating, updateError,
         deleteItem, isDeleting, deleteError,
         fetchData, fetchNextPage, fetchPreviousPage
-    } = useFormData(baseURL, jwt, filtro);
+    } = useFormData(baseURL, jwt);
 
 
     //READ
@@ -47,7 +53,12 @@ function OwnerList() {
     //     if (previous) fetchPreviousPage();
     // };
 
-
+    useEffect(() => {
+        if (newItemId) {
+            setNewOwnerId(newItemId); // para guardar el ID del nuevo owner
+            setShowPetModal(true); // para mostrar el modal para crear mascota
+        }
+    }, [newItemId]);
 
     // CREATE
     const handleSave = (fromData) => {
@@ -69,7 +80,6 @@ function OwnerList() {
     const handleDelete = (id) => {
         if (!isDeleting) {
             deleteItem(id);
-
 
         }
     };
@@ -99,7 +109,7 @@ function OwnerList() {
                 <h3 className="text-2xl font-bold mb-4">
 
                     {/* <h3 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-700 via-green-700 to-blue-700"> */}
-                    Owner List</h3>
+                    Aqui va la barra Busqueda</h3>
 
                 <button
                     className="bg-primary text-white p-2 rounded-full inline-flex items-center justify-center bg-opacity-90"
@@ -131,6 +141,17 @@ function OwnerList() {
                 <button className="join-item btn btn-outline" onClick={handlePreviousPage} disabled={!previous}>Previous page</button>
                 <button className="join-item btn btn-outline" onClick={handleNextPage} disabled={!next}>Next</button>
             </div> */}
+            {/* Modal de Crear Mascota */}
+            {/* {showPetModal && (
+                <CreatePet
+                    toggle={() => setShowPetModal(!showPetModal)}
+                    modal={showPetModal}
+                    idOwner={newOwnerId}
+                    save={PetList.handleSave} // Pasar la función handleSave para guardar la mascota
+                />
+            )} */}
+
+            
         </>
     );
 };

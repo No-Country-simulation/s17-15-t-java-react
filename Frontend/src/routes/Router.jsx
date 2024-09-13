@@ -5,13 +5,62 @@ import ProtectedRoute from "./ProtectedRoute";
 import Login from "../Auth/Login";
 import Home from "../pages/Home";
 
-import About from "../pages/About";
-import NotFound from "../pages/NotFound";
+
 import Profile from "../pages/Profile";
-import PetDetail from "../pages/PetDetail";
+import PetDetail2 from "../pages/PetDetail2";
 import EditConsultation from "../components/consultationpet/editConsultation";
 
 const Router = createBrowserRouter(
+    [
+        {
+            element: <Layout />,
+            children: [
+                {
+                    path: "/",
+                    element: <Login />,
+                },
+                {
+                    path: "/home",
+                    element:
+                        (
+                            <ProtectedRoute>
+                                <Home />
+                            </ProtectedRoute>
+                        ),
+                },
+                {
+                    path: "/profile",
+                    element: (
+                        <ProtectedRoute>
+                            <Profile />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: "/mascota",
+                    children: [
+                        {
+                            path: ":id",
+                            element: (
+                                <ProtectedRoute>
+                                    <PetDetail2 />
+                                </ProtectedRoute>
+                            ),
+                        },
+                    ]
+
+                },
+                // {
+                //     path: "/login",
+                //     element: <Login />,
+                // },            
+
+            ],
+        },
+    ],
+    // {
+    //     basename: "/....",
+    // }
   [
     {
       element: <Layout />,
@@ -43,7 +92,7 @@ const Router = createBrowserRouter(
               path: ":id",
               element: (
                 <ProtectedRoute>
-                  <PetDetail />
+                  <PetDetail2 />
                 </ProtectedRoute>
               ),
             },

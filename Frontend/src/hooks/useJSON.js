@@ -56,7 +56,12 @@ const apiReducer = (state, action) => {
         case actionTypes.CREATE_INIT:
             return { ...state, isCreating: true, createError: null };
         case actionTypes.CREATE_SUCCESS:
-            return { ...state, isCreating: false, data: [...state.data, action.payload] };
+            return { 
+                ...state, 
+                isCreating: false, 
+                data: [...state.data, action.payload],
+                newItemId: action.payload.id // Aquí se guarda el id del nuevo elemento 
+            };
         case actionTypes.CREATE_FAILURE:
             return { ...state, isCreating: false, createError: action.error };
 
@@ -158,8 +163,8 @@ const useFormData = (baseURL, token, filter = '') => {
     const updateItem = useCallback(async (jsonData, id) => {
         dispatch({ type: actionTypes.UPDATE_INIT });
         try {
-            const result = await fetchRequest(`${baseURL}${id}/`, {
-                method: 'PATCH',
+            const result = await fetchRequest(`${baseURL}/${id}`, {
+                method: 'PUT',
                 headers: {
                     'Authorization': `Token ${token}`,
                     'Content-Type': 'application/json',
@@ -176,7 +181,7 @@ const useFormData = (baseURL, token, filter = '') => {
     const deleteItem = useCallback(async (id) => {
         dispatch({ type: actionTypes.DELETE_INIT });
         try {
-            await fetchRequest(`${baseURL}${id}/`, {
+            await fetchRequest(`${baseURL}/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`
