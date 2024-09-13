@@ -42,7 +42,7 @@ function Avatar() {
       
       <ul
         tabIndex={0}
-        className="text-base-100 menu menu-sm dropdown-content border-[1px] border-base-300 bg-base-300 z-[1] mt-3 p-2 w-44 shadow bg-opacity-95">
+        className="text-base-100 menu menu-sm dropdown-content border-[1px] border-base-300 bg-base-300 z-[51] mt-3 p-2 w-44 shadow bg-opacity-95">
         <li><p className="font-semibold truncate pointer-events-non ">{usuario?.name} {usuario?.lastname}</p></li>
         <li><p className="italic pointer-events-none text-xs">{usuario?.specialty}</p></li>
         <li><p className="italic pointer-events-none truncate text-xs">dianaflores@vetcare.com</p></li>

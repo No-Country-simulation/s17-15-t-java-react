@@ -48,7 +48,7 @@ function ThemeMenu() {
                     <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
                 </svg>
             </div>
-            <ul tabIndex={1} className="dropdown-content bg-base-200 rounded-box z-[2] p-2 shadow-2xl">
+            <ul tabIndex={1} className="dropdown-content bg-base-200 rounded-box z-[51] p-2 shadow-2xl">
                 {themes.map((theme) => (
                     <li key={theme}>
                         <input

@@ -36,7 +36,7 @@ function OwnerForm({ modal, toggle, onSave, objOwner = {}, isEdit = false }) {
             email: email,
             address: address
         };
-        
+
         // Enviar el objeto JSON en lugar de FormData
         onSave(ownerData, isEdit ? objOwner.id : null);
         toggle(false);
@@ -47,92 +47,103 @@ function OwnerForm({ modal, toggle, onSave, objOwner = {}, isEdit = false }) {
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-lg">
-                <div className="flex justify-between items-center p-4 border-b bg-base-300 text-base-100">
-                    <h2 className="text-xl font-semibold">{isEdit ? 'Actualizar' : 'Crear'} Propietario</h2>
-                    <button onClick={toggle} className="text-base-100 hover:text-gray-700">
+        <div className="fixed top-[100px] inset-0 z-50 flex items-center justify-center overflow-y-auto bg-white bg-opacity-100">
+            <div className="bg-neutral w-full max-w-lg">
+                {/* <div className='bg-black w-full h-24'>
+
+                    
+                </div> */}
+                <div className="flex justify-between items-center pb-5">
+                    <div>
+                        <h2 className="text-lg font-semibold">{isEdit ? 'Actualizar' : 'Nuevo'} Registro</h2>
+                        <p className='text-xs italic'>Registra al nuevo cliente y continuá para cargar una mascota.</p>
+                    </div>
+                    {/* <button onClick={toggle} className="btn btn-link">
                         <FaTimes size={20} />
-                    </button>
+                    </button> */}
                 </div>
-                <form onSubmit={handleSubmit} className="p-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-medium mb-2">Nombre:</label>
+                <form onSubmit={handleSubmit} className="p-4 border-2 rounded-lg">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+                        <div className="">
+                            <label className="block text-sm font-medium mb-1">Nombre completo:</label>
                             <input
                                 type="text"
                                 name="ownerName"
                                 value={ownerName}
                                 onChange={handleChange}
-                                className="input input-bordered input-warning w-full"
-                                placeholder="Enter owner name"
+                                className="input input-bordered input-warning input-sm w-full"
+                                placeholder="Nombre"
                                 required
                             />
                         </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-medium mb-2">Apellido:</label>
+                        <div className="">
+                            <label className="block text-sm font-medium mb-1">Apellido:</label>
                             <input
                                 type="text"
                                 name="ownerLastname"
                                 value={ownerLastname}
                                 onChange={handleChange}
-                                className="input input-bordered input-warning w-full"
-                                placeholder="Enter owner lastname"
+                                className="input input-bordered input-warning input-sm w-full"
+                                placeholder="Apellido"
                                 required
                             />
                         </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-medium mb-2">Telefono/Celular:</label>
-                            <input
-                                type="text"
-                                name="phone"
-                                value={phone}
-                                onChange={handleChange}
-                                className="input input-bordered input-warning w-full"
-                                placeholder="Enter phone"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-medium mb-2">Email:</label>
+                        <div className="">
+                            <label className="block text-sm font-medium mb-1">Correo Electrónico:</label>
                             <input
                                 type="text"
                                 name="email"
                                 value={email}
                                 onChange={handleChange}
-                                className="input input-bordered input-warning w-full"
-                                placeholder="Enter email"
+                                className="input input-bordered input-warning input-sm w-full"
+                                placeholder="Correo elétronico"
+                                required
                             />
                         </div>
-                        <div className="mb-4 sm:col-span-2">
-                            <label className="block text-gray-700 text-sm font-medium mb-2">Dirección:</label>
+                        <div className="">
+                            <label className="block text-sm font-medium mb-1">Teléfono celular:</label>
+                            <input
+                                type="number"
+                                name="phone"
+                                value={phone}
+                                onChange={handleChange}
+                                className="input input-bordered input-warning input-sm w-full"
+                                placeholder="Teléfono celular"
+                                required
+                            />
+                        </div>
+
+                        <div className=" sm:col-span-2">
+                            <label className="block text-sm font-medium mb-1">Dirección:</label>
                             <input
                                 type="text"
                                 name="address"
                                 value={address}
                                 onChange={handleChange}
-                                className="input input-bordered input-warning w-full"
+                                className="input input-bordered input-warning input-sm w-full"
                                 placeholder="Enter address"
+                                required
                             />
                         </div>
                     </div>
-                    <div className="flex justify-end mt-4">
-                        <button
-                            type="submit"
-                            className="btn btn-primary py-2 px-4 mr-2"
-                        >
-                            {isEdit ? 'Actualizar' : 'Continuar'}
-                        </button>
+                    <div className="flex justify-end gap-3 mt-3 pb-2">
                         <button
                             onClick={toggle}
                             type="button"
-                            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+                            className="btn btn-sm  "
                         >
                             Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="btn btn-sm btn-primary"
+                        >
+                            {isEdit ? 'Actualizar' : 'Continuar'}
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     );
-}    
+}
 export default OwnerForm;

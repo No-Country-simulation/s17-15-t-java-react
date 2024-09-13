@@ -11,6 +11,8 @@ import useFormData from '../../hooks/useJSON.js';
 import PetList from '../pet/PetList.jsx';
 import CreatePet from '../pet/CreatePet.jsx';
 
+import { FaUserPlus } from "react-icons/fa6";
+
 
 function OwnerList() {
     const { jwt, user__id } = useAuth("state");
@@ -93,6 +95,7 @@ function OwnerList() {
 
     return (
         <>
+        <h1 className='card-title pl-10 pt-10 font-bold'>¡Hola de Nuevo, Diana!</h1>
             <div className="header text-center mt-5">
 
                 <Status
@@ -106,23 +109,30 @@ function OwnerList() {
                     deleteError={deleteError}
                 />
 
+
+
+                <div className='flex justify-end mr-10'>
+                    <button
+                        className="btn bg-primary  text-base-100 p-2 inline-flex items-center justify-center bg-opacity-90 shadow-xl"
+                        onClick={() => setModal(true)}
+                    >
+                        <span className='font-semibold pr-1'>Nuevo registro </span>
+                        <FaUserPlus className="font-semibold mr-2" size={20} />
+
+                    </button>
+                </div>
+
                 <h3 className="text-2xl font-bold mb-4">
 
                     {/* <h3 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-700 via-green-700 to-blue-700"> */}
-                    Aqui va la barra Busqueda</h3>
+                    Aqui va la barra Busqueda
+                </h3>
 
-                <button
-                    className="bg-primary text-white p-2 rounded-full inline-flex items-center justify-center bg-opacity-90"
-                    onClick={() => setModal(true)}
-                >
-                    <FaPlus className="mr-2" />
-                    Crear Propietario
-                </button>
             </div>
             {/* {isLoading && <p className="text-gray-500">Loading...</p>}
             {isError && <p className="text-red-500">Error fetching data</p>} */}
             {/* <div className="task-container grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-6"> */}
-            <div className="px-10 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6 items-center justify-center">
+            <div className="px-14 pb-5 grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-6 items-center justify-center">
                 {data?.map((obj) => (
                     <OwnerCard
                         key={obj.id}
@@ -151,7 +161,7 @@ function OwnerList() {
                 />
             )} */}
 
-            
+
         </>
     );
 };
