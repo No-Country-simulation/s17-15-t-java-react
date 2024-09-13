@@ -110,7 +110,6 @@ function OwnerList() {
                 />
 
 
-
                 <div className='flex justify-end mr-10'>
                     <button
                         className="btn bg-primary  text-base-100 p-2 inline-flex items-center justify-center bg-opacity-90 shadow-xl"
