@@ -133,11 +133,11 @@ public class DiagnosticController {
                     )
             }
     )
-    public ResponseEntity<Page<DiagnosticDto>> getAllDiagnostics(
+    public ResponseEntity<Page<?>> getAllDiagnostics(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        Page<DiagnosticDto> diagnostics = diagnosticService.getAllDiagnostics(page, size);
+        Page<?> diagnostics = diagnosticService.getAllDiagnostics(page, size);
         return ResponseEntity.ok(diagnostics);
     }
 
@@ -232,7 +232,7 @@ public class DiagnosticController {
                     )
             }
     )
-    public ResponseEntity<Page<DiagnosticDto>> getDiagnosticsByConsultationId(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<?>> getDiagnosticsByConsultationId(@RequestParam(defaultValue = "0") int page,
                                                                               @RequestParam(defaultValue = "10") int size,
                                                                               @PathVariable Long consultationId) {
         return ResponseEntity.ok(diagnosticService.getDiagnosticsByConsultationId(page, size, consultationId));
@@ -301,13 +301,13 @@ public class DiagnosticController {
                     )
             }
     )
-    public ResponseEntity<Page<DiagnosticDto>> searchDiagnostics(
+    public ResponseEntity<Page<?>> searchDiagnostics(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "") String query
     ) {
 
-        Page<DiagnosticDto> diagnostics = diagnosticService.searchDiagnostics(page, size, query);
+        Page<?> diagnostics = diagnosticService.searchDiagnostics(page, size, query);
         return ResponseEntity.ok(diagnostics);
     }
 

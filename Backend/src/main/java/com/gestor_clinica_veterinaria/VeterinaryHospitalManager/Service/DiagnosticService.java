@@ -47,7 +47,7 @@ public class DiagnosticService {
     }
 
     @Transactional(readOnly = true)
-    public Page<DiagnosticDto> getAllDiagnostics(int page, int size) {
+    public Page<DiagnosticResponseDto> getAllDiagnostics(int page, int size) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
@@ -55,7 +55,7 @@ public class DiagnosticService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<DiagnosticEntity> diagnosticPage = diagnosticRepository.findAll(pageable);
 
-        return diagnosticPage.map(diagnosticMapper::toDto);
+        return diagnosticPage.map(diagnosticMapper::toResponseDto);
     }
     @Transactional(readOnly = true)
     public DiagnosticDto getDiagnosticById(Long id) {
@@ -95,7 +95,7 @@ public class DiagnosticService {
     }
 
     @Transactional(readOnly = true)
-    public Page<DiagnosticDto> searchDiagnostics(int page, int size, String query) {
+    public Page<DiagnosticResponseDto> searchDiagnostics(int page, int size, String query) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
@@ -103,40 +103,40 @@ public class DiagnosticService {
         Page<DiagnosticEntity> diagnosticPage = diagnosticRepository.findByNameContainingIgnoreCase(query, pageable);
 
 
-        return diagnosticPage.map(diagnosticMapper::toDto);
+        return diagnosticPage.map(diagnosticMapper::toResponseDto);
     }
 
     @Transactional(readOnly = true)
-    public DiagnosticDto getDiagnosisByTreatmentId(Long treatmentId) {
+    public DiagnosticResponseDto getDiagnosisByTreatmentId(Long treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId).orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento no existe"));
 
         DiagnosticEntity diagnostic = treatment.getDiagnosis();
 
-        return diagnosticMapper.toDto(diagnostic);
+        return diagnosticMapper.toResponseDto(diagnostic);
     }
 
     @Transactional(readOnly = true)
-    public Page<DiagnosticDto> getDiagnosticsByConsultationId(int page, int size, Long consultationId) {
+    public Page<DiagnosticResponseDto> getDiagnosticsByConsultationId(int page, int size, Long consultationId) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size parameters");
         }
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<DiagnosticEntity> diagnosticPage = diagnosticRepository.findByConsultationId(consultationId, pageable);
-        return diagnosticPage.map(diagnosticMapper::toDto);
+        return diagnosticPage.map(diagnosticMapper::toResponseDto);
     }
 
     @Transactional(readOnly = true)
-    public DiagnosticDto getDiagnosisBySurgeryId(Long surgeryId) {
+    public DiagnosticResponseDto getDiagnosisBySurgeryId(Long surgeryId) {
         Surgery surgery = surgeryRepository.findById(surgeryId).orElseThrow(() -> new SurgeryNotFoundException("La cirugiá no existe"));
         DiagnosticEntity diagnostic = surgery.getDiagnosis();
-        return diagnosticMapper.toDto(diagnostic);
+        return diagnosticMapper.toResponseDto(diagnostic);
     }
 
     @Transactional(readOnly = true)
-    public DiagnosticDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
+    public DiagnosticResponseDto getDiagnosisByComplementaryStudyId(Long complementaryStudyId) {
         ComplementaryStudy complementaryStudy = complementaryStudyRepository.findById(complementaryStudyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("El estudio complementario no existe"));
         DiagnosticEntity diagnostic = complementaryStudy.getDiagnosis();
-        return diagnosticMapper.toDto(diagnostic);
+        return diagnosticMapper.toResponseDto(diagnostic);
     }
 
 
