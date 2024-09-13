@@ -454,9 +454,9 @@ public class DiagnosticController {
                     )
             }
     )
-    public ResponseEntity<DiagnosticDto> getDiagnosisByTreatmentId(@PathVariable Long treatmentId) {
+    public ResponseEntity<?> getDiagnosisByTreatmentId(@PathVariable Long treatmentId) {
         try{
-            DiagnosticDto diagnostics = diagnosticService.getDiagnosisByTreatmentId(treatmentId);
+            DiagnosticResponseDto diagnostics = diagnosticService.getDiagnosisByTreatmentId(treatmentId);
             return ResponseEntity.ok(diagnostics);
         } catch (DiagnosticNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
