@@ -66,15 +66,10 @@ public class HospitalizationService {
         Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
                 .orElseThrow(() -> new EntityNotFoundException("No se ha podido actualizar la hospitalización porque el id ingresado es incorrecto o no existe: " + hospitalizationId));
 
-        if (dto.startDate() != null) {
-            hospitalization.setStartDate(dto.startDate());
-        }
-        if (dto.endDate() != null) {
-            hospitalization.setEnd_date(dto.endDate());
-        }
-        if (dto.hospitalizationCost() != null) {
-            hospitalization.setHospitalizationCost(dto.hospitalizationCost());
-        }
+        hospitalization.setStartDate(dto.startDate());
+        hospitalization.setEnd_date(dto.endDate());
+        hospitalization.setHospitalizationCost(dto.hospitalizationCost());
+
         hospitalization.setPaid(dto.paid());
 
         if (dto.startDate() != null && dto.endDate() != null) {

@@ -146,10 +146,10 @@ public class TreatmentController {
         return ResponseEntity.ok(treatmentService.getAllTreatmentsByOwnerId(ownerId));
     }
 
-    @PatchMapping("/update/{treatmentId}")
+    @PutMapping("/update/{treatmentId}")
     @Operation(
             summary = "Update Treatment",
-            description = "Partially or fully update a Treatment",
+            description = "Fully update a Treatment",
             tags = {"Treatment"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Treatment object with fields to update",

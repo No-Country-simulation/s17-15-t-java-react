@@ -71,10 +71,10 @@ public class ComplementaryStudyController {
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
     }
 
-    @PatchMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     @Operation(
             summary = "Update Complementary Study",
-            description = "Partially or fully update a Complementary Study",
+            description = "Fully update a Complementary Study",
             tags = {"Complementary Study"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Complementary Study object with fields to update",

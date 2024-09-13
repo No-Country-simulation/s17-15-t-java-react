@@ -141,10 +141,10 @@ public class HospitalizationController {
         return ResponseEntity.ok(hospitalizationService.getHospitalizationByComplementaryStudy(complementaryStudyId));
     }
 
-    @PatchMapping("/update/{hospitalizationId}")
+    @PutMapping("/update/{hospitalizationId}")
     @Operation(
             summary = "Update Hospitalization",
-            description = "Partially or fully update a Hospitalization",
+            description = "Fully update a Hospitalization",
             tags = {"Hospitalization"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Hospitalization object with fields to update",

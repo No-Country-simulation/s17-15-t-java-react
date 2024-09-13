@@ -104,54 +104,50 @@ public class ComplementaryStudyService {
     public ComplementaryStudy updateStudy(Long studyId, StudyRequest dto, MultipartFile studyFile) {
         Optional<ComplementaryStudy> studyOptional = complementaryStudyRepository.findById(studyId);
 
-        if (studyOptional.isPresent()) {
+        if (studyOptional.isPresent()){
             ComplementaryStudy existingStudy = studyOptional.get();
 
-            if (existingStudy != null) {
-                if (dto.examinationDate() != null) {
-                    existingStudy.setExaminationDate(dto.examinationDate());
-                }
-                if (dto.studyCost() != null) {
-                    existingStudy.setStudyCost(dto.studyCost());
-                }
-                if (dto.studyState() != null) {
-                    existingStudy.setStudyState(dto.studyState());
-                }
-                if (dto.studyResult() != null) {
-                    existingStudy.setStudyResult(dto.studyResult().get());
-                }
-                if (studyFile != null) {
-                    String filePath = fileStorageService.saveFile(studyFile);
-                    existingStudy.setStudyFile(filePath);
-                }
-                if (dto.consultationId() != null) {
-                    ConsultationEntity consultation = consultationRepository.findById(dto.consultationId().get())
-                            .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + dto.consultationId()));
-                    existingStudy.setConsultation(consultation);
-                }
-                if (dto.diagnosisId() != null) {
-                    DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId().get())
-                            .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
-                    existingStudy.setDiagnosis(diagnosisEntity);
-                }
-                if (dto.studyType() != null) {
-                    existingStudy.setStudyType(dto.studyType());
-                }
+            existingStudy.setExaminationDate(dto.examinationDate());
+            existingStudy.setStudyCost(dto.studyCost());
+            existingStudy.setStudyState(dto.studyState());
+            existingStudy.setStudyResult(dto.studyResult().get());
+            existingStudy.setStudyType(dto.studyType());
 
-                if (dto.hospitalizationId() != null) {
-                    Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId().get())
-                            .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
-                    existingStudy.setHospitalization(hospitalization);
-                } else {
-                    existingStudy.setHospitalization(null);
-                }
+            if (studyFile != null) {
+                String filePath = fileStorageService.saveFile(studyFile);
+                existingStudy.setStudyFile(filePath);
+            }else {
+                existingStudy.setStudyFile(null);
+            }
+
+            if (dto.consultationId() != null) {
+                ConsultationEntity consultation = consultationRepository.findById(dto.consultationId().get())
+                        .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + dto.consultationId()));
+                existingStudy.setConsultation(consultation);
+            } else {
+                existingStudy.setConsultation(null);
+            }
+
+            if (dto.diagnosisId() != null) {
+                DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId().get())
+                        .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
+                existingStudy.setDiagnosis(diagnosisEntity);
+            } else {
+                existingStudy.setDiagnosis(null);
+            }
+
+            if (dto.hospitalizationId() != null) {
+                Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId().get())
+                        .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
+                existingStudy.setHospitalization(hospitalization);
+            } else {
+                existingStudy.setHospitalization(null);
+            }
 
                 return complementaryStudyRepository.save(existingStudy);
-            } else {
-                throw new NullPointerException("Existing study is null");
-            }
         } else {
             throw new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
         }
-    }
+        }
+
 }

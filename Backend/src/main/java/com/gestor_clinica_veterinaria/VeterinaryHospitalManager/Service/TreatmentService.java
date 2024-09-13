@@ -72,43 +72,31 @@ public class TreatmentService {
         return treatmentRepository.findAllById(Collections.singleton(ownerId));
     }
 
-    public Treatment updateTreatment(Long treatmentId, TreatmentRequest dto){
+    public Treatment updateTreatment(Long treatmentId, TreatmentRequest dto) {
+        Treatment existingTreatment = treatmentRepository.findById(treatmentId)
+                .orElseThrow(() -> new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + treatmentId));
 
-        Optional<Treatment> treatmentOptional = treatmentRepository.findById(treatmentId);
+        existingTreatment.setTreatmentDescription(dto.treatmentDescription());
+        existingTreatment.setDuration(dto.duration());
+        existingTreatment.setAdditionalObservations(dto.aditionalObservations());
+        existingTreatment.setTreatmentCost(dto.treatmentCost());
 
-        if (treatmentOptional.isPresent()) {
-
-            Treatment existingTreatment = treatmentOptional.get();
-
-            if (dto.treatmentDescription() != null){
-                existingTreatment.setTreatmentDescription(dto.treatmentDescription());
-            }
-            if (dto.duration() != null){
-                existingTreatment.setDuration(dto.duration());
-            }
-            if (dto.aditionalObservations() != null){
-                existingTreatment.setAdditionalObservations(dto.aditionalObservations());
-            }
-            if (dto.treatmentCost() != null){
-                existingTreatment.setTreatmentCost(dto.treatmentCost());
-            }
-            if (dto.diagnosisId() != null) {
-                DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId().get())
-                        .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
-                existingTreatment.setDiagnosis(diagnosisEntity);
-            }
-            if (dto.hospitalizationId() != null) {
-                Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId().get())
-                        .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
-                existingTreatment.setHospitalization(hospitalization);
-            } else {
-                existingTreatment.setHospitalization(null);
-            }
-
-            return treatmentRepository.save(existingTreatment);
-
+        if (dto.diagnosisId() != null) {
+            DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId().get())
+                    .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
+            existingTreatment.setDiagnosis(diagnosisEntity);
         } else {
-            throw new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + treatmentId);
+            existingTreatment.setDiagnosis(null);
         }
+
+        if (dto.hospitalizationId() != null) {
+            Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId().get())
+                    .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
+            existingTreatment.setHospitalization(hospitalization);
+        } else {
+            existingTreatment.setHospitalization(null);
+        }
+
+        return treatmentRepository.save(existingTreatment);
     }
 }
