@@ -45,11 +45,15 @@ public class ConsultationEntity{
     private Pet pet;
 
 
-    @OneToMany(mappedBy = "consultation", targetEntity = DiagnosticEntity.class, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "consultation", targetEntity = DiagnosticEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DiagnosticEntity> diagnostics;
 
 
     @OneToMany(mappedBy = "consultation", targetEntity = ComplementaryStudy.class, fetch = FetchType.LAZY)
     private List<ComplementaryStudy> complementaryStudies = new ArrayList<>();
+
+    @OneToOne(mappedBy = "consultation")
+    private InvoiceEntity invoice;
+
 
 }
