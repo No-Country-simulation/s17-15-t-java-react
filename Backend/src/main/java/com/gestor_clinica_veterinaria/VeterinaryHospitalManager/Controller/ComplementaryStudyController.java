@@ -64,7 +64,7 @@ public class ComplementaryStudyController {
             }
     )
 
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestParam("studyRequest") StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) {
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) {
 
         String filePath = fileStorageService.saveFile(studyFile);
         FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
