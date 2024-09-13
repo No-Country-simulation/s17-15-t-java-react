@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -162,5 +163,14 @@ public class ConsultationService {
             Page<ConsultationEntity> consultationPage = consultationRepository.findByVeterinarian(vetId, pageable);
             return consultationPage.map(consultationMapper::toDto);
 
+    }
+
+    @Transactional
+    public void deleteConsultation(Long id) {
+        try {
+            consultationRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new EntityNotFoundException("La consulta no se puede eliminar porque no existe" + ex);
+        }
     }
 }
