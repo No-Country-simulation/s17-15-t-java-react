@@ -25,7 +25,7 @@ public class InvoiceEntity {
     private LocalDate invoiceDate;
 
     @OneToOne(targetEntity = ConsultationEntity.class)
-    @JoinColumn(name = "consultation_id")
+    @JoinColumn(name = "consultation_id", nullable = true)
     private ConsultationEntity consultation;
 
     private BigDecimal totalCost;

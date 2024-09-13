@@ -29,9 +29,9 @@ public class ConsultationService {
     private final ConsultationMapper consultationMapper;
     private final DiagnosticRepository diagnosticRepository;
     private final ComplementaryStudyRepository complementaryStudyRepository;
-    private final OwnerRepository ownerRepository;
     private final PetRepository petRepository;
     private final VeterinarianRepository veterinarianRepository;
+    private final InvoiceRepository invoiceRepository;
 
 
     @Transactional
@@ -168,9 +168,24 @@ public class ConsultationService {
     @Transactional
     public void deleteConsultation(Long id) {
         try {
+            // Buscar la consulta por id
+            ConsultationEntity consultation = consultationRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("La consulta no existe con id: " + id));
+
+            // Verificar si hay una factura asociada
+            InvoiceEntity invoice = consultation.getInvoice();
+            if (invoice != null) {
+                // Desvincular la factura de la consulta
+                invoice.setConsultation(null);
+                invoiceRepository.save(invoice);  // Guardar los cambios en la factura
+            }
+
+            // Eliminar la consulta
             consultationRepository.deleteById(id);
+
         } catch (EmptyResultDataAccessException ex) {
-            throw new EntityNotFoundException("La consulta no se puede eliminar porque no existe" + ex);
+            throw new EntityNotFoundException("La consulta no se puede eliminar porque no existe: " + ex.getMessage());
         }
     }
+
 }
