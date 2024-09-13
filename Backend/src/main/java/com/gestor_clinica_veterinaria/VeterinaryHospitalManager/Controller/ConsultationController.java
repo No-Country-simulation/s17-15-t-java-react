@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -219,5 +220,20 @@ public class ConsultationController {
     )
     public ResponseEntity<ConsultationDto> getConsultationByDiagnosisId(@PathVariable Long diagnosisId) {
         return ResponseEntity.ok(consultationService.getConsultationByDiagnosisId(diagnosisId));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Delete Consultation",
+            description = "Delete Consultation",
+            tags = {"Consultation"}
+    )
+    public ResponseEntity<?> deleteConsultation(@PathVariable Long id) {
+        try{
+            consultationService.deleteConsultation(id);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
