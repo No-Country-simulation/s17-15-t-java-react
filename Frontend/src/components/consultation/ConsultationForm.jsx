@@ -1,62 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import { useAuth } from '../../contexts/AuthContext';
 
-function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner = null }) {
-    const [petName, setPetName] = useState('');
-    const [race, setRace] = useState('');
-    const [species, setSpecies] = useState('PERRO');
-    const [birthdate, setBirthdate] = useState('');
-    const [sex, setSex] = useState('MACHO');
-    const [allergies, setAllergies] = useState('');
-    const [castrated, setCastrated] = useState(false);
-    const [active, setActive] = useState(true);
-    const [details, setDetails] = useState('');
-    const [ownerID, setOwnerID] = useState(0);
+function ConsultationForm({ modal, toggle, onSave, objItem = {}, isEdit = false, idPet = null }) {
+    //id_veterinario
+    //id_pet
+    const { user__id } = useAuth('state') //id del veterinario (usuario)
+
+    const [petID, setPetID] = useState(0)
+    const [veterinarioID, setVeterinarioID] = useState(0)
+    const [consultationName, setConsultationName] = useState('');
+    const [consultationDate, setConsultationDate] = useState('');
+    const [anamnesis, setAnamnesis] = useState('');
+    const [observations, setObservations] = useState('');
+    const [state, setState] = useState('PENDIENTE');
+    const [costConsultation, setCostConsultation] = useState(0);
+
+    // setPetID(idPet);
+    // setVeterinarioID(user__id);
+
 
     useEffect(() => {
-        if (isEdit && objPet) {
-            setPetName(objPet.name || '');
-            setRace(objPet.race || '');
-            setSpecies(objPet.species || 'PERRO');
-            setBirthdate(objPet.birthdate || '');
-            setSex(objPet.sex || 'MACHO');
-            setAllergies(objPet.allergies || '');
-            setCastrated(objPet.castrated || false);
-            setActive(objPet.active || true);
-            setDetails(objPet.details || '');
-            setOwnerID(objPet.owner_id || 0);
+        if (isEdit && objItem) {
+            setPetID(objItem.veterinarian || user__id);
+            setVeterinarioID(objItem.id_pet || idPet);
+            setConsultationName(objItem.name || '');
+            setConsultationDate(objItem.consultationDate || '');
+            setAnamnesis(objItem.anamnesis || '');
+            setObservations(objItem.observations || '');
+            setState(objItem.state || 'PENDIENTE');
+            setCostConsultation(objItem.costConsultation || 0);
+
         } else {
-            setOwnerID(idOwner);
+            setPetID(idPet);
+            setVeterinarioID(user__id);
         }
-    }, [isEdit, objPet]);
+    }, [isEdit, objItem]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         switch (name) {
-            case 'petName':
-                setPetName(value);
+            case 'consultationName':
+                setConsultationName(value);
                 break;
-            case 'race':
-                setRace(value);
+            case 'consultationDate':
+                setConsultationDate(value);
                 break;
-            case 'species':
-                setSpecies(value);
+            case 'anamnesis':
+                setAnamnesis(value);
                 break;
-            case 'birthdate':
-                setBirthdate(value);
+            case 'observations':
+                setObservations(value);
                 break;
-            case 'sex':
-                setSex(value);
+            case 'state':
+                setState(value);
                 break;
-            case 'allergies':
-                setAllergies(value);
+            case 'costConsultation':
+                setCostConsultation(value);
                 break;
-            case 'castrated':
-                setCastrated(type === 'checkbox' ? checked : value);
-                break;
-            case 'active':
-                setActive(type === 'checkbox' ? checked : value);
-                break;
+
+
+            // case 'active':
+            //     setActive(type === 'checkbox' ? checked : value);
+            //     break;
             case 'details':
                 setDetails(value);
                 break;
@@ -67,20 +73,20 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const petData = {
-            name: petName,
-            race: race,
-            species: species,
-            birthdate: birthdate,
-            sex: sex,
-            allergies: allergies,
-            castrated: castrated,
-            active: active,
-            details: details,
-            owner_id: ownerID,
+        const itemData = {
+
+            id_veterinarian: veterinarioID,
+            id_pet: petID,
+            name: consultationName,
+            consultationDate: consultationDate,
+            anamnesis: anamnesis,
+            observations: observations,
+            state: state,
+            costConsultation: costConsultation,
+            
         };
 
-        onSave(petData, isEdit ? objPet.id : null);
+        onSave(itemData, isEdit ? objItem.id_consultation : null);
         toggle(false);
     };
 
@@ -92,7 +98,7 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-lg">
                 <div className="flex justify-between items-center p-4 border-b">
-                    <h2 className="text-xl font-semibold">{isEdit ? 'Update' : 'Create'} Mascotas</h2>
+                    <h2 className="text-xl font-semibold">{isEdit ? 'Actualizar' : 'Crear'} Consulta</h2>
                     <button onClick={toggle} className="text-gray-500 hover:text-gray-700">
                         <FaTimes size={20} />
                     </button>
@@ -106,8 +112,8 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                             </div>
                             <input
                                 type="text"
-                                name="petName"
-                                value={petName}
+                                name="consultationName"
+                                value={consultationName}
                                 onChange={handleChange}
                                 placeholder="Ingresar nombre"
                                 required
@@ -117,14 +123,14 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
 
                         <div className="form-control">
                             <div className="label">
-                                <span className="label-text font-semibold text-base-300">Raza:</span>
+                                <span className="label-text font-semibold text-base-300">anamnesis:</span>
                             </div>
                             <input
                                 type="text"
-                                name="race"
-                                value={race}
+                                name="anamnesis"
+                                value={anamnesis}
                                 onChange={handleChange}
-                                placeholder="Ingresar raza"
+                                placeholder="Ingresar anamnesis"
                                 required
                                 className="input input-bordered w-full"
                             />
@@ -132,34 +138,64 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
 
                         <div className="form-control">
                             <div className="label">
-                                <span className="label-text font-semibold text-base-300">Especie:</span>
+                                <span className="label-text font-semibold text-base-300">Estado:</span>
                             </div>
                             <select
-                                name="species"
-                                value={species}
+                                name="state"
+                                value={state}
                                 onChange={handleChange}
                                 className="input input-bordered w-full"
                             >
-                                <option value="PERRO">PERRO</option>
-                                <option value="GATO">GATO</option>
-                                <option value="OTRO">OTRO</option>
+                                <option value="PENDIENTE">PENDINTE</option>
+                                <option value="EN_PROCESO">EN PROCESO</option>
+                                <option value="FINALIZADO">FINALIZADO</option>
+                                <option value="CANCELADO">CANCELADO</option>
                             </select>
                         </div>
 
                         <div className="form-control">
                             <div className="label">
-                                <span className="label-text font-semibold text-base-300">Fecha de Nacimiento:</span>
+                                <span className="label-text font-semibold text-base-300">Fecha de consulta:</span>
                             </div>
                             <input
                                 type="date"
-                                name="birthdate"
-                                value={birthdate}
+                                name="consultationDate"
+                                value={consultationDate}
                                 onChange={handleChange}
                                 className="input input-bordered w-full"
                             />
                         </div>
 
                         <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Observación:</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="observations"
+                                value={observations}
+                                onChange={handleChange}
+                                placeholder="observación"
+                                required
+                                className="input input-bordered w-full"
+                            />
+                        </div>
+                        <div className="form-control">
+                            <div className="label">
+                                <span className="label-text font-semibold text-base-300">Costo:</span>
+                            </div>
+                            <input
+                                type="text"
+                                name="costConsultation"
+                                value={costConsultation}
+                                onChange={handleChange}
+                                placeholder="costo"
+                                required
+                                className="input input-bordered w-full"
+                            />
+                        </div>
+
+                        {/* <div className="form-control">
                             <div className="label">
                                 <span className="label-text font-semibold text-base-300">Sexo:</span>
                             </div>
@@ -187,9 +223,9 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                                     <span className="ml-2">HEMBRA</span>
                                 </label>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="form-control">
+                        {/* <div className="form-control">
                             <div className="label">
                                 <span className="label-text font-semibold text-base-300">Alergias:</span>
                             </div>
@@ -201,9 +237,9 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                                 placeholder="Ingresar alergias"
                                 className="input input-bordered w-full"
                             />
-                        </div>
+                        </div> */}
 
-                        <div className="form-control">
+                        {/* <div className="form-control">
                             <div className="label">
                                 <span className="label-text font-semibold text-base-300">Castrado:</span>
                             </div>
@@ -214,23 +250,11 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                                 onChange={handleChange}
                                 className="checkbox"
                             />
-                        </div>
+                        </div> */}
 
-                        <div className="form-control">
-                            <div className="label">
-                                <span className="label-text font-semibold text-base-300">Activo:</span>
-                            </div>
-                            <input
-                                type="checkbox"
-                                name="active"
-                                checked={active}
-                                onChange={handleChange}
-                                className="checkbox"
-                            />
-                        </div>
                     </div>
 
-                    <div className="form-control w-full pb-2">
+                    {/* <div className="form-control w-full pb-2">
                         <div className="label">
                             <span className="label-text font-semibold text-base-300">Detalles:</span>
                         </div>
@@ -241,14 +265,14 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                             placeholder="Ingresar detalles"
                             className="textarea textarea-bordered w-full"
                         />
-                    </div>
+                    </div> */}
 
                     <div className="flex justify-end">
                         <button
                             type="submit"
                             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mr-2"
                         >
-                            {isEdit ? 'Update' : 'Save'}
+                            {isEdit ? 'Actualizar' : 'Guardar'}
                         </button>
                         <button
                             onClick={toggle}
@@ -264,5 +288,5 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
     );
 }
 
-export default PetForm;
+export default ConsultationForm;
 

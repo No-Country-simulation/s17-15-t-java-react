@@ -7,7 +7,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import ConfirmDeleteModal from '../UI/ConfirmDeleteModal';
 
 
-function ConsultationCard({ consultationObj, deleteConsultation, updateListArray }) {
+function ConsultationCard({ itemObj, deleteItem, updateListArray }) {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth('state');
     const [modal, setModal] = useState(false);
@@ -17,13 +17,12 @@ function ConsultationCard({ consultationObj, deleteConsultation, updateListArray
         setModal(!modal);
     };
 
-    const updateConsultation = (fromData, id) => {
+    const updateItem = (fromData, id) => {
         updateListArray(fromData, id);
     };
 
-    const handleDelete = (e) => {
-        e.stopPropagation();
-        deleteConsultation(consultationObj.id);
+    const handleDelete = () => {
+        deleteItem(itemObj.id_consultation);
     };
 
     return (
@@ -37,21 +36,21 @@ function ConsultationCard({ consultationObj, deleteConsultation, updateListArray
 
             <div className="">
                 id_veterinarian
-                <p className="">{consultationObj.id_veterinarian ? consultationObj.id_veterinarian : "No disponible"}</p>
+                <p className="">{itemObj.id_veterinarian ? itemObj.id_veterinarian : "No disponible"}</p>
                 id_pet
-                <p className="">{consultationObj.id_pet ? consultationObj.id_pet : "No disponible"}</p>
+                <p className="">{itemObj.id_pet ? itemObj.id_pet : "No disponible"}</p>
                 name
-                <p className="">{consultationObj.name ? consultationObj.name : "No disponible"}</p>
+                <p className="">{itemObj.name ? itemObj.name : "No disponible"}</p>
                 consultationDate
-                <p className="">{consultationObj.consultationDate ? consultationObj.consultationDate : "No disponible"}</p>
+                <p className="">{itemObj.consultationDate ? itemObj.consultationDate : "No disponible"}</p>
                 anamnesis
-                <p className="">{consultationObj.anamnesis ? consultationObj.anamnesis : "No disponible"}</p>
+                <p className="">{itemObj.anamnesis ? itemObj.anamnesis : "No disponible"}</p>
                 observations
-                <p className="">{consultationObj.observations ? consultationObj.observations : "No disponible"}</p>
+                <p className="">{itemObj.observations ? itemObj.observations : "No disponible"}</p>
                 state
-                <p className="">{consultationObj.state ? consultationObj.state : "No disponible"}</p>
+                <p className="">{itemObj.state ? itemObj.state : "No disponible"}</p>
                 costConsultation
-                <p className="">{consultationObj.costConsultation ? consultationObj.costConsultation : "No disponible"}</p>
+                <p className="">{itemObj.costConsultation ? itemObj.costConsultation : "No disponible"}</p>
 
                 {isAuthenticated && (
                     <div className="absolute bottom-0 flex right-0 px-0.5 space-x-1 rounded-lg bg-opacity-95">
@@ -86,8 +85,8 @@ function ConsultationCard({ consultationObj, deleteConsultation, updateListArray
             <EditConsultation
                 modal={modal}
                 toggle={toggle}
-                updatePet={updateConsultation}
-                objConsultation={consultationObj}
+                updateItem={updateItem}
+                objItem={itemObj}
             />
 
             <ConfirmDeleteModal

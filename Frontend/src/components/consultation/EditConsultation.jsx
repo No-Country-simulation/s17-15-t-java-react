@@ -1,13 +1,13 @@
 import React from 'react';
 import ConsultationForm from './ConsultationForm';
 
-function EditConsultation({ modal, toggle, updateConsultation, objConsultation }) {
+function EditConsultation({ modal, toggle, updateItem, objItem }) {
     return (
         <ConsultationForm
             modal={modal}
             toggle={toggle}
-            onSave={updateConsultation}
-            objConsultation={objConsultation}
+            onSave={updateItem}
+            objItem={objItem}
             isEdit={true}
         />
     );

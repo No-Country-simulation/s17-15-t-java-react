@@ -10,6 +10,15 @@ import ConfirmDeleteModal from '../UI/ConfirmDeleteModal';
 // deleteTask = deleteArtist
 // updateListArray = updateArtist
 
+const formatPhoneNumber = (phoneNumber) => {
+    if (!phoneNumber) return "No disponible";
+    const country = phoneNumber.slice(0, 3); // (+549)
+    const area = phoneNumber.slice(3, 5); // 22
+    const part1 = phoneNumber.slice(5, 9); // 2222
+    const part2 = phoneNumber.slice(9, 13); // 2222
+    return `(+${country}) ${area} ${part1} ${part2}`;
+};
+
 function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
     const { isAuthenticated } = useAuth('state');
     const imagenDefault = 'https://www.forumchaves.com.br/listach/site/imagens/imagem_indisponivel_es.jpg';
@@ -30,7 +39,7 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
     };
 
     return (
-        <div className="card card-compact relative bg-primary bg-opacity-[40%] text-base-300 w-80 shadow-xl border-base-300 border-[1px] border-opacity-35 min-h-60">
+        <div className="card card-compact rounded-md relative bg-primary bg-opacity-[40%] text-base-300 w-72 shadow-xl border-base-300 border-[1px] border-opacity-35 min-h-72">
             {/* <div className="bg-gradient-to-r from-red-400 via-pink-500 to-purple-600 h-2 w-full rounded-t-lg"></div> */}
             {/* <div className="bg-gradient-to-r from-blue-600 to-cyan-400 h-2 w-full rounded-t-lg"></div> */}
             {/* <div className="bg-gradient-to-r from-cyan-400 to-blue-600 h-2 w-full rounded-t-2xl"></div> */}
@@ -55,8 +64,9 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
                             <p className="text-xs overflow-hidden overflow-ellipsis">{ownerObj.email ? ownerObj.email : "No disponible"}</p>
                         </div>
                         <div>
-                            {/* <p className='font-bold'>Phone:</p> */}
-                            <p className="text-xs overflow-hidden overflow-ellipsis">{ownerObj.phone ? ownerObj.phone : "No disponible"}</p>
+                            <p className="text-xs overflow-hidden overflow-ellipsis">
+                                {ownerObj.phone ? formatPhoneNumber(ownerObj.phone) : "No disponible"}
+                            </p>
                         </div>
                         <div>
                             {/* <p className='font-bold'>Direccion:</p> */}
@@ -82,7 +92,7 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
 
 
                 {isAuthenticated && (
-                    <div className="tooltip tooltip-right btn btn-circle btn-sm absolute top-3 right-3 flex space-x-2 bg-base-300  bg-opacity-100 border-base-300" data-tip="Editar Dueño">
+                    <div className="tooltip tooltip-top btn btn-circle btn-sm absolute top-3 right-3 flex space-x-2 bg-base-300  bg-opacity-100 border-base-300" data-tip="Editar Propietario">
                         <MdOutlineEdit
                             className="text-xl cursor-pointer text-neutral"
                             onClick={() => setModal(true)}

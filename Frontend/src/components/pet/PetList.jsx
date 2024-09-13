@@ -108,7 +108,7 @@ function PetList(id) {
 
 
             <div className="flex justify-between items-center pb-2">
-                <h2 className='font-semibold'>Mascota:</h2>
+                <h2 className='font-semibold'>Mascotas:</h2>
 
                 {/* <button className={`${previous ? "text-blue-500" : "text-gray-400 cursor-not-allowed"
                     }`} onClick={handlePreviousPage} disabled={!previous}><GrFormPreviousLink size={20} /></button> */}
@@ -117,29 +117,36 @@ function PetList(id) {
 
                 {/* <button className={`${next ? "text-blue-500" : "text-gray-400 cursor-not-allowed"
                     }`} onClick={handleNextPage} disabled={!next}><GrFormNextLink size={20} /></button> */}
-                <button
-                    className="absolute bottom-3 right-3 tooltip tooltip-right btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis border-base-300" data-tip="Agregar Mascota"
-                    onClick={() => setModal(true)}
-                >
-                    <FaPlus size={10} /> Agregar
 
-                </button>
 
             </div>
             {/* </div> */}
 
             {/* <div className="task-container grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-6"> */}
-            <div className="grid grid-cols-3 gap-2">
-                {data?.map((obj) => (
-                    <PetCard
-                        key={obj.id}
-                        petObj={obj}
-                        deletePet={handleDelete}
-                        updateListArray={handleEdit} // Pasar la función handleEdit para abrir el modal de edición
-                    // artistName={artistsMap[obj.artist]}
-                    />
+            <div className="grid grid-cols-3 gap-2 pb-8">
+                {data?.length > 0 ? (
+                    data.map((obj) => (
+                        <PetCard
+                            key={obj.id}
+                            petObj={obj}
+                            deletePet={handleDelete}
+                            updateListArray={handleEdit} // Pasar la función handleEdit para abrir el modal de edición
+                        />
+                    ))
+                ) : (
+                    <div className="pt-3 text-center col-span-3">
+                        <p>-- Agrega una mascota --</p>
+                    </div>
+                )}
 
-                ))}
+                <button
+                    className="absolute min-w-20 bottom-3 right-3 tooltip tooltip-top btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center overflow-ellipsis border-base-300" data-tip="Mascota"
+                    onClick={() => setModal(true)}
+                >
+                    <span className='text-[12px]'>Agregar</span>
+                    <FaPlus size={12} />
+
+                </button>
 
             </div>
             {/* <button

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ConsultationList from '../components/consultation/ConsultationList';
 
 function PetDetail2() {
   const { id } = useParams();
@@ -7,6 +8,23 @@ function PetDetail2() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const baseURL = `https://veterinaria-bef3.onrender.com/pet/${id}`;
+
+  const getSpeciesImage = (species) => {
+    switch (species.toLowerCase()) {
+      case 'perro':
+        return '/avatar_mascota/Perro.png';
+      case 'gato':
+        return '/avatar_mascota/Gato.png';
+      case 'ave':
+        return '/avatar_mascota/Ave.png';
+      case 'reptil':
+        return '/avatar_mascota/Reptil.png';
+      case 'tortuga':
+        return '/avatar_mascota/Tortuga.png';
+      default:
+        return '/avatar_mascota/default.png'; // Imagen por defecto
+    }
+  };
 
   useEffect(() => {
     const fetchPetDetails = async () => {
@@ -33,21 +51,41 @@ function PetDetail2() {
 
   return (
     <>
-      <div className="p-4 sm:px-8 sm:py-6 lg:p-4 xl:px-8 xl:py-6">
-        <h2 className="font-semibold text-slate-900">{pet.name}</h2>
-        <p><strong>Species:</strong> {pet.species}</p>
-        <p><strong>Race:</strong> {pet.race}</p>
-        <p><strong>Sex:</strong> {pet.sex}</p>
-        <p><strong>Birthdate:</strong> {pet.birthdate}</p>
-        <p><strong>Allergies:</strong> {pet.allergies}</p>
-        <p><strong>Castrated:</strong> {pet.castrated ? "Yes" : "No"}</p>
-        <p><strong>Active:</strong> {pet.active ? "Yes" : "No"}</p>
-        <p><strong>Details:</strong> {pet.details}</p>
+      <p className='text-2xl font-bold text-center p-5'>Mascota:</p>
+      <div className='flex items-center justify-center '>
+        <div className="card card-side bg-base-200 shadow-xl">
+          <figure className='p-5'>
+            <img
+              src={getSpeciesImage(pet.species)}
+              alt=""
+              className="w-32 h-32 object-cover mx-auto border-2 border-primary rounded-lg"
+            />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">{pet.name}</h2>
+            <div className='grid grid-cols-2 gap-x-3'>
+              <p><strong>Species:</strong> {pet.species}</p>
+              <p><strong>Race:</strong> {pet.race}</p>
+              <p><strong>Sex:</strong> {pet.sex}</p>
+              <p><strong>Birthdate:</strong> {pet.birthdate}</p>
+              <p><strong>Allergies:</strong> {pet.allergies}</p>
+              <p><strong>Castrated:</strong> {pet.castrated ? "Yes" : "No"}</p>
+              <p><strong>Active:</strong> {pet.active ? "Yes" : "No"}</p>
+              <p><strong>Details:</strong> {pet.details}</p>
+            </div>
+
+            {/* <div className="card-actions justify-end">
+              <button className="btn btn-primary">Watch</button>
+            </div> */}
+          </div>
+        </div>
       </div>
-      <div role="tablist" className="tabs tabs-lifted">
-        <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Consultas" />
+
+      <p className='text-2xl font-bold text-center p-5'>Otro titulo:</p>
+      <div role="tablist" className="tabs tabs-lifted px-16 p-5">
+        <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Consultas" defaultChecked />
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-          Tab content 1
+          <ConsultationList id={id} />
         </div>
 
         <input
@@ -56,7 +94,7 @@ function PetDetail2() {
           role="tab"
           className="tab"
           aria-label="Diagnosticos"
-          defaultChecked />
+        />
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
           Tab content 2
         </div>
@@ -69,7 +107,5 @@ function PetDetail2() {
     </>
   );
 }
-
-
 
 export default PetDetail2;

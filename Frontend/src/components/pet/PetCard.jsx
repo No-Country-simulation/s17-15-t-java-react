@@ -23,13 +23,13 @@ function PetCard({ petObj, deletePet, updateListArray }) {
         updateListArray(fromData, id);
     };
 
-    const handleDelete = (e) => {
-        e.stopPropagation();
+    const handleDelete = () => {
+        // e.stopPropagation();
         deletePet(petObj.id);
     };
 
     return (
-        <div className="shadow-lg rounded-lg relative gap-1"
+        <div className="shadow-xl rounded-lg relative gap-1"
             onClick={() => {
                 
                 navigate("/mascota/" + petObj.id)
@@ -46,7 +46,7 @@ function PetCard({ petObj, deletePet, updateListArray }) {
                 </span> */}
 
 
-                <p className="btn btn-xs bg-primary bg-opacity-90 text-neutral rounded-xl shadow-2xl text-center min-w-20 border-[1px] border-primary border-opacity-60 overflow-ellipsis">{petObj.name ? petObj.name : "No disponible"}</p>
+                <p className="btn btn-xs bg-primary bg-opacity-90 rounded-xl text-center min-w-20 border-[1px] border-primary border-opacity-60 overflow-ellipsis">{petObj.name ? petObj.name : "No disponible"}</p>
                 {/* <p className="text-xs overflow-hidden overflow-ellipsis">{songArtistObj.song ? songArtistObj.song : "informacion no disponible"}</p> */}
 
 
@@ -90,8 +90,12 @@ function PetCard({ petObj, deletePet, updateListArray }) {
 
             <ConfirmDeleteModal
                 isOpen={isDeleteModalOpen}
-                onClose={() => setIsDeleteModalOpen(false)}
-                onConfirm={() => {
+                onClose={(e) => {
+                    e.stopPropagation();
+                    setIsDeleteModalOpen(false)
+                }}
+                onConfirm={(e) => {
+                    e.stopPropagation();
                     handleDelete();
                     setIsDeleteModalOpen(false);
                 }}
