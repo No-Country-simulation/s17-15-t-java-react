@@ -108,7 +108,7 @@ function ConsultationForm({ modal, toggle, onSave, objItem = {}, isEdit = false,
                         <div className="form-control">
                             <div className="label">
                                 <span className="label-text font-semibold text-base-300">Nombre:</span>
-                                <span className="label-text-alt text-red-500">Requerido</span>
+                                
                             </div>
                             <input
                                 type="text"
