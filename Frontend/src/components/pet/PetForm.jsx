@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import Navbar from '../Navbar';
 import { Link } from "react-router-dom"
+import { TiArrowBack } from "react-icons/ti";
 
 function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner = null }) {
     const [petName, setPetName] = useState('');
@@ -97,9 +98,16 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
 
         <div className="fixed inset-0 z-50 overflow-hidden bg-white bg-opacity-100">
             <Navbar className="w-full fixed top-0 left-0 z-50" />
-            {isEdit && (<Link to={`/mascota/${objPet.id}`} type="button" className="btn btn-link text-base-300 btn-sm mx-16 mt-1 ">
-                volver
-            </Link>)}
+            {isEdit && (
+                <button
+                onClick={() => navigate(-1)}
+                className="pl-10 mt-4 font-bold flex flex-row"
+            >
+                <TiArrowBack />
+                Volver
+            </button>
+        
+        )}
 
             <div className="w-screen h-screen flex justify-center items-start overflow-x-hidden">
                 {/* Ajuste de pt-20 para asegurar que el contenido no quede detrás del Navbar */}

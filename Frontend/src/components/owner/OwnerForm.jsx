@@ -49,6 +49,14 @@ function OwnerForm({ modal, toggle, onSave, objOwner = {}, isEdit = false }) {
 
     return (
         <div className="fixed inset-0 z-50 overflow-hidden bg-[#eaf8f7] bg-opacity-100">
+                        <button
+                onClick={() => navigate(-1)}
+                className="pl-10 mt-4 font-bold flex flex-row"
+            >
+                <TiArrowBack />
+                Volver
+            </button>
+            
             <Navbar className="w-full fixed top-0 left-0 z-50" />
 
             <div className="w-screen h-screen flex justify-center items-start pt-6 overflow-x-hidden">

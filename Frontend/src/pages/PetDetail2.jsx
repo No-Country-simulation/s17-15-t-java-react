@@ -158,9 +158,14 @@ function PetDetail2() {
           Tab content 2
         </div>
 
-        <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="Tab 3" />
+        <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="Estudios Complementarios" />
         <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
           Tab content 3
+        </div>
+        
+        <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="Cirugías " />
+        <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
+          Tab content 4
         </div>
       </div>
     </>

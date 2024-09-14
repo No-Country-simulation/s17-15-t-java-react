@@ -193,11 +193,11 @@ function ConsultationCardDetail({ itemObj, deleteItem, updateListArray }) {
 
 
 
-
-                <div className="tooltip tooltip-top btn btn-circle btn-sm absolute top-3 right-3 flex space-x-2 bg-base-300  bg-opacity-100 border-base-300" data-tip="Editar Propietario">
+<Link to={`/mascota/consulta/editar/${itemObj.id_consultation}`}>
+                <div className="tooltip tooltip-top btn btn-circle btn-sm absolute top-3 right-3 flex space-x-2 bg-base-300  bg-opacity-100 border-base-300" data-tip="Editar">
                     <MdOutlineEdit
                         className="text-xl cursor-pointer text-white"
-                        onClick={() => setModal(true)}
+                        // onClick={() => setModal(true)}
                         size={20}
                     />
                     {/* <FaTrashAlt
@@ -208,6 +208,7 @@ function ConsultationCardDetail({ itemObj, deleteItem, updateListArray }) {
 
                         /> */}
                 </div>
+                </Link>
                 {/* <FaTrashAlt
                             className="cursor-pointer text-red-700"
                             //onClick={handleDelete}

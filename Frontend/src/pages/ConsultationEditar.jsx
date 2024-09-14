@@ -1,23 +1,22 @@
+import { TiArrowBack } from "react-icons/ti";
+import ConsultationForm from "../components/consultation/ConsultationForm";
 
 import React, { useState, useEffect } from 'react';
-
 import { useAuth } from "../contexts/AuthContext.jsx"
-
 import useJSON from '../hooks/useJSON.js';
-
 import Status from "../components/UI/Status.jsx";
 import { useParams } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-// import EditPet from '../components/pet/EditPet';
 import PetForm from '../components/pet/PetForm.jsx';
 import { useNavigate } from 'react-router-dom';
 
-function EditarList() {
+
+function ConsultationEditar() {
     const { id } = useParams();
     const { jwt } = useAuth("state");
     const [modal, setModal] = useState(true);
 
-    const baseURL = `https://veterinaria-bef3.onrender.com/pet`;
+    const baseURL = `https://veterinaria-bef3.onrender.com/consultation`;
     const filter = `/${id}`
 
     const navigate = useNavigate();
@@ -79,7 +78,7 @@ function EditarList() {
     const handleEdit = (fromData, id) => {
         updateItem(fromData, id);
         alert("cambios actualizados")
-        navigate("/mascota/" + id)
+        navigate(-1)
 
     };
 
@@ -102,22 +101,19 @@ function EditarList() {
     const toggle = () => {
         setModal(true);
     };
-
-
     return (
-        <>
-       
-            <PetForm
+        <main>
+
+
+            <ConsultationForm
                 modal={modal}
                 toggle={toggle}
                 onSave={handleEdit}
-                objPet={data}
+                objItem={data}
                 isEdit={true}
-                idOwner={data.owner_id}
+                idPet={data.id_pet}
+
             />
-           
-
-
 
             <Status
                 isLoading={isLoading}
@@ -130,8 +126,11 @@ function EditarList() {
                 deleteError={deleteError}
             />
 
-        </>
-    );
-};
 
-export default EditarList;
+
+
+
+        </main>
+    )
+}
+export default ConsultationEditar;
