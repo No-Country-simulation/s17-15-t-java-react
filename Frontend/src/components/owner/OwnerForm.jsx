@@ -48,26 +48,26 @@ function OwnerForm({ modal, toggle, onSave, objOwner = {}, isEdit = false }) {
     }
 
     return (
-        <div className="fixed inset-0 z-50 overflow-hidden bg-white bg-opacity-100">
+        <div className="fixed inset-0 z-50 overflow-hidden bg-[#eaf8f7] bg-opacity-100">
             <Navbar className="w-full fixed top-0 left-0 z-50" />
-            
+
             <div className="w-screen h-screen flex justify-center items-start pt-6 overflow-x-hidden">
                 {/* Ajuste de pt-20 para asegurar que el contenido no quede detrás del Navbar */}
                 <div className="max-w-3xl w-full">
-                    <div className="flex justify-between items-center pb-5 col-2 row-0">
+                    <div className="flex justify-center items-center pb-5 col-2 row-0">
                         <div>
-                            <h2 className="text-lg font-semibold">
-                                {isEdit ? 'Actualizar' : 'Nuevo'} Registro
+                            <h2 className="text-center text-lg font-semibold">
+                                {isEdit ? 'Editar' : 'Registrar'} Propietario
                             </h2>
-                            <p className="text-xs italic">
+                            {!isEdit && (<p className="text-xs italic">
                                 Registra al nuevo cliente y continuá para cargar una mascota.
-                            </p>
+                            </p>)}
                         </div>
                         {/* <button onClick={toggle} className="btn btn-link">
                 <FaTimes size={20} />
               </button> */}
                     </div>
-                    <form onSubmit={handleSubmit} className="p-4 border-2 rounded-lg">
+                    <form onSubmit={handleSubmit} className="bg-primary bg-opacity-10 p-4 border-2 rounded-lg">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
                             <div>
                                 <label className="block text-sm font-medium mb-1">

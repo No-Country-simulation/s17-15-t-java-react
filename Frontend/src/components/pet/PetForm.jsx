@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import Navbar from '../Navbar';
+import { Link } from "react-router-dom"
 
 function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner = null }) {
     const [petName, setPetName] = useState('');
@@ -96,24 +97,37 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
 
         <div className="fixed inset-0 z-50 overflow-hidden bg-white bg-opacity-100">
             <Navbar className="w-full fixed top-0 left-0 z-50" />
+            {isEdit && (<Link to={`/mascota/${objPet.id}`} type="button" className="btn btn-link text-base-300 btn-sm mx-16 mt-1 ">
+                volver
+            </Link>)}
 
-            <div className="w-screen h-screen flex justify-center items-start pt-6 overflow-x-hidden">
+            <div className="w-screen h-screen flex justify-center items-start overflow-x-hidden">
                 {/* Ajuste de pt-20 para asegurar que el contenido no quede detrás del Navbar */}
                 <div className="max-w-3xl w-full">
-                    <div className="flex justify-between items-center pb-5 col-2 row-0">
+                    <div className="flex justify-center items-center pb-5 col-2 row-0">
                         <div>
-                            <h2 className="text-lg font-semibold">
-                                {isEdit ? 'Actualizar' : 'Nuevo'} Registro
-                            </h2>
-                            <p className="text-xs italic">
-                                Registra al nuevo cliente y continuá para cargar una mascota.
-                            </p>
+                            {isEdit && (
+                                <h2 className="text-center text-lg font-semibold" >
+                                    Editar Mascota
+                                </h2>
+                            )}
+
+                            {!isEdit && (
+                                <div>
+                                    <h2 className="text-center text-lg font-semibold" >
+                                        Registrar Mascota
+                                    </h2>
+
+                                    <p className="text-xs italic">
+                                        Asocia una mascota al propietario y haz click en "finalizar"
+                                    </p></div>
+                            )}
                         </div>
                         {/* <button onClick={toggle} className="btn btn-link">
             <FaTimes size={20} />
           </button> */}
                     </div>
-                    <form onSubmit={handleSubmit} className="p-4 border-2 rounded-lg">
+                    <form onSubmit={handleSubmit} className="bg-primary bg-opacity-10 p-4 border-2 rounded-lg">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
                             <div className="form-control">
                                 <label className="block text-sm font-medium mb-1">
@@ -142,7 +156,7 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                                             checked={sex === 'MACHO'}
                                             onChange={handleChange}
                                             className="radio radio-sm"
-                                            defaultChecked
+                                        // defaultChecked
                                         />
                                         <span className="ml-2 text-xs">MACHO</span>
                                     </label>
@@ -167,7 +181,7 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                                     name="species"
                                     value={species}
                                     onChange={handleChange}
-                                    className="select select-bordered select-sm w-full max-w-xs"
+                                    className="select select-bordered select-sm w-full max-w-full"
                                 >
                                     <option value="PERRO">PERRO</option>
                                     <option value="GATO">GATO</option>
@@ -280,16 +294,20 @@ function PetForm({ modal, toggle, onSave, objPet = {}, isEdit = false, idOwner =
                         </div>
 
                         <div className="flex justify-end gap-3 mt-3 pb-2">
-                            <button onClick={toggle} type="button" className="btn btn-sm">
+                            {!isEdit && (<button onClick={toggle} type="button" className="btn btn-sm">
                                 Cancelar
-                            </button>
+                            </button>)}
+
                             <button type="submit" className="btn btn-sm btn-primary">
-                                {isEdit ? 'Actualizar' : 'Finalizar'}
+                                {isEdit ? 'Guardar' : 'Finalizar'}
                             </button>
                         </div>
                     </form>
+            
                 </div>
+
             </div>
+  
         </div>
     );
 }
