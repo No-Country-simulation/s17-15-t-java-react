@@ -10,8 +10,15 @@ import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import PetDetail2 from "../pages/PetDetail2";
 import EditarPet from "../pages/EditarPet";
-import ConsultationDetail from "../pages/ConsultationDetail";
-import ConsultationEditar from "../pages/ConsultationEditar";
+import ConsultationDetail from "../pages/consultation/ConsultationDetail";
+import ConsultationEditar from "../pages/consultation/ConsultationEditar";
+import ConsultationCrear from "../pages/consultation/ConsultationCrear";
+
+
+
+
+
+import ClinicHistoryPage from "../pages/ClincHistoryPage";
 
 const Router = createBrowserRouter(
     [
@@ -65,28 +72,38 @@ const Router = createBrowserRouter(
                     ]
 
                 },
+
                 {
-                    path: "/mascota/consulta",
+                    path: "/consulta",
+                    children: [
+                        {
+                            path: ":id",
+                            element: <ConsultationDetail />,
+                        },
+                        {
+                            path: "crear/:id",
+                            element: <ConsultationCrear />,
+                        },
+                        {
+                            path: "editar/:id",
+                            element: <ConsultationEditar />,
+                        },
+                    ]
+                },
+
+                {
+                    path: "/historia-clinica",
                     children: [
                         {
                             path: ":id",
                             element: (                             
-                                    <ConsultationDetail />                            
+                                    <ClinicHistoryPage />                            
                             ),
                         },
                     ]
+
                 },
-                {
-                    path: "/consulta/editar",
-                    children: [
-                        {
-                            path: ":id",
-                            element: (                             
-                                    <ConsultationEditar />                            
-                            ),
-                        },
-                    ]
-                },
+                
 
 
                 
