@@ -16,10 +16,10 @@ function ConsultationForm({ modal, toggle, onSave, objItem = {}, isEdit = false,
     const [state, setState] = useState('PENDIENTE');
     const [costConsultation, setCostConsultation] = useState(0);
 
-    // setPetID(idPet);
+    //  setPetID(idPet);
     // setVeterinarioID(user__id);
 
-
+    console.log(idPet)
     useEffect(() => {
         if (isEdit && objItem) {
             setPetID(objItem.veterinarian || user__id);

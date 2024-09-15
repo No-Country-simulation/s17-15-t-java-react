@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ConsultationList from '../components/consultation/ConsultationList';
+import TreatmentList from '../components/treatment/TreatmentList';
 
 function PetDetail2() {
   const { id } = useParams();
@@ -96,7 +97,7 @@ function PetDetail2() {
           aria-label="Diagnosticos"
         />
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-          Tab content 2
+          <TreatmentList id={id}/>
         </div>
 
         <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Tab 3" />
