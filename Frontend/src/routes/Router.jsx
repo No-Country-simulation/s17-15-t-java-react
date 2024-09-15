@@ -9,6 +9,9 @@ import About from "../pages/About";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import PetDetail2 from "../pages/PetDetail2";
+import EditarPet from "../pages/EditarPet";
+import ConsultationDetail from "../pages/ConsultationDetail";
+import ConsultationEditar from "../pages/ConsultationEditar";
 
 const Router = createBrowserRouter(
     [
@@ -50,6 +53,43 @@ const Router = createBrowserRouter(
                     ]
 
                 },
+                {
+                    path: "/mascota/editar",
+                    children: [
+                        {
+                            path: ":id",
+                            element: (                             
+                                    <EditarPet />                            
+                            ),
+                        },
+                    ]
+
+                },
+                {
+                    path: "/mascota/consulta",
+                    children: [
+                        {
+                            path: ":id",
+                            element: (                             
+                                    <ConsultationDetail />                            
+                            ),
+                        },
+                    ]
+                },
+                {
+                    path: "/consulta/editar",
+                    children: [
+                        {
+                            path: ":id",
+                            element: (                             
+                                    <ConsultationEditar />                            
+                            ),
+                        },
+                    ]
+                },
+
+
+                
                 // {
                 //     path: "/login",
                 //     element: <Login />,

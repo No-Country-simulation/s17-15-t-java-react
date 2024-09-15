@@ -46,7 +46,7 @@ function PetCard({ petObj, deletePet, updateListArray }) {
                 </span> */}
 
 
-                <p className="btn btn-xs bg-primary bg-opacity-90 rounded-xl text-center min-w-20 border-[1px] border-primary border-opacity-60 overflow-ellipsis">{petObj.name ? petObj.name : "No disponible"}</p>
+                <p className="btn btn-xs bg-orange-400 bg-opacity-90 text-white rounded-xl text-center min-w-20  overflow-ellipsis">{petObj.name ? petObj.name : "No disponible"}</p>
                 {/* <p className="text-xs overflow-hidden overflow-ellipsis">{songArtistObj.song ? songArtistObj.song : "informacion no disponible"}</p> */}
 
 

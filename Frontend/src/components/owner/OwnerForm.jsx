@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import Navbar from '../Navbar';
 
 function OwnerForm({ modal, toggle, onSave, objOwner = {}, isEdit = false }) {
     const [ownerName, setOwnerName] = useState('');
@@ -47,101 +48,113 @@ function OwnerForm({ modal, toggle, onSave, objOwner = {}, isEdit = false }) {
     }
 
     return (
-        <div className="fixed top-[100px] inset-0 z-50 flex items-center justify-center overflow-y-auto bg-white bg-opacity-100">
-            <div className="bg-neutral w-full max-w-lg">
-                {/* <div className='bg-black w-full h-24'>
+        <div className="fixed inset-0 z-50 overflow-hidden bg-[#eaf8f7] bg-opacity-100">
+                        <button
+                onClick={() => navigate(-1)}
+                className="pl-10 mt-4 font-bold flex flex-row"
+            >
+                <TiArrowBack />
+                Volver
+            </button>
+            
+            <Navbar className="w-full fixed top-0 left-0 z-50" />
 
-                    
-                </div> */}
-                <div className="flex justify-between items-center pb-5">
-                    <div>
-                        <h2 className="text-lg font-semibold">{isEdit ? 'Actualizar' : 'Nuevo'} Registro</h2>
-                        <p className='text-xs italic'>Registra al nuevo cliente y continuá para cargar una mascota.</p>
+            <div className="w-screen h-screen flex justify-center items-start pt-6 overflow-x-hidden">
+                {/* Ajuste de pt-20 para asegurar que el contenido no quede detrás del Navbar */}
+                <div className="max-w-3xl w-full">
+                    <div className="flex justify-center items-center pb-5 col-2 row-0">
+                        <div>
+                            <h2 className="text-center text-lg font-semibold">
+                                {isEdit ? 'Editar' : 'Registrar'} Propietario
+                            </h2>
+                            {!isEdit && (<p className="text-xs italic">
+                                Registra al nuevo cliente y continuá para cargar una mascota.
+                            </p>)}
+                        </div>
+                        {/* <button onClick={toggle} className="btn btn-link">
+                <FaTimes size={20} />
+              </button> */}
                     </div>
-                    {/* <button onClick={toggle} className="btn btn-link">
-                        <FaTimes size={20} />
-                    </button> */}
+                    <form onSubmit={handleSubmit} className="bg-primary bg-opacity-10 p-4 border-2 rounded-lg">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">
+                                    Nombre completo:
+                                </label>
+                                <input
+                                    type="text"
+                                    name="ownerName"
+                                    value={ownerName}
+                                    onChange={handleChange}
+                                    className="input input-bordered input-warning input-sm w-full"
+                                    placeholder="Nombre"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Apellido:</label>
+                                <input
+                                    type="text"
+                                    name="ownerLastname"
+                                    value={ownerLastname}
+                                    onChange={handleChange}
+                                    className="input input-bordered input-warning input-sm w-full"
+                                    placeholder="Apellido"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">
+                                    Correo Electrónico:
+                                </label>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={email}
+                                    onChange={handleChange}
+                                    className="input input-bordered input-warning input-sm w-full"
+                                    placeholder="Correo eletrónico"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">
+                                    Teléfono celular:
+                                </label>
+                                <input
+                                    type="number"
+                                    name="phone"
+                                    value={phone}
+                                    onChange={handleChange}
+                                    className="input input-bordered input-warning input-sm w-full"
+                                    placeholder="Teléfono celular"
+                                    required
+                                />
+                            </div>
+
+                            <div className="sm:col-span-2">
+                                <label className="block text-sm font-medium mb-1">Dirección:</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={address}
+                                    onChange={handleChange}
+                                    className="input input-bordered input-warning input-sm w-full"
+                                    placeholder="Enter address"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="flex justify-end gap-3 mt-3 pb-2">
+                            <button onClick={toggle} type="button" className="btn btn-sm">
+                                Cancelar
+                            </button>
+                            <button type="submit" className="btn btn-sm btn-primary">
+                                {isEdit ? 'Actualizar' : 'Continuar'}
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit} className="p-4 border-2 rounded-lg">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
-                        <div className="">
-                            <label className="block text-sm font-medium mb-1">Nombre completo:</label>
-                            <input
-                                type="text"
-                                name="ownerName"
-                                value={ownerName}
-                                onChange={handleChange}
-                                className="input input-bordered input-warning input-sm w-full"
-                                placeholder="Nombre"
-                                required
-                            />
-                        </div>
-                        <div className="">
-                            <label className="block text-sm font-medium mb-1">Apellido:</label>
-                            <input
-                                type="text"
-                                name="ownerLastname"
-                                value={ownerLastname}
-                                onChange={handleChange}
-                                className="input input-bordered input-warning input-sm w-full"
-                                placeholder="Apellido"
-                                required
-                            />
-                        </div>
-                        <div className="">
-                            <label className="block text-sm font-medium mb-1">Correo Electrónico:</label>
-                            <input
-                                type="text"
-                                name="email"
-                                value={email}
-                                onChange={handleChange}
-                                className="input input-bordered input-warning input-sm w-full"
-                                placeholder="Correo elétronico"
-                                required
-                            />
-                        </div>
-                        <div className="">
-                            <label className="block text-sm font-medium mb-1">Teléfono celular:</label>
-                            <input
-                                type="number"
-                                name="phone"
-                                value={phone}
-                                onChange={handleChange}
-                                className="input input-bordered input-warning input-sm w-full"
-                                placeholder="Teléfono celular"
-                                required
-                            />
-                        </div>
-
-                        <div className=" sm:col-span-2">
-                            <label className="block text-sm font-medium mb-1">Dirección:</label>
-                            <input
-                                type="text"
-                                name="address"
-                                value={address}
-                                onChange={handleChange}
-                                className="input input-bordered input-warning input-sm w-full"
-                                placeholder="Enter address"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div className="flex justify-end gap-3 mt-3 pb-2">
-                        <button
-                            onClick={toggle}
-                            type="button"
-                            className="btn btn-sm  "
-                        >
-                            Cancelar
-                        </button>
-                        <button
-                            type="submit"
-                            className="btn btn-sm btn-primary"
-                        >
-                            {isEdit ? 'Actualizar' : 'Continuar'}
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     );

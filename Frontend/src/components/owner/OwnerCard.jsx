@@ -39,7 +39,7 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
     };
 
     return (
-        <div className="card card-compact rounded-md relative bg-primary bg-opacity-[40%] text-base-300 w-72 shadow-xl border-base-300 border-[1px] border-opacity-35 min-h-72">
+        <div className="card card-compact rounded-md relative bg-primary bg-opacity-15 w-72 shadow-xl border-base-300 border-[1px] border-opacity-35 min-h-72">
             {/* <div className="bg-gradient-to-r from-red-400 via-pink-500 to-purple-600 h-2 w-full rounded-t-lg"></div> */}
             {/* <div className="bg-gradient-to-r from-blue-600 to-cyan-400 h-2 w-full rounded-t-lg"></div> */}
             {/* <div className="bg-gradient-to-r from-cyan-400 to-blue-600 h-2 w-full rounded-t-2xl"></div> */}
@@ -94,7 +94,7 @@ function OwnerCard({ ownerObj, deleteOwner, updateListArray }) {
                 {isAuthenticated && (
                     <div className="tooltip tooltip-top btn btn-circle btn-sm absolute top-3 right-3 flex space-x-2 bg-base-300  bg-opacity-100 border-base-300" data-tip="Editar Propietario">
                         <MdOutlineEdit
-                            className="text-xl cursor-pointer text-neutral"
+                            className="text-xl cursor-pointer text-white"
                             onClick={() => setModal(true)}
                             size={20}
                         />

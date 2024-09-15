@@ -71,9 +71,9 @@ const apiReducer = (state, action) => {
             return {
                 ...state,
                 isUpdating: false,
-                data: state.data.map(item =>
-                    item.id === action.payload.id ? action.payload : item
-                ),
+                // data: state?.data?.map(item =>
+                //     item.id === action.payload.id ? action.payload : item
+                // ),
             };
         case actionTypes.UPDATE_FAILURE:
             return { ...state, isUpdating: false, updateError: action.error };
