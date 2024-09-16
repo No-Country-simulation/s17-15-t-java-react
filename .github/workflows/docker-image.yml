@@ -44,3 +44,8 @@ jobs:
 
       - name: Logout from Docker Hub
         run: docker logout
+
+      - name: Redeploy on Render
+        run: |
+          curl -X POST "https://api.render.com/v1/services/srv-crb1vf3tq21c73cerc9g/deploys" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
