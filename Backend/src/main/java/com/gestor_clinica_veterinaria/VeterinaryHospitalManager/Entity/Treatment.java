@@ -37,6 +37,4 @@ public class Treatment {
     @ManyToOne(targetEntity = Hospitalization.class)
     @JoinColumn(name = "hospitalization_id")
     private Hospitalization hospitalization;
-
 }
-

@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -16,8 +17,7 @@ public record TreatmentRequest(
         String aditionalObservations,
 
         BigDecimal treatmentCost,
-        Optional<Long>  diagnosisId,
-
-        Optional<Long> hospitalizationId
+        @NotNull(message = "Debe proporcionar un Id de diagnostico")
+        Long  diagnosisId
 ) {
 }

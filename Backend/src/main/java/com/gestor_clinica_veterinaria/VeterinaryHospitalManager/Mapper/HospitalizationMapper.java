@@ -2,19 +2,22 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component
 public class HospitalizationMapper {
 
-    public Hospitalization toEntity(HospitalizationRequest dto){
+    public Hospitalization toEntity(HospitalizationRequest dto, Treatment treatment){
         Hospitalization hospitalization = new Hospitalization();
+
         hospitalization.setStartDate(dto.startDate());
         hospitalization.setEnd_date(dto.endDate());
         hospitalization.setPaid(dto.paid());
         hospitalization.setHospitalizationCost(dto.hospitalizationCost());
+        hospitalization.getTreatments().add(treatment);
+
         return hospitalization;
     }
     public HospitalizationRequest toDto(Hospitalization entity) {

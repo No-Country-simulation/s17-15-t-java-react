@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,6 +38,6 @@ public class Hospitalization {
     private List<ComplementaryStudy> complementaryStudies;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hospitalization", fetch = FetchType.LAZY, targetEntity = Treatment.class)
-    private List<Treatment> treatments;
+    private List<Treatment> treatments =  new ArrayList<>();
 
 }

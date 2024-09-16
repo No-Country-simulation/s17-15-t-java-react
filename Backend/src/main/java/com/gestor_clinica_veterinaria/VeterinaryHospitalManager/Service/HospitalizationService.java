@@ -2,6 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationCreationResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.HospitalizationMapper;
@@ -10,11 +11,11 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.Treat
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,25 +25,46 @@ public class HospitalizationService {
     private static final BigDecimal DAILY_RATE = BigDecimal.valueOf(85.0);
     private final HospitalizationRepository hospitalizationRepository;
     private final HospitalizationMapper hospitalizationMapper;
+    private final TreatmentRepository treatmentRepository;
 
     public HospitalizationCreationResponse addHospitalization(HospitalizationRequest hospitalizationRequest){
-        Hospitalization hospitalization = hospitalizationMapper.toEntity(hospitalizationRequest);
 
-        if (hospitalization.getStartDate() == null) {
-            throw new IllegalArgumentException("La fecha de inicio no puede ser nula.");
-        }
-        if (hospitalization.getEnd_date() != null && hospitalization.getEnd_date().isBefore(hospitalization.getStartDate())) {
-            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
-        }
-        if (hospitalization.getEnd_date() != null) {
-            hospitalization.setHospitalizationCost(calculateCost(hospitalization.getStartDate(), hospitalization.getEnd_date()));
-        } else {
-            hospitalization.setHospitalizationCost(BigDecimal.ZERO);
-        }
+        try {
+            Treatment treatment = treatmentRepository.findById(hospitalizationRequest.treatmentId())
+                    .orElseThrow(() -> new EntityNotFoundException("Treatment not found with id: " + hospitalizationRequest.treatmentId()));
 
-        hospitalization = hospitalizationRepository.save(hospitalization);
+            Hospitalization hospitalization = hospitalizationMapper.toEntity(hospitalizationRequest, treatment);
+            if (hospitalization.getTreatments() == null) {
+                hospitalization.setTreatments(new ArrayList<>());
+            }
+            hospitalization.getTreatments().add(treatment);
 
-        return new HospitalizationCreationResponse("¡La hospitalización se creó exitosamente!", hospitalization.getId() );
+            treatment.setHospitalization(hospitalization);
+
+            if (hospitalization.getStartDate() == null) {
+                throw new IllegalArgumentException("La fecha de inicio no puede ser nula.");
+            }
+            if (hospitalization.getEnd_date() != null && hospitalization.getEnd_date().isBefore(hospitalization.getStartDate())) {
+                throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
+            }
+
+            if (hospitalization.getEnd_date() != null) {
+                hospitalization.setHospitalizationCost(calculateCost(hospitalization.getStartDate(), hospitalization.getEnd_date()));
+            } else {
+                hospitalization.setHospitalizationCost(BigDecimal.ZERO);
+            }
+
+            hospitalization = hospitalizationRepository.save(hospitalization);
+
+            return new HospitalizationCreationResponse("¡La hospitalización se creó exitosamente!", hospitalization.getId() );
+
+        } catch (EntityNotFoundException e) {
+            return new HospitalizationCreationResponse("Error Entity: " + e.getMessage(), null);
+        } catch (IllegalArgumentException e) {
+            return new HospitalizationCreationResponse("Error Arguments: " + e.getMessage(), null);
+        } catch (Exception e) {
+            return new HospitalizationCreationResponse("Error Exception: " + e.getMessage(), null);
+        }
     }
 
     public List<Hospitalization> getAllHospitalizations(){
