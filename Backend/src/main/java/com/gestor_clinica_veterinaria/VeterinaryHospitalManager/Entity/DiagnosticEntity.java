@@ -1,5 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumGravedad;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "diagnosis")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DiagnosticEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumSexPet;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Especie;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pet {
 
   @Id

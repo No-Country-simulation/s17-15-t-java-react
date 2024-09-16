@@ -2,6 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.Diagnosis.DiagnosticResponseDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.DiagnosticNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.DiagnosticService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/diagnosis")
@@ -461,6 +464,16 @@ public class DiagnosticController {
         } catch (DiagnosticNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+
+    @GetMapping("/pet/{petId}")
+    public ResponseEntity<List<DiagnosticResponseDto>> getDiagnosticsByPetId(@PathVariable Long petId) {
+        List<DiagnosticResponseDto> diagnostics = diagnosticService.getDiagnosticsByPetId(petId);
+        if (diagnostics.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Si no hay diagnósticos
+        }
+        return ResponseEntity.ok(diagnostics); // Devuelve la lista de DTOs
     }
 
 }

@@ -9,8 +9,10 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.ComplementaryStudyNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.SurgeryNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +38,8 @@ public class DiagnosticService {
     private final ConsultationRepository consultationRepository;
     private final SurgeryRepository surgeryRepository;
     private final ComplementaryStudyRepository complementaryStudyRepository;
+
+    private final PetRepository petRepository;
 
 
     @Transactional
@@ -139,5 +147,23 @@ public class DiagnosticService {
         return diagnosticMapper.toResponseDto(diagnostic);
     }
 
+    // Método para obtener todos los diagnósticos de una mascota por su ID
+    public List<DiagnosticResponseDto> getDiagnosticsByPetId(Long petId) {
+        // Verifica si la mascota existe
+        if (!petRepository.existsById(petId)) {
+            throw new EntityNotFoundException("Pet with id " + petId + " not found");
+        }
 
+        // Si la mascota existe, busca los diagnósticos
+        List<DiagnosticEntity> diagnostics = diagnosticRepository.findAllByPetId(petId);
+
+        if (diagnostics.isEmpty()) {
+            throw new EntityNotFoundException("No diagnostics found for pet with id " + petId);
+        }
+
+        // Convertir las entidades a DTOs usando el mapper
+        return diagnostics.stream()
+                .map(diagnosticMapper::toResponseDto) // Usamos tu método para convertir a DTO
+                .collect(Collectors.toList()); // Devuelve la lista de DTOs
+    }
 }

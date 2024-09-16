@@ -20,15 +20,9 @@ public class ClinicHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idClinicHistory;
 
-   // @ManyToOne
-   // @JoinColumn(name = "pet_id")
-   // private Pet pet;
-    @OneToOne
-    @JoinColumn(name = "pet_id", referencedColumnName = "id")
-    private Pet pet;
 
-   // @OneToMany(cascade = CascadeType.ALL)
-   // private List<Consultation> consultations;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ConsultationEntity> consultations;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<DiagnosticEntity> diagnoses;
@@ -39,10 +33,17 @@ public class ClinicHistory {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Surgery> surgeries;
 
-   // @OneToMany(cascade = CascadeType.ALL)
-   // private List<ComplementaryStudy> complementaryStudies;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ComplementaryStudy> complementaryStudies;
 
-   // @OneToMany(cascade = CascadeType.ALL)
-   // private List<Hospitalization> hospitalizations;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Hospitalization> hospitalizations;
+   // @ManyToOne
+   // @JoinColumn(name = "pet_id")
+   // private Pet pet;
+   @OneToOne
+   @JoinColumn(name = "pet_id", referencedColumnName = "id")
+   private Pet pet;
+
 
 }
