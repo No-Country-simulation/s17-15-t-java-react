@@ -107,17 +107,17 @@ function ConsultationList(id) {
             {/* <div className="header text-center mt-1"> */}
             {/* <h3 className="text-2xl font-bold mb-4">Albums List</h3> */}
 
-
+            
 
 
             <div className="flex justify-end items-center pb-3">
-                {/* <button
+            <button
                     className="tooltip tooltip-top btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis border-base-300" data-tip="Agregar consulta"
                     onClick={() => setModal(true)}
                 >
                     <FaPlus size={10} /> Agregar
 
-                </button> */}
+                </button>
                 {/* <h2 className='font-semibold'>Consultas:</h2> */}
 
                 {/* <button className={`${previous ? "text-blue-500" : "text-gray-400 cursor-not-allowed"

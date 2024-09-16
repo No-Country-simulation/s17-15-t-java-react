@@ -27,7 +27,7 @@ export default {
           "base-300": "#986c34", //color marron
           "base-content": "#986c34",
           "info": "#009ec3",
-          "info-content": "#00090e",
+          "info-content": "#FFF0D8",
           "success": "#00c44b",
           "success-content": "#000e02",
           "warning": "#d89600",

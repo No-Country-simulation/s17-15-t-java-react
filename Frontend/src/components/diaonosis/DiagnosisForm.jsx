@@ -22,10 +22,10 @@ function ConsultationForm({ modal, toggle, onSave, objItem = {}, isEdit = false,
     const [costConsultation, setCostConsultation] = useState(0);
     const { navigate } = useNavigate();
 
-    //  setPetID(idPet);
+    // setPetID(idPet);
     // setVeterinarioID(user__id);
 
-    console.log(idPet)
+
     useEffect(() => {
         if (isEdit && objItem) {
             setPetID(objItem.id_veterinarian|| user__id);

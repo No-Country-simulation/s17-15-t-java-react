@@ -6,6 +6,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TreatmentList from '../components/treatment/TreatmentList';
+
 function PetDetail2() {
   const { id } = useParams();
   const [pet, setPet] = useState(null);
@@ -76,6 +77,17 @@ function PetDetail2() {
 
   return (
     <>
+      <div className='flex justify-end mr-10'>
+        <button
+          className="mt-3 pr-3 btn bg-orange-400 bg-opacity-90 text-white p-2 inline-flex items-center justify-center  shadow-xl"
+          onClick={() => navigate(`/consulta/crear/${id}`)}
+        >
+          <span className='font-semibold pr-1'>Crear Consulta</span>
+          {/* <FaUserPlus className="font-semibold mr-2" size={20} /> */}
+          <img src="/calendar.svg" className="font-semibold w-6 h-6" alt="plus" />
+
+        </button>
+      </div>
       <p className='text-2xl font-bold text-center p-5'>Mascota:</p>
       <div className='flex items-center justify-center '>
         <div className="card card-side bg-primary bg-opacity-10 shadow-2xl">
@@ -145,7 +157,10 @@ function PetDetail2() {
 
       </div>
 
-      <p className='text-2xl font-bold text-center p-5'>Historial Medico:</p>
+
+      <Link to={`/historia-clinica/${id}`} className='text-center'>
+        <p className='text-2xl font-bold text-center p-5'>Historial Medico:</p>
+      </Link>
 
       <div role="tablist" className="tabs tabs-bordered px-16 p-5 ">
         <input type="radio" name="my_tabs_1" role="tab" className="tab [--tab-bg:orange]" aria-label="Consultas" defaultChecked />
@@ -153,7 +168,7 @@ function PetDetail2() {
           <ConsultationList id={id} />
         </div>
 
-        <input type="radio"name="my_tabs_1" role="tab" className="tab [--tab-bg:orange]" aria-label="Diagnosticos"/>
+        <input type="radio" name="my_tabs_1" role="tab" className="tab [--tab-bg:orange]" aria-label="Diagnosticos" />
         <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
         <TreatmentList id={id}/>
         </div>
@@ -162,7 +177,7 @@ function PetDetail2() {
         <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
           Tab content 3
         </div>
-        
+
         <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="Cirugías " />
         <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
           Tab content 4

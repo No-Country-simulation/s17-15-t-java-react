@@ -48,17 +48,17 @@ function ConsultationCard({ itemObj, deleteItem, updateListArray }) {
 
 
 
-  const toggle = () => {
-    setModal(!modal);
-  };
+    const toggle = () => {
+        setModal(!modal);
+    };
 
-  const updateItem = (fromData, id) => {
-    updateListArray(fromData, id);
-  };
+    const updateItem = (fromData, id) => {
+        updateListArray(fromData, id);
+    };
 
-  const handleDelete = () => {
-    deleteItem(itemObj.id_consultation);
-  };
+    const handleDelete = () => {
+        deleteItem(itemObj.id_consultation);
+    };
 
     return (
         <div className="shadow-lg rounded-lg relative gap-1"
@@ -158,17 +158,17 @@ function ConsultationCard({ itemObj, deleteItem, updateListArray }) {
                 objItem={itemObj}
             />
 
-      <ConfirmDeleteModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={() => {
-          handleDelete();
-          setIsDeleteModalOpen(false);
-        }}
-        message="Are you sure you want to delete this CONSULTATION?"
-      />
-    </div>
-  );
+            <ConfirmDeleteModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={() => {
+                    handleDelete();
+                    setIsDeleteModalOpen(false);
+                }}
+                message="Are you sure you want to delete this CONSULTATION?"
+            />
+        </div>
+    );
 }
 
 export default ConsultationCard;

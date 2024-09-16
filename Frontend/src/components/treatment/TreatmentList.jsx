@@ -12,16 +12,16 @@ const TreatmentList = (id) => {
 
   console.log(id.id);
 
-    const baseURL = `https://veterinaria-bef3.onrender.com/treatment`;
+    const baseURL = `https://veterinaria-bef3.onrender.com/treatment/`;
     const filter = `/pet/${id.id}`
 
     const {
         data, isLoading, isError,
-        count, next, previous,
+
         createItem, isCreating, createError, newItemId,
         updateItem, isUpdating, updateError,
         deleteItem, isDeleting, deleteError,
-        fetchData, fetchNextPage, fetchPreviousPage
+
     } = useJSON(baseURL, jwt, filter);
 
     const handleSave = (fromData) => {
