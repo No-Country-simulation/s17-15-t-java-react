@@ -44,7 +44,7 @@ public class ComplementaryStudyController {
                             " FALLIDOS, // The study could not be completed due to technical or other issues.",
                     required = true,
                     content = @Content(
-                            mediaType = "application/json",
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(implementation = StudyRequest.class)
                     )
             ),
@@ -59,7 +59,7 @@ public class ComplementaryStudyController {
             }
     )
 
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) {
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart StudyRequest studyRequest, @RequestPart("file") MultipartFile studyFile) {
 
         String filePath = fileStorageService.saveFile(studyFile);
         FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
