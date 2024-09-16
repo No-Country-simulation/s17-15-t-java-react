@@ -52,8 +52,9 @@ public class ConsultationService {
         ConsultationEntity consultationEntity = consultationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada con ID: " + id));
         try{
-            consultationEntity.setAnamnesis(dto.name());
+            consultationEntity.setName(dto.name());
             consultationEntity.setConsultationDate(dto.consultationDate());
+            consultationEntity.setAnamnesis(dto.anamnesis());
             consultationEntity.setObservations(dto.observations());
             consultationEntity.setState(dto.state());
             consultationEntity.setCostConsultation(dto.costConsultation());
