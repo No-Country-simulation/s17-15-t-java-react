@@ -133,13 +133,13 @@ public class SurgeryController {
             @ApiResponse(responseCode = "200", description = "Cirugías de la mascota obtenidas con éxito"),
             @ApiResponse(responseCode = "404", description = "No se encontraron cirugías para la mascota con el ID proporcionado")
     })
-    @GetMapping("/pet/{petId}")
-    public List<Surgery> getSurgeriesByPetId(
-            @Parameter(description = "ID de la mascota cuyas cirugías se desean consultar", required = true)
-            @PathVariable Long petId) {
-        // Retorna una lista vacía para propósitos de visualización en Swagger
-        return Collections.emptyList();
-    }
+   // @GetMapping("/pet/{petId}")
+   // public List<Surgery> getSurgeriesByPetId(
+   //         @Parameter(description = "ID de la mascota cuyas cirugías se desean consultar", required = true)
+   //         @PathVariable Long petId) {
+   //     // Retorna una lista vacía para propósitos de visualización en Swagger
+   //     return Collections.emptyList();
+   // }
   //  @GetMapping("/owner/{ownerId}")
   //  public List<Surgery> getSurgeryByOwnerId(@PathVariable Long ownerId) {
   //      return surgeryService.getSurgeryByOwnerId(ownerId);
@@ -149,4 +149,14 @@ public class SurgeryController {
   //  public List<Surgery> getSurgeriesByPetId(@PathVariable Long petId) {
   //      return surgeryService.getSurgeriesByPetId(petId);
   //  }
+
+    @GetMapping("/pet/{petId}")
+    public ResponseEntity<List<ResponseSurgery>> getSurgeriesByPetId(@PathVariable Long petId) {
+        List<ResponseSurgery> surgeries = surgeryService.getAllSurgeriesByPetId(petId);
+        if (surgeries.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Retorna 204 si no hay cirugías
+        }
+        return ResponseEntity.ok(surgeries); // Devuelve la lista de cirugías
+    }
+
 }

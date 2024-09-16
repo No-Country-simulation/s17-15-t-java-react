@@ -16,4 +16,6 @@ public interface SurgeryService {
 
     ResponseSurgery updateSurgery(Long surgeryId, RequestEditSurgery requestEditSurgery);
     void deleteSurgery(Long surgeryId);
+
+    List<ResponseSurgery> getAllSurgeriesByPetId(Long petId);
 }
