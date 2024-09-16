@@ -7,6 +7,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Surgery;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Exceptions.ResourceNotFoundException;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.SurgeryMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.PetRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.SurgeryRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.VeterinarianRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.SurgeryService;
@@ -25,6 +26,7 @@ public class SurgeryServiceImpl implements SurgeryService {
     private final SurgeryMapper surgeryMapper;
     private final DiagnosticRepository diagnosticRepository;
     private final VeterinarianRepository veterinarianRepository;
+    private final PetRepository petRepository;
 
     @Override
     public ResponseSurgery addSurgery(RequestCreateSurgery requestCreateSurgery) {
@@ -129,4 +131,31 @@ public class SurgeryServiceImpl implements SurgeryService {
         }
         surgeryRepository.deleteById(surgeryId);
     }
+
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ResponseSurgery> getAllSurgeriesByPetId(Long petId) {
+        // Verifica si la mascota existe
+        if (!petRepository.existsById(petId)) {
+            throw new ResourceNotFoundException("La mascota con id " + petId + " no existe");
+        }
+
+        // Obtener las cirugías asociadas al petId
+        List<Surgery> surgeries = surgeryRepository.findSurgeriesByPetId(petId);
+
+        // Mapeo manual de las cirugías a ResponseSurgery
+        return surgeries.stream().map(surgery -> new ResponseSurgery(
+                surgery.getId(),
+                surgery.getDateSurgery(),
+                surgery.getSurgeryType(),
+                surgery.getSurgeryProcedure(),
+                surgery.getObservations(),
+                surgery.getPostSurgeryRecommendations(),
+                surgery.getSurgeryCost()
+        )).collect(Collectors.toList());
+    }
+
+
+
 }
