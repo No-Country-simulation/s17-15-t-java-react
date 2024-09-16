@@ -3,11 +3,8 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.FileRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.File;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,13 +13,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/complementaryStudies")
@@ -32,7 +27,7 @@ public class ComplementaryStudyController {
     private final ComplementaryStudyService complementaryStudyService;
     private final FileStorageService fileStorageService;
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "Add a new Complementary Study",
             description = "Add a new complementary study",
