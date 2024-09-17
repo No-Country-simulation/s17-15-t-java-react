@@ -1,5 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.FileRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
@@ -59,8 +61,8 @@ public class ComplementaryStudyController {
             }
     )
 
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart StudyRequest studyRequest, @RequestPart("file") MultipartFile studyFile) {
-
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart("studyRequest") String studyRequestJson, @RequestPart("file") MultipartFile studyFile) throws JsonProcessingException {
+        StudyRequest studyRequest = new ObjectMapper().readValue(studyRequestJson, StudyRequest.class);
         String filePath = fileStorageService.saveFile(studyFile);
         FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
