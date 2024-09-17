@@ -16,12 +16,12 @@ import java.util.Optional;
 
 @Component
 public class ComplementaryStudyMapper {
-//    private final ObjectMapper  mapper;
-//    public ComplementaryStudyMapper() {
-//        mapper = new ObjectMapper();
-//        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//        mapper.registerModule(new JavaTimeModule());
-//    }
+    private final ObjectMapper  mapper;
+    public ComplementaryStudyMapper() {
+        mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.registerModule(new JavaTimeModule());
+    }
     @Autowired
     private ConsultationRepository consultationRepository;
 
