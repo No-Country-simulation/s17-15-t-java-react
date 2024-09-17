@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.TreatmentService;
@@ -52,36 +53,40 @@ public class TreatmentController {
         return ResponseEntity.ok(treatmentService.addTreatment(dto));
     }
 
-    @GetMapping("/all")
+
+
+    @GetMapping
     @Operation(
             summary = "Get all Treatments",
-            description = "Get all Treatments",
+            description = "Get all treatments in the system",
             tags = {"Treatment"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Treatment.class)
+                                    schema = @Schema(implementation = TreatmentDto.class)
                             )
                     )
             }
     )
-    public ResponseEntity<List<Treatment>> getAllTreatments() {
-        return ResponseEntity.ok(treatmentService.getAllTreatments());
+    public ResponseEntity<List<TreatmentDto>> getAllTreatments() {
+        List<TreatmentDto> treatments = treatmentService.getAllTreatments();
+        return ResponseEntity.ok(treatments);
     }
 
+    // Endpoint para obtener un tratamiento por ID como DTO
     @GetMapping("/{treatmentId}")
     @Operation(
-            summary = "Get Treatment by id",
-            description = "Get Treatment by treatment id",
+            summary = "Get Treatment by ID",
+            description = "Get a specific treatment by its ID",
             tags = {"Treatment"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful operation",
+                            description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Treatment.class)
+                                    schema = @Schema(implementation = TreatmentDto.class)
                             )
                     ),
                     @ApiResponse(
@@ -91,35 +96,11 @@ public class TreatmentController {
                     )
             }
     )
-
-    public ResponseEntity<Treatment> getTreatmentById(@PathVariable Long treatmentId) {
-        return ResponseEntity.ok(treatmentService.getTreatmentById(treatmentId));
+    public ResponseEntity<TreatmentDto> getTreatmentById(@PathVariable Long treatmentId) {
+        TreatmentDto treatment = treatmentService.getTreatmentById(treatmentId);
+        return ResponseEntity.ok(treatment);
     }
 
-    @GetMapping("/pet/{petId}")
-    @Operation(
-            summary = "Get Treatment by pet.",
-            description = "Get Treatment by pet id.",
-            tags = {"Treatment"},
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successful operation",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Treatment.class)
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "No treatments found for the pet",
-                            content = @Content(mediaType = "application/json")
-                    )
-            }
-    )
-
-    public ResponseEntity<List<Treatment>> getTreatmentsByPetId(@PathVariable Long petId) {
-        return ResponseEntity.ok(treatmentService.getAllTreatmentsByPetId(petId));
-    }
 
     @GetMapping("/owner/{ownerId}")
     @Operation(
@@ -175,5 +156,29 @@ public class TreatmentController {
     )
     public ResponseEntity<Treatment> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentRequest dto) {
         return ResponseEntity.ok(treatmentService.updateTreatment(treatmentId, dto));
+    }
+    @GetMapping("/byPet/{petId}")
+    @Operation(
+            summary = "Get Treatments by Pet ID",
+            description = "Get all treatments related to a specific Pet ID",
+            tags = {"Treatment"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successful action",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = TreatmentDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Pet not found",
+                            content = @Content(mediaType = "application/json")
+                    )
+            }
+    )
+    public ResponseEntity<List<TreatmentDto>> getTreatmentsByPetId(@PathVariable Long petId) {
+        List<TreatmentDto> treatmentDtos = treatmentService.getTreatmentsByPetId(petId);
+        return ResponseEntity.ok(treatmentDtos);
     }
 }
