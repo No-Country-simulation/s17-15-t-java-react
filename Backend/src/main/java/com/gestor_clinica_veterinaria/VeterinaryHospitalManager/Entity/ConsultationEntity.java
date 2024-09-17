@@ -1,6 +1,5 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "consultation")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ConsultationEntity{
 
     @Id

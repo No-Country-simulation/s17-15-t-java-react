@@ -64,7 +64,7 @@ public class HospitalizationController {
                     )
             }
     )
-    public ResponseEntity<List<Hospitalization>> getAllHospitalizations() {
+    public ResponseEntity<List<HospitalizationRequest>> getAllHospitalizations() {
         return ResponseEntity.ok(hospitalizationService.getAllHospitalizations());
     }
 
@@ -113,7 +113,7 @@ public class HospitalizationController {
                     )
             }
     )
-    public ResponseEntity<List<Hospitalization>> getHospitalizationByTreatment(@PathVariable Long treatmentId) {
+    public ResponseEntity<List<HospitalizationRequest>> getHospitalizationByTreatment(@PathVariable Long treatmentId) {
         return ResponseEntity.ok(hospitalizationService.getHospitalizationByTreatment(treatmentId));
     }
 
@@ -137,7 +137,7 @@ public class HospitalizationController {
                     )
             }
     )
-    public ResponseEntity<List<Hospitalization>> getHospitalizationByComplementaryStudy(@PathVariable Long complementaryStudyId) {
+    public ResponseEntity<List<HospitalizationRequest>> getHospitalizationByComplementaryStudy(@PathVariable Long complementaryStudyId) {
         return ResponseEntity.ok(hospitalizationService.getHospitalizationByComplementaryStudy(complementaryStudyId));
     }
 

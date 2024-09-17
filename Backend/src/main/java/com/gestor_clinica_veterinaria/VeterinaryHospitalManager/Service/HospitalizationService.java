@@ -67,20 +67,20 @@ public class HospitalizationService {
         }
     }
 
-    public List<Hospitalization> getAllHospitalizations(){
-        return hospitalizationRepository.findAll();
+    public List<HospitalizationRequest> getAllHospitalizations(){
+        return hospitalizationMapper.toDtoList(hospitalizationRepository.findAll());
     }
 
     public Hospitalization getHospitalizationById(Long hospitalizationId){
         return hospitalizationRepository.findById(hospitalizationId)
                 .orElseThrow(() -> new EntityNotFoundException("El id de hospitalización ingresado es incorrecto o no existe."));
     }
-    public List<Hospitalization> getHospitalizationByTreatment(Long treatmentId) {
-        return hospitalizationRepository.findByTreatments_Id(treatmentId);
+    public List<HospitalizationRequest> getHospitalizationByTreatment(Long treatmentId) {
+        return hospitalizationMapper.toDtoList(hospitalizationRepository.findByTreatments_Id(treatmentId));
     }
 
-    public List<Hospitalization> getHospitalizationByComplementaryStudy(Long complementaryStudyId) {
-        return hospitalizationRepository.findByComplementaryStudies_Id(complementaryStudyId);
+    public List<HospitalizationRequest> getHospitalizationByComplementaryStudy(Long complementaryStudyId) {
+        return hospitalizationMapper.toDtoList(hospitalizationRepository.findByComplementaryStudies_Id(complementaryStudyId));
     }
 
     public Hospitalization updateHospitalization(Long hospitalizationId, HospitalizationRequest dto){
