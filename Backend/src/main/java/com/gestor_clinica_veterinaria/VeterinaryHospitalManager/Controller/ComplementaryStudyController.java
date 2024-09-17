@@ -63,8 +63,8 @@ public class ComplementaryStudyController {
             }
     )
 
-    public ResponseEntity<StudyCreatedResponse> addStudy(@ModelAttribute StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) throws IOException {
-        return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
+    public ResponseEntity<StudyCreatedResponse> addStudy(@ModelAttribute StudyRequest studyRequest, @RequestParam("file") MultipartFile file) throws IOException {
+        return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, file));
     }
 
 
