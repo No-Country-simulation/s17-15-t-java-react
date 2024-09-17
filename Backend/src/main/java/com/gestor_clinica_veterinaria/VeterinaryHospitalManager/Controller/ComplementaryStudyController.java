@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,9 +65,14 @@ public class ComplementaryStudyController {
     )
 
     public ResponseEntity<StudyCreatedResponse> addStudy(@ModelAttribute StudyRequest studyRequest, @RequestParam("file") MultipartFile file) throws IOException {
-        return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, file));
+        //return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, file));
+        try {
+            StudyCreatedResponse response = complementaryStudyService.addComplementaryStudy(studyRequest, file);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StudyCreatedResponse("Error: " + e.getMessage() + " // request: " + studyRequest, null));
+        }
     }
-
 
     @PutMapping("/update/{id}")
     @Operation(
