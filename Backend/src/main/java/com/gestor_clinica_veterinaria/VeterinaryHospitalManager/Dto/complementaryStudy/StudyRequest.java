@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public record StudyRequest(
         @NotNull(message = "El estudio debe contener una fecha correspondiente al día que se ejecuta el mismo, con este formato: yyyy-MM-dd")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         LocalDate examinationDate,
 
         @NotBlank(message = "El estudio debe tener un tipo.")
