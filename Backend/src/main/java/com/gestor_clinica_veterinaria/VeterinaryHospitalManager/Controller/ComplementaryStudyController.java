@@ -10,6 +10,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.Enum
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -80,7 +81,7 @@ public class ComplementaryStudyController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Complementary Study object with fields to update",
                     content = @Content(
-                            mediaType = "application/json",
+                            mediaType = "multipart/form-data",
                             schema = @Schema(implementation = StudyRequest.class)
                     )
             ),
@@ -94,7 +95,13 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto, @RequestParam("file") MultipartFile studyFile) {
+    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(
+            @Parameter(description = "ID of the Complementary Study to update", required = true)
+            @PathVariable Long studyId,
+            @Parameter(description = "Study request object", required = true)
+            @RequestPart StudyRequest dto,
+            @Parameter(description = "File to upload", required = false)
+            @RequestParam(value = "file", required = false) MultipartFile studyFile) {
         return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto, studyFile));
     }
 
