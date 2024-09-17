@@ -1,5 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.FileRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
@@ -17,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -44,7 +48,7 @@ public class ComplementaryStudyController {
                             " FALLIDOS, // The study could not be completed due to technical or other issues.",
                     required = true,
                     content = @Content(
-                            mediaType = "application/json",
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(implementation = StudyRequest.class)
                     )
             ),
@@ -59,12 +63,10 @@ public class ComplementaryStudyController {
             }
     )
 
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) {
-
-        String filePath = fileStorageService.saveFile(studyFile);
-        FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
+    public ResponseEntity<StudyCreatedResponse> addStudy(@ModelAttribute StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) throws IOException {
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
     }
+
 
     @PutMapping("/update/{id}")
     @Operation(
@@ -88,9 +90,6 @@ public class ComplementaryStudyController {
                     )
             }
     )
-//    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto) {
-//        return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto));
-//    }
     public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto, @RequestParam("file") MultipartFile studyFile) {
         return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto, studyFile));
     }

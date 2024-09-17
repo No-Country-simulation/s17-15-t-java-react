@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Component
 public class ComplementaryStudyMapper {
+
     @Autowired
     private ConsultationRepository consultationRepository;
 
