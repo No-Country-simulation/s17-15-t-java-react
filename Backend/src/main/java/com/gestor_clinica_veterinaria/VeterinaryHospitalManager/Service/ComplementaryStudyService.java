@@ -44,45 +44,66 @@ public class ComplementaryStudyService {
                     String uploadedFileUrl = fileStorageService.saveFile(file);
                     study.setStudyFile(uploadedFileUrl);
                 }else {
-                    study.setStudyFile("aún no ha cargado ningún archivo");
+                    study.setStudyFile(null);
                 }
 
-                if (studyRequest.hospitalizationId().isPresent()) {
-                    Long hospitalizationId = studyRequest.hospitalizationId().get();
+//                if (studyRequest.hospitalizationId().isPresent()) {
+//                    Long hospitalizationId = studyRequest.hospitalizationId().get();
+//                    Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
+//                            .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + hospitalizationId));
+//                    study.setHospitalization(hospitalization);
+//                    hospitalization.getComplementaryStudies().add(study);
+//                    hospitalizationRepository.save(hospitalization);
+//                }
+//
+//                if (studyRequest.diagnosisId().isPresent()) {
+//                    Long diagnosisId = studyRequest.diagnosisId().get();
+//                    DiagnosticEntity diagnosis = diagnosisRepository.findById(diagnosisId)
+//                            .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + diagnosisId));
+//                    study.setDiagnosis(diagnosis);
+//                    diagnosis.getComplementaryStudies().add(study);
+//                    diagnosisRepository.save(diagnosis);
+//                }
+//
+//                if (studyRequest.consultationId().isPresent()) {
+//                    Long consultationId = studyRequest.consultationId().get();
+//                    ConsultationEntity consultation = consultationRepository.findById(consultationId)
+//                            .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + consultationId));
+//                    study.setConsultation(consultation);
+//                    consultation.getComplementaryStudies().add(study);
+//                    consultationRepository.save(consultation);
+//                }
+// Comprobación para Hospitalization si se proporciona un ID
+                if (studyRequest.hospitalizationId() != null) {
+                    Long hospitalizationId = studyRequest.hospitalizationId();
                     Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
                             .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + hospitalizationId));
                     study.setHospitalization(hospitalization);
                     hospitalization.getComplementaryStudies().add(study);
                     hospitalizationRepository.save(hospitalization);
-                } else {
-                    System.out.println("No hospitalizationId present");
                 }
 
-                if (studyRequest.diagnosisId().isPresent()) {
-                    Long diagnosisId = studyRequest.diagnosisId().get();
+                // Comprobación para Diagnosis si se proporciona un ID
+                if (studyRequest.diagnosisId() != null) {
+                    Long diagnosisId = studyRequest.diagnosisId();
                     DiagnosticEntity diagnosis = diagnosisRepository.findById(diagnosisId)
                             .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + diagnosisId));
                     study.setDiagnosis(diagnosis);
                     diagnosis.getComplementaryStudies().add(study);
                     diagnosisRepository.save(diagnosis);
-                } else {
-                    System.out.println("No diagnosisId present");
                 }
 
-                if (studyRequest.consultationId().isPresent()) {
-                    Long consultationId = studyRequest.consultationId().get();
+                // Comprobación para Consultation si se proporciona un ID
+                if (studyRequest.consultationId() != null) {
+                    Long consultationId = studyRequest.consultationId();
                     ConsultationEntity consultation = consultationRepository.findById(consultationId)
                             .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + consultationId));
                     study.setConsultation(consultation);
                     consultation.getComplementaryStudies().add(study);
                     consultationRepository.save(consultation);
-                } else {
-                    System.out.println("No consultationId present");
                 }
-
                 study = complementaryStudyRepository.save(study);
 
-                System.out.println(study);
                 if (study.getId() == null) {
                     return new StudyCreatedResponse("Error al crear el estudio complementario.", null);
                 }
@@ -130,7 +151,7 @@ public class ComplementaryStudyService {
             }
 
             if (dto.consultationId() != null) {
-                ConsultationEntity consultation = consultationRepository.findById(dto.consultationId().get())
+                ConsultationEntity consultation = consultationRepository.findById(dto.consultationId())
                         .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + dto.consultationId()));
                 existingStudy.setConsultation(consultation);
             } else {
@@ -138,7 +159,7 @@ public class ComplementaryStudyService {
             }
 
             if (dto.diagnosisId() != null) {
-                DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId().get())
+                DiagnosticEntity diagnosisEntity = diagnosisRepository.findById(dto.diagnosisId())
                         .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
                 existingStudy.setDiagnosis(diagnosisEntity);
             } else {
@@ -146,7 +167,7 @@ public class ComplementaryStudyService {
             }
 
             if (dto.hospitalizationId() != null) {
-                Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId().get())
+                Hospitalization hospitalization = hospitalizationRepository.findById(dto.hospitalizationId())
                         .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + dto.hospitalizationId()));
                 existingStudy.setHospitalization(hospitalization);
             } else {
