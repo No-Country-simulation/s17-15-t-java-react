@@ -63,7 +63,7 @@ public class ComplementaryStudyController {
 //                    )
 //            }
 //    )
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<StudyCreatedResponse> addStudy(@ModelAttribute StudyRequest studyRequest, @RequestParam(value = "file", required = false) MultipartFile file)  {
         //return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, file));
         try {
