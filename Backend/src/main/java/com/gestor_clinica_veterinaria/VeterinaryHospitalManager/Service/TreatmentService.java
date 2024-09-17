@@ -1,6 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,15 +43,38 @@ public class TreatmentService {
         }
 
     }
+    public List<TreatmentDto> getAllTreatments() {
+        List<Treatment> treatments = treatmentRepository.findAll();
+        return treatments.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
-    public List<Treatment> getAllTreatments(){
-        return treatmentRepository.findAll();
+    // Obtener un tratamiento por ID como DTO
+    public TreatmentDto getTreatmentById(Long treatmentId) {
+        Treatment treatment = treatmentRepository.findById(treatmentId)
+                .orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresado es incorrecto o no existe"));
+        return convertToDto(treatment);
     }
-    public Treatment getTreatmentById(Long treatmentId){
-        return treatmentRepository.findById(treatmentId).orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresao es incorrecto o no existe"));
+
+    private TreatmentDto convertToDto(Treatment treatment) {
+        return new TreatmentDto(
+                treatment.getId(),
+                treatment.getTreatmentDescription(),
+                treatment.getDuration(),
+                treatment.getAdditionalObservations(),
+                treatment.getTreatmentCost(),
+                treatment.getDiagnosis() != null ? treatment.getDiagnosis().getId() : null,
+                treatment.getHospitalization() != null ? treatment.getHospitalization().getId() : null
+        );
     }
-    public List<Treatment> getAllTreatmentsByPetId(Long petId){
-        return treatmentRepository.findAllById(Collections.singleton(petId));
+
+    // Método para obtener todos los tratamientos por ID de mascota
+    public List<TreatmentDto> getTreatmentsByPetId(Long petId) {
+        List<Treatment> treatments = treatmentRepository.findTreatmentsByPetId(petId);
+        return treatments.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
     public List<Treatment> getAllTreatmentsByOwnerId(Long ownerId){
         return treatmentRepository.findAllById(Collections.singleton(ownerId));
