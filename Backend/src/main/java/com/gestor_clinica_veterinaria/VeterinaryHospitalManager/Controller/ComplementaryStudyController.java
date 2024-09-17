@@ -64,9 +64,8 @@ public class ComplementaryStudyController {
     )
 
     public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart("studyRequest") StudyRequest studyRequest, @RequestPart("file") MultipartFile studyFile) throws IOException {
-
         String filePath = fileStorageService.saveFile(studyFile);
-        FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
+        //FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
     }
 

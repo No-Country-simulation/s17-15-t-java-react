@@ -17,7 +17,8 @@ public class FileStorageService {
 
     public String saveFile(MultipartFile file) {
 
-        String objectName = file.getOriginalFilename();
+        //String objectName = file.getOriginalFilename();
+        String objectName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
         try {
             BlobId blobId = BlobId.of(bucketName, objectName);
