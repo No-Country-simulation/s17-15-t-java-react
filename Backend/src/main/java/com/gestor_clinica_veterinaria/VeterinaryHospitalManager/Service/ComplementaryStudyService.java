@@ -43,6 +43,8 @@ public class ComplementaryStudyService {
                 if (file != null && !file.isEmpty()) {
                     String uploadedFileUrl = fileStorageService.saveFile(file);
                     study.setStudyFile(uploadedFileUrl);
+                }else {
+                    study.setStudyFile("aún no ha cargado ningún archivo");
                 }
 
                 if (studyRequest.hospitalizationId().isPresent()) {

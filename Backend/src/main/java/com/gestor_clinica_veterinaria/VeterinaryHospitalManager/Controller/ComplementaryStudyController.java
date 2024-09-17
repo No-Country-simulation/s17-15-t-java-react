@@ -47,7 +47,6 @@ public class ComplementaryStudyController {
                             " REVISADOS, // The results have been reviewed by the veterinarian.\n" +
                             " CANCELADOS, //The study was scheduled but then cancelled.\n" +
                             " FALLIDOS, // The study could not be completed due to technical or other issues.",
-                    required = true,
                     content = @Content(
                             mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(implementation = StudyRequest.class)
