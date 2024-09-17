@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -61,8 +63,8 @@ public class ComplementaryStudyController {
             }
     )
 
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart("studyRequest") String studyRequestJson, @RequestPart("file") MultipartFile studyFile) throws JsonProcessingException {
-        StudyRequest studyRequest = new ObjectMapper().readValue(studyRequestJson, StudyRequest.class);
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart("studyRequest") StudyRequest studyRequest, @RequestPart("file") MultipartFile studyFile) throws IOException {
+
         String filePath = fileStorageService.saveFile(studyFile);
         FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
