@@ -1,8 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

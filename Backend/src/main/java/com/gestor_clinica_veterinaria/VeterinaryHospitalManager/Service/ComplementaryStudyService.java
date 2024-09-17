@@ -36,7 +36,7 @@ public class ComplementaryStudyService {
 
 
         @Transactional
-        public StudyCreatedResponse addComplementaryStudy(StudyRequest studyRequest, MultipartFile file){
+        public StudyCreatedResponse addComplementaryStudy(StudyRequest studyRequest, MultipartFile file)  {
             try {
                 ComplementaryStudy study = complementaryStudyMapper.toEntity(studyRequest);
 

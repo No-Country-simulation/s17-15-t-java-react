@@ -63,11 +63,10 @@ public class ComplementaryStudyController {
             }
     )
 
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart("studyRequest") StudyRequest studyRequest, @RequestPart("file") MultipartFile studyFile) throws IOException {
-        String filePath = fileStorageService.saveFile(studyFile);
-        //FileRequest fileDTO = new FileRequest(studyFile.getOriginalFilename(), filePath, studyFile.getContentType(), studyFile.getSize());
+    public ResponseEntity<StudyCreatedResponse> addStudy(@ModelAttribute StudyRequest studyRequest, @RequestParam("file") MultipartFile studyFile) throws IOException {
         return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, studyFile));
     }
+
 
     @PutMapping("/update/{id}")
     @Operation(
@@ -91,9 +90,6 @@ public class ComplementaryStudyController {
                     )
             }
     )
-//    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto) {
-//        return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto));
-//    }
     public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(@PathVariable Long studyId, @RequestBody StudyRequest dto, @RequestParam("file") MultipartFile studyFile) {
         return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto, studyFile));
     }
