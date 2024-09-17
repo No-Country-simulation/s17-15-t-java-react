@@ -52,6 +52,8 @@ public class ComplementaryStudyService {
                     study.setHospitalization(hospitalization);
                     hospitalization.getComplementaryStudies().add(study);
                     hospitalizationRepository.save(hospitalization);
+                } else {
+                    System.out.println("No hospitalizationId present");
                 }
 
                 if (studyRequest.diagnosisId().isPresent()) {
@@ -61,6 +63,8 @@ public class ComplementaryStudyService {
                     study.setDiagnosis(diagnosis);
                     diagnosis.getComplementaryStudies().add(study);
                     diagnosisRepository.save(diagnosis);
+                } else {
+                    System.out.println("No diagnosisId present");
                 }
 
                 if (studyRequest.consultationId().isPresent()) {
@@ -70,6 +74,8 @@ public class ComplementaryStudyService {
                     study.setConsultation(consultation);
                     consultation.getComplementaryStudies().add(study);
                     consultationRepository.save(consultation);
+                } else {
+                    System.out.println("No consultationId present");
                 }
 
                 study = complementaryStudyRepository.save(study);
@@ -85,8 +91,6 @@ public class ComplementaryStudyService {
                 return new StudyCreatedResponse("Error: " + e.getMessage(), null);
             }
         }
-
-
 
     public List<ComplementaryStudy> getAllComplementaryStudies(){
         return complementaryStudyRepository.findAll();
