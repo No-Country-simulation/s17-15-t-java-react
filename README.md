@@ -1,5 +1,5 @@
 <h1 align="center">💓 Equipo s17-15-t-java-react | No Country 🌎</h1>
-
+ 
   <!-- PROJECT LOGO -->
   <div align='center'>
     <a href="https://the-pet.vercel.app//" target="_blank">
@@ -191,7 +191,7 @@
   </div>
 
   <div align='center'>
-
+   
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
@@ -209,7 +209,7 @@
   </div>
 
   <div align='center'>
-
+   
 ![React](https://img.shields.io/static/v1?style=for-the-badge&message=React&color=222222&logo=React&logoColor=61DAFB&label=)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -223,6 +223,12 @@
 
 
  
+
+
+
+
+
+
 
 
 
