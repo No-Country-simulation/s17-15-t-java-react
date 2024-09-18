@@ -1,7 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
@@ -43,7 +43,7 @@ public class TreatmentService {
         }
 
     }
-    public List<TreatmentDto> getAllTreatments() {
+    public List<TreatmentResponse> getAllTreatments() {
         List<Treatment> treatments = treatmentRepository.findAll();
         return treatments.stream()
                 .map(this::convertToDto)
@@ -51,14 +51,14 @@ public class TreatmentService {
     }
 
     // Obtener un tratamiento por ID como DTO
-    public TreatmentDto getTreatmentById(Long treatmentId) {
+    public TreatmentResponse getTreatmentById(Long treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresado es incorrecto o no existe"));
         return convertToDto(treatment);
     }
 
-    private TreatmentDto convertToDto(Treatment treatment) {
-        return new TreatmentDto(
+    private TreatmentResponse convertToDto(Treatment treatment) {
+        return new TreatmentResponse(
                 treatment.getId(),
                 treatment.getTreatmentDescription(),
                 treatment.getDuration(),
@@ -70,17 +70,17 @@ public class TreatmentService {
     }
 
     // Método para obtener todos los tratamientos por ID de mascota
-    public List<TreatmentDto> getTreatmentsByPetId(Long petId) {
+    public List<TreatmentResponse> getTreatmentsByPetId(Long petId) {
         List<Treatment> treatments = treatmentRepository.findTreatmentsByPetId(petId);
         return treatments.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
-    public List<Treatment> getAllTreatmentsByOwnerId(Long ownerId){
-        return treatmentRepository.findAllById(Collections.singleton(ownerId));
+    public List<TreatmentResponse> getAllTreatmentsByOwnerId(Long ownerId){
+        return treatmentMapper.toDtoList(treatmentRepository.findAllById(Collections.singleton(ownerId)));
     }
 
-    public Treatment updateTreatment(Long treatmentId, TreatmentRequest dto) {
+    public TreatmentResponse updateTreatment(Long treatmentId, TreatmentRequest dto) {
 
         Treatment existingTreatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + treatmentId));
@@ -95,7 +95,7 @@ public class TreatmentService {
                     .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + dto.diagnosisId()));
             existingTreatment.setDiagnosis(diagnosisEntity);
         }
-
-        return treatmentRepository.save(existingTreatment);
+        treatmentRepository.save(existingTreatment);
+        return  treatmentMapper.toDtoResponse(existingTreatment);
     }
 }

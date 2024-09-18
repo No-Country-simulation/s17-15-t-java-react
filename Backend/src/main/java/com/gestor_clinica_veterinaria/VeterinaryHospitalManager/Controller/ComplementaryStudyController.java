@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.FileRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
@@ -33,7 +34,7 @@ public class ComplementaryStudyController {
     private final ComplementaryStudyService complementaryStudyService;
     private final FileStorageService fileStorageService;
 
-    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     @Operation(
             summary = "Add a new Complementary Study",
             description = "Add a new complementary study",
@@ -63,7 +64,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestPart StudyRequest studyRequest, @RequestParam(value = "file", required = false) MultipartFile file)  {
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest, @RequestPart(value = "file", required = false) MultipartFile file)  {
         //return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, file));
         try {
             StudyCreatedResponse response = complementaryStudyService.addComplementaryStudy(studyRequest, file);
@@ -73,7 +74,7 @@ public class ComplementaryStudyController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping(value = "/update/{studyId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "Update Complementary Study",
             description = "Fully update a Complementary Study",
@@ -90,18 +91,15 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Complementary Study Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudy.class)
+                                    schema = @Schema(implementation = StudyResponse.class)
                             )
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudy> updateComplementaryStudy(
-            @Parameter(description = "ID of the Complementary Study to update", required = true)
+    public ResponseEntity<StudyResponse> updateComplementaryStudy(
             @PathVariable Long studyId,
-            @Parameter(description = "Study request object", required = true)
             @RequestPart StudyRequest dto,
-            @Parameter(description = "File to upload", required = false)
-            @RequestParam(value = "file", required = false) MultipartFile studyFile) {
+            @RequestPart(name = "file", required = false) MultipartFile studyFile) {
         return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto, studyFile));
     }
 
@@ -116,16 +114,16 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudy.class)
+                                    schema = @Schema(implementation = StudyResponse.class)
                             )
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudy>> getAllTreatments() {
+    public ResponseEntity<List<StudyResponse>> getAllTreatments() {
         return ResponseEntity.ok(complementaryStudyService.getAllComplementaryStudies());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{studyId}")
     @Operation(
             summary = "Get Complementary Study by id",
             description = "Get Complementary Study by id",
@@ -135,12 +133,12 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudy.class)
+                                    schema = @Schema(implementation = StudyResponse.class)
                             )
                     )
             }
     )
-    public ResponseEntity<ComplementaryStudy> getComplementaryStudyById(@PathVariable Long studyId) {
+    public ResponseEntity<StudyResponse> getComplementaryStudyById(@PathVariable Long studyId) {
         return ResponseEntity.ok(complementaryStudyService.getStudyById(studyId));
     }
 
@@ -154,7 +152,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudy.class)
+                                    schema = @Schema(implementation = StudyResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -164,7 +162,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudy>> getAllStudiesByPetId(@PathVariable Long petId) {
+    public ResponseEntity<List<StudyResponse>> getAllStudiesByPetId(@PathVariable Long petId) {
         return ResponseEntity.ok(complementaryStudyService.getAllStudiesByPetId(petId));
     }
 
@@ -178,7 +176,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudy.class)
+                                    schema = @Schema(implementation = StudyResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -188,7 +186,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudy>> getStudiesByOwnerId(@PathVariable Long ownerId) {
+    public ResponseEntity<List<StudyResponse>> getStudiesByOwnerId(@PathVariable Long ownerId) {
         return ResponseEntity.ok(complementaryStudyService.getAllStudiesByOwnerId(ownerId));
     }
 
@@ -202,7 +200,7 @@ public class ComplementaryStudyController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ComplementaryStudy.class)
+                                    schema = @Schema(implementation = StudyResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -212,8 +210,8 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<ComplementaryStudy>> getAllStudiesByState(@PathVariable EnumStudyState studyState) {
-        List<ComplementaryStudy> studies = complementaryStudyService.getAllStudiesByState(studyState);
+    public ResponseEntity<List<StudyResponse>> getAllStudiesByState(@PathVariable EnumStudyState studyState) {
+        List<StudyResponse> studies = complementaryStudyService.getAllStudiesByState(studyState);
         return ResponseEntity.ok(studies);
     }
 }

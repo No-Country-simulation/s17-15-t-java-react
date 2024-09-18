@@ -2,7 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment;
 
 import java.math.BigDecimal;
 
-public record TreatmentDto(
+public record TreatmentResponse(
         Long id,
         String treatmentDescription,
         String duration,

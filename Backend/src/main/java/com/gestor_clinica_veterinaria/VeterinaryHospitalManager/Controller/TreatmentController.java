@@ -1,7 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.TreatmentService;
@@ -55,7 +55,7 @@ public class TreatmentController {
 
 
 
-    @GetMapping
+    @GetMapping("/all")
     @Operation(
             summary = "Get all Treatments",
             description = "Get all treatments in the system",
@@ -65,17 +65,17 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentResponse.class)
                             )
                     )
             }
     )
-    public ResponseEntity<List<TreatmentDto>> getAllTreatments() {
-        List<TreatmentDto> treatments = treatmentService.getAllTreatments();
+    public ResponseEntity<List<TreatmentResponse>> getAllTreatments() {
+        List<TreatmentResponse> treatments = treatmentService.getAllTreatments();
         return ResponseEntity.ok(treatments);
     }
 
-    // Endpoint para obtener un tratamiento por ID como DTO
+
     @GetMapping("/{treatmentId}")
     @Operation(
             summary = "Get Treatment by ID",
@@ -86,7 +86,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -96,8 +96,8 @@ public class TreatmentController {
                     )
             }
     )
-    public ResponseEntity<TreatmentDto> getTreatmentById(@PathVariable Long treatmentId) {
-        TreatmentDto treatment = treatmentService.getTreatmentById(treatmentId);
+    public ResponseEntity<TreatmentResponse> getTreatmentById(@PathVariable Long treatmentId) {
+        TreatmentResponse treatment = treatmentService.getTreatmentById(treatmentId);
         return ResponseEntity.ok(treatment);
     }
 
@@ -112,7 +112,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Treatment.class)
+                                    schema = @Schema(implementation = TreatmentResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -123,7 +123,7 @@ public class TreatmentController {
             }
     )
 
-    public ResponseEntity<List<Treatment>> getTreatmentsByOwnerId(@PathVariable Long ownerId) {
+    public ResponseEntity<List<TreatmentResponse>> getTreatmentsByOwnerId(@PathVariable Long ownerId) {
         return ResponseEntity.ok(treatmentService.getAllTreatmentsByOwnerId(ownerId));
     }
 
@@ -144,7 +144,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Treatment Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Treatment.class)
+                                    schema = @Schema(implementation = TreatmentResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -154,7 +154,7 @@ public class TreatmentController {
                     )
             }
     )
-    public ResponseEntity<Treatment> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentRequest dto) {
+    public ResponseEntity<TreatmentResponse> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentRequest dto) {
         return ResponseEntity.ok(treatmentService.updateTreatment(treatmentId, dto));
     }
     @GetMapping("/byPet/{petId}")
@@ -167,7 +167,7 @@ public class TreatmentController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = TreatmentDto.class)
+                                    schema = @Schema(implementation = TreatmentResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -177,8 +177,8 @@ public class TreatmentController {
                     )
             }
     )
-    public ResponseEntity<List<TreatmentDto>> getTreatmentsByPetId(@PathVariable Long petId) {
-        List<TreatmentDto> treatmentDtos = treatmentService.getTreatmentsByPetId(petId);
-        return ResponseEntity.ok(treatmentDtos);
+    public ResponseEntity<List<TreatmentResponse>> getTreatmentsByPetId(@PathVariable Long petId) {
+        List<TreatmentResponse> treatmentResponses = treatmentService.getTreatmentsByPetId(petId);
+        return ResponseEntity.ok(treatmentResponses);
     }
 }

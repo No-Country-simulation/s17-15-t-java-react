@@ -1,5 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.FileNotFoundException;
@@ -33,8 +34,8 @@ public class FileController {
 
     private String getStudyUrl(String studyId) {
         Long studyIdLong = Long.parseLong(studyId);
-        ComplementaryStudy study = complementaryStudyService.getStudyById(studyIdLong);
-        return study.getStudyFile();
+        StudyResponse study = complementaryStudyService.getStudyById(studyIdLong);
+        return study.studyFile();
     }
 
 }

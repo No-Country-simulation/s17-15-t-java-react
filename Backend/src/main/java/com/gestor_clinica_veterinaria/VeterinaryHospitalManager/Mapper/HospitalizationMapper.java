@@ -1,10 +1,12 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class HospitalizationMapper {
@@ -30,8 +32,21 @@ public class HospitalizationMapper {
                         entity.getTreatments().get(0).getId() : null
         );
     }
+    public HospitalizationResponse toDtoResponse(Hospitalization entity) {
+        return new HospitalizationResponse(
+                entity.getId(),
+                entity.getStartDate(),
+                entity.getEnd_date(),
+                entity.getHospitalizationCost(),
+                entity.isPaid(),
+                entity.getComplementaryStudies(),
+                entity.getTreatments()
+        );
+    }
 
-    public List<HospitalizationRequest> toDtoList(List<Hospitalization> hospitalizationList) {
-        return hospitalizationList.stream().map(this::toDto).toList();
+    public List<HospitalizationResponse> toDtoList(List<Hospitalization> hospitalizationList) {
+        return hospitalizationList.stream()
+                .map(hospitalization -> toDtoResponse(hospitalization))
+                .collect(Collectors.toList());
     }
 }

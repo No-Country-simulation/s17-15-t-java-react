@@ -2,7 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationCreationResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.HospitalizationMapper;
@@ -67,23 +67,25 @@ public class HospitalizationService {
         }
     }
 
-    public List<HospitalizationRequest> getAllHospitalizations(){
+    public List<HospitalizationResponse> getAllHospitalizations(){
         return hospitalizationMapper.toDtoList(hospitalizationRepository.findAll());
     }
 
-    public Hospitalization getHospitalizationById(Long hospitalizationId){
-        return hospitalizationRepository.findById(hospitalizationId)
-                .orElseThrow(() -> new EntityNotFoundException("El id de hospitalización ingresado es incorrecto o no existe."));
+    public HospitalizationResponse getHospitalizationById(Long hospitalizationId){
+            Hospitalization entity =  hospitalizationRepository.findById(hospitalizationId).orElseThrow(() -> new EntityNotFoundException("El id de hospitalización ingresado es incorrecto o no existe."));
+            HospitalizationResponse response = hospitalizationMapper.toDtoResponse(entity);
+        return response;
+
     }
-    public List<HospitalizationRequest> getHospitalizationByTreatment(Long treatmentId) {
+    public List<HospitalizationResponse> getHospitalizationByTreatment(Long treatmentId) {
         return hospitalizationMapper.toDtoList(hospitalizationRepository.findByTreatments_Id(treatmentId));
     }
 
-    public List<HospitalizationRequest> getHospitalizationByComplementaryStudy(Long complementaryStudyId) {
+    public List<HospitalizationResponse> getHospitalizationByComplementaryStudy(Long complementaryStudyId) {
         return hospitalizationMapper.toDtoList(hospitalizationRepository.findByComplementaryStudies_Id(complementaryStudyId));
     }
 
-    public Hospitalization updateHospitalization(Long hospitalizationId, HospitalizationRequest dto){
+    public HospitalizationResponse updateHospitalization(Long hospitalizationId, HospitalizationRequest dto){
 
         Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
                 .orElseThrow(() -> new EntityNotFoundException("No se ha podido actualizar la hospitalización porque el id ingresado es incorrecto o no existe: " + hospitalizationId));
@@ -97,8 +99,9 @@ public class HospitalizationService {
         if (dto.startDate() != null && dto.endDate() != null) {
             hospitalization.setHospitalizationCost(calculateCost(dto.startDate(), dto.endDate()));
         }
+        hospitalizationRepository.save(hospitalization);
 
-        return hospitalizationRepository.save(hospitalization);
+        return hospitalizationMapper.toDtoResponse(hospitalization);
     }
 
     private BigDecimal calculateCost(LocalDate startDate, LocalDate endDate) {

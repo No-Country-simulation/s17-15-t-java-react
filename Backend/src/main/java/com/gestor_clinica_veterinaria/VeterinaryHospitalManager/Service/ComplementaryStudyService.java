@@ -2,6 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
@@ -46,7 +47,6 @@ public class ComplementaryStudyService {
                 }else {
                     study.setStudyFile(null);
                 }
-
 //                if (studyRequest.hospitalizationId().isPresent()) {
 //                    Long hospitalizationId = studyRequest.hospitalizationId().get();
 //                    Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
@@ -83,7 +83,6 @@ public class ComplementaryStudyService {
                     hospitalizationRepository.save(hospitalization);
                 }
 
-                // Comprobación para Diagnosis si se proporciona un ID
                 if (studyRequest.diagnosisId() != null) {
                     Long diagnosisId = studyRequest.diagnosisId();
                     DiagnosticEntity diagnosis = diagnosisRepository.findById(diagnosisId)
@@ -93,7 +92,6 @@ public class ComplementaryStudyService {
                     diagnosisRepository.save(diagnosis);
                 }
 
-                // Comprobación para Consultation si se proporciona un ID
                 if (studyRequest.consultationId() != null) {
                     Long consultationId = studyRequest.consultationId();
                     ConsultationEntity consultation = consultationRepository.findById(consultationId)
@@ -115,23 +113,25 @@ public class ComplementaryStudyService {
             }
         }
 
-    public List<ComplementaryStudy> getAllComplementaryStudies(){
-        return complementaryStudyRepository.findAll();
+    public List<StudyResponse> getAllComplementaryStudies(){
+        return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAll());
     }
-    public ComplementaryStudy getStudyById(Long studyId){
-        return complementaryStudyRepository.findById(studyId).orElseThrow(() -> new ComplementaryStudyNotFoundException("El id del estudio complementario ingresao es incorrecto o no existe"));
+    public StudyResponse getStudyById(Long studyId){
+        return complementaryStudyMapper.toDtoResponse(complementaryStudyRepository.
+                findById(studyId).orElseThrow(() ->
+                        new ComplementaryStudyNotFoundException("El id del estudio complementario ingresao es incorrecto o no existe")));
     }
 
-    public List<ComplementaryStudy> getAllStudiesByPetId(Long petId){
-        return complementaryStudyRepository.findAllById(Collections.singleton(petId));
+    public List<StudyResponse> getAllStudiesByPetId(Long petId){
+        return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAllById(Collections.singleton(petId)));
     }
-    public List<ComplementaryStudy> getAllStudiesByOwnerId(Long ownerId){
-        return complementaryStudyRepository.findAllById(Collections.singleton(ownerId));
+    public List<StudyResponse> getAllStudiesByOwnerId(Long ownerId){
+        return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAllById(Collections.singleton(ownerId)));
     }
-    public List<ComplementaryStudy> getAllStudiesByState(EnumStudyState state) {
-        return complementaryStudyRepository.findByStudyState(state);
+    public List<StudyResponse> getAllStudiesByState(EnumStudyState state) {
+        return  complementaryStudyMapper.toDtoList(complementaryStudyRepository.findByStudyState(state));
     }
-    public ComplementaryStudy updateStudy(Long studyId, StudyRequest dto, MultipartFile studyFile) {
+    public StudyResponse updateStudy(Long studyId, StudyRequest dto, MultipartFile studyFile) {
         Optional<ComplementaryStudy> studyOptional = complementaryStudyRepository.findById(studyId);
 
         if (studyOptional.isPresent()){
@@ -140,7 +140,7 @@ public class ComplementaryStudyService {
             existingStudy.setExaminationDate(dto.examinationDate());
             existingStudy.setStudyCost(dto.studyCost());
             existingStudy.setStudyState(dto.studyState());
-            existingStudy.setStudyResult(dto.studyResult().get());
+            existingStudy.setStudyResult(dto.studyResult());
             existingStudy.setStudyType(dto.studyType());
 
             if (studyFile != null) {
@@ -174,7 +174,7 @@ public class ComplementaryStudyService {
                 existingStudy.setHospitalization(null);
             }
 
-                return complementaryStudyRepository.save(existingStudy);
+                return complementaryStudyMapper.toDtoResponse(complementaryStudyRepository.save(existingStudy));
         } else {
             throw new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
         }

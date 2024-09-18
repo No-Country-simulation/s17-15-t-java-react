@@ -10,8 +10,19 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.mapstruct.ap.shaded.freemarker.ext.dom.XPathSupport;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+
+import java.util.Collections;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -53,5 +64,7 @@ import org.springframework.stereotype.Service;
         scheme = "bearer",
         bearerFormat = "JWT"
 )
+
 public class SwaggerConfig {
+  
 }

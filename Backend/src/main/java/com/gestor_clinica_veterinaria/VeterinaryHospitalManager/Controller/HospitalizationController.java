@@ -2,6 +2,7 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationCreationResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.HospitalizationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,12 +60,12 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful action",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Hospitalization.class)
+                                    schema = @Schema(implementation = HospitalizationRequest.class)
                             )
                     )
             }
     )
-    public ResponseEntity<List<HospitalizationRequest>> getAllHospitalizations() {
+    public ResponseEntity<List<HospitalizationResponse>> getAllHospitalizations() {
         return ResponseEntity.ok(hospitalizationService.getAllHospitalizations());
     }
 
@@ -78,7 +79,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Hospitalization.class)
+                                    schema = @Schema(implementation = HospitalizationResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -89,7 +90,7 @@ public class HospitalizationController {
             }
     )
 
-    public ResponseEntity<Hospitalization> getHospitalizationById(@PathVariable Long hospitalizationId) {
+    public ResponseEntity<HospitalizationResponse> getHospitalizationById(@PathVariable Long hospitalizationId) {
         return ResponseEntity.ok(hospitalizationService.getHospitalizationById(hospitalizationId));
     }
 
@@ -103,7 +104,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Hospitalization.class)
+                                    schema = @Schema(implementation = HospitalizationResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -113,7 +114,7 @@ public class HospitalizationController {
                     )
             }
     )
-    public ResponseEntity<List<HospitalizationRequest>> getHospitalizationByTreatment(@PathVariable Long treatmentId) {
+    public ResponseEntity<List<HospitalizationResponse>> getHospitalizationByTreatment(@PathVariable Long treatmentId) {
         return ResponseEntity.ok(hospitalizationService.getHospitalizationByTreatment(treatmentId));
     }
 
@@ -127,7 +128,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Successful operation",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Hospitalization.class)
+                                    schema = @Schema(implementation = HospitalizationResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -137,7 +138,7 @@ public class HospitalizationController {
                     )
             }
     )
-    public ResponseEntity<List<HospitalizationRequest>> getHospitalizationByComplementaryStudy(@PathVariable Long complementaryStudyId) {
+    public ResponseEntity<List<HospitalizationResponse>> getHospitalizationByComplementaryStudy(@PathVariable Long complementaryStudyId) {
         return ResponseEntity.ok(hospitalizationService.getHospitalizationByComplementaryStudy(complementaryStudyId));
     }
 
@@ -158,7 +159,7 @@ public class HospitalizationController {
                             responseCode = "200",
                             description = "Hospitalization Successfully updated",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Hospitalization.class)
+                                    schema = @Schema(implementation = HospitalizationResponse.class)
                             )
                     ),
                     @ApiResponse(
@@ -168,7 +169,7 @@ public class HospitalizationController {
                     )
             }
     )
-    public ResponseEntity<Hospitalization> updateHospitalization(@PathVariable Long hospitalizationId, @RequestBody HospitalizationRequest dto) {
+    public ResponseEntity<HospitalizationResponse> updateHospitalization(@PathVariable Long hospitalizationId, @RequestBody HospitalizationRequest dto) {
         return ResponseEntity.ok(hospitalizationService.updateHospitalization(hospitalizationId, dto));
     }
 }

@@ -1,11 +1,12 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentDto;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TreatmentMapper {
@@ -32,20 +33,19 @@ public class TreatmentMapper {
         );
     }
 
-
-    public List<TreatmentRequest> toDtoList(List<Treatment> treatmentList) {
-        return treatmentList.stream().map(this::toDto).toList();
+    public List<TreatmentResponse> toDtoList(List<Treatment> treatments) {
+        return treatments.stream().map(treatment->toDtoResponse(treatment)).collect(Collectors.toList());
     }
 
-   // public TreatmentDto convertToDto(Treatment treatment) {
-   //     return new TreatmentDto(
-   //             treatment.getId(),
-   //             treatment.getTreatmentDescription(),
-   //             treatment.getDuration(),
-   //             treatment.getAdditionalObservations(),
-   //             treatment.getTreatmentCost(),
-   //             treatment.getDiagnosis() != null ? treatment.getDiagnosis().getId() : null,
-   //             treatment.getHospitalization() != null ? treatment.getHospitalization().getId() : null
-   //     );
-   // }
+    public TreatmentResponse toDtoResponse(Treatment entity) {
+        return new TreatmentResponse(
+                entity.getId(),
+                entity.getTreatmentDescription(),
+                entity.getDuration(),
+                entity.getAdditionalObservations(),
+                entity.getTreatmentCost(),
+                entity.getDiagnosis().getId(),
+                entity.getHospitalization().getId()
+        );
+    }
 }

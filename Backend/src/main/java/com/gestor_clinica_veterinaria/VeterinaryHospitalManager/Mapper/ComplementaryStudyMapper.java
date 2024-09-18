@@ -1,6 +1,9 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.*;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.ConsultationRepository;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.DiagnosticRepository;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class ComplementaryStudyMapper {
@@ -54,7 +58,7 @@ public class ComplementaryStudyMapper {
         return new StudyRequest(
                 entity.getExaminationDate(),
                 entity.getStudyType(),
-                Optional.ofNullable(entity.getStudyResult()),
+                entity.getStudyResult(),
                 entity.getStudyState(),
                 entity.getStudyFile(),
                 entity.getStudyCost(),
@@ -63,8 +67,25 @@ public class ComplementaryStudyMapper {
                 entity.getHospitalization().getId()
         );
     }
-
-    public List<StudyRequest> toDtoList(List<ComplementaryStudy>  studyList){
-        return studyList.stream().map(this::toDto).toList();
+    public StudyResponse toDtoResponse(ComplementaryStudy entity) {
+        return new StudyResponse(
+                entity.getId(),
+                entity.getExaminationDate(),
+                entity.getStudyType(),
+                entity.getStudyResult(),
+                entity.getStudyFile(),
+                entity.getStudyState(),
+                entity.getStudyCost(),
+                entity.getConsultation().getId(),
+                entity.getDiagnosis().getId(),
+                entity.getHospitalization().getId()
+        );
     }
+
+    public List<StudyResponse> toDtoList(List<ComplementaryStudy>  studyList){
+        return studyList.stream()
+                .map(study-> toDtoResponse(study))
+                        .collect(Collectors.toList());
+    }
+
 }
