@@ -19,7 +19,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,47 +32,12 @@ public class ComplementaryStudyService {
     private final HospitalizationRepository hospitalizationRepository;
     private final DiagnosticRepository diagnosisRepository;
     private final ConsultationRepository consultationRepository;
-    private final FileStorageService fileStorageService;
-
 
         @Transactional
-        public StudyCreatedResponse addComplementaryStudy(StudyRequest studyRequest, MultipartFile file)  {
+        public StudyCreatedResponse addComplementaryStudy(StudyRequest studyRequest)  {
             try {
                 ComplementaryStudy study = complementaryStudyMapper.toEntity(studyRequest);
 
-                if (file != null && !file.isEmpty()) {
-                    String uploadedFileUrl = fileStorageService.saveFile(file);
-                    study.setStudyFile(uploadedFileUrl);
-                }else {
-                    study.setStudyFile(null);
-                }
-//                if (studyRequest.hospitalizationId().isPresent()) {
-//                    Long hospitalizationId = studyRequest.hospitalizationId().get();
-//                    Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
-//                            .orElseThrow(() -> new EntityNotFoundException("Hospitalization not found with id: " + hospitalizationId));
-//                    study.setHospitalization(hospitalization);
-//                    hospitalization.getComplementaryStudies().add(study);
-//                    hospitalizationRepository.save(hospitalization);
-//                }
-//
-//                if (studyRequest.diagnosisId().isPresent()) {
-//                    Long diagnosisId = studyRequest.diagnosisId().get();
-//                    DiagnosticEntity diagnosis = diagnosisRepository.findById(diagnosisId)
-//                            .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + diagnosisId));
-//                    study.setDiagnosis(diagnosis);
-//                    diagnosis.getComplementaryStudies().add(study);
-//                    diagnosisRepository.save(diagnosis);
-//                }
-//
-//                if (studyRequest.consultationId().isPresent()) {
-//                    Long consultationId = studyRequest.consultationId().get();
-//                    ConsultationEntity consultation = consultationRepository.findById(consultationId)
-//                            .orElseThrow(() -> new EntityNotFoundException("Consultation not found with id: " + consultationId));
-//                    study.setConsultation(consultation);
-//                    consultation.getComplementaryStudies().add(study);
-//                    consultationRepository.save(consultation);
-//                }
-// Comprobación para Hospitalization si se proporciona un ID
                 if (studyRequest.hospitalizationId() != null) {
                     Long hospitalizationId = studyRequest.hospitalizationId();
                     Hospitalization hospitalization = hospitalizationRepository.findById(hospitalizationId)
@@ -131,7 +95,7 @@ public class ComplementaryStudyService {
     public List<StudyResponse> getAllStudiesByState(EnumStudyState state) {
         return  complementaryStudyMapper.toDtoList(complementaryStudyRepository.findByStudyState(state));
     }
-    public StudyResponse updateStudy(Long studyId, StudyRequest dto, MultipartFile studyFile) {
+    public StudyResponse updateStudy(Long studyId, StudyRequest dto) {
         Optional<ComplementaryStudy> studyOptional = complementaryStudyRepository.findById(studyId);
 
         if (studyOptional.isPresent()){
@@ -139,16 +103,10 @@ public class ComplementaryStudyService {
 
             existingStudy.setExaminationDate(dto.examinationDate());
             existingStudy.setStudyCost(dto.studyCost());
+            existingStudy.setStudyFile(dto.studyFile());
             existingStudy.setStudyState(dto.studyState());
             existingStudy.setStudyResult(dto.studyResult());
             existingStudy.setStudyType(dto.studyType());
-
-            if (studyFile != null) {
-                String filePath = fileStorageService.saveFile(studyFile);
-                existingStudy.setStudyFile(filePath);
-            }else {
-                existingStudy.setStudyFile(null);
-            }
 
             if (dto.consultationId() != null) {
                 ConsultationEntity consultation = consultationRepository.findById(dto.consultationId())
@@ -174,7 +132,7 @@ public class ComplementaryStudyService {
                 existingStudy.setHospitalization(null);
             }
 
-                return complementaryStudyMapper.toDtoResponse(complementaryStudyRepository.save(existingStudy));
+            return complementaryStudyMapper.toDtoResponse(complementaryStudyRepository.save(existingStudy));
         } else {
             throw new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
         }

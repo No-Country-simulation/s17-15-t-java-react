@@ -1,17 +1,12 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.FileRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyCreatedResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy.StudyResponse;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.ComplementaryStudyService;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,8 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,7 +27,7 @@ public class ComplementaryStudyController {
     private final ComplementaryStudyService complementaryStudyService;
     private final FileStorageService fileStorageService;
 
-    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/add")
     @Operation(
             summary = "Add a new Complementary Study",
             description = "Add a new complementary study",
@@ -50,7 +43,7 @@ public class ComplementaryStudyController {
                             " CANCELADOS, //The study was scheduled but then cancelled.\n" +
                             " FALLIDOS, // The study could not be completed due to technical or other issues.",
                     content = @Content(
-                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            mediaType = "application/json",
                             schema = @Schema(implementation = StudyRequest.class)
                     )
             ),
@@ -64,17 +57,16 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest, @RequestPart(value = "file", required = false) MultipartFile file)  {
-        //return ResponseEntity.ok(complementaryStudyService.addComplementaryStudy(studyRequest, file));
+    public ResponseEntity<StudyCreatedResponse> addStudy(@RequestBody StudyRequest studyRequest) {
         try {
-            StudyCreatedResponse response = complementaryStudyService.addComplementaryStudy(studyRequest, file);
+            StudyCreatedResponse response = complementaryStudyService.addComplementaryStudy(studyRequest);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new StudyCreatedResponse("Error: " + e.getMessage() + " // request: " + studyRequest, null));
         }
     }
 
-    @PutMapping(value = "/update/{studyId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/update/{studyId}")
     @Operation(
             summary = "Update Complementary Study",
             description = "Fully update a Complementary Study",
@@ -82,7 +74,7 @@ public class ComplementaryStudyController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Complementary Study object with fields to update",
                     content = @Content(
-                            mediaType = "multipart/form-data",
+                            mediaType = "application/json",
                             schema = @Schema(implementation = StudyRequest.class)
                     )
             ),
@@ -96,11 +88,8 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<StudyResponse> updateComplementaryStudy(
-            @PathVariable Long studyId,
-            @RequestPart StudyRequest dto,
-            @RequestPart(name = "file", required = false) MultipartFile studyFile) {
-        return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto, studyFile));
+    public ResponseEntity<StudyResponse> updateComplementaryStudy(@PathVariable Long studyId,  @RequestPart StudyRequest dto) {
+        return ResponseEntity.ok(complementaryStudyService.updateStudy(studyId, dto));
     }
 
 
