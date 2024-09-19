@@ -3,7 +3,9 @@ package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment.TreatmentResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,14 +40,23 @@ public class TreatmentMapper {
     }
 
     public TreatmentResponse toDtoResponse(Treatment entity) {
+        DiagnosticEntity diagnosis = Hibernate.isInitialized(entity.getDiagnosis())
+                ? entity.getDiagnosis()
+                : null;
+
+        // Verifica si la hospitalización está inicializada
+        Hospitalization hospitalization = Hibernate.isInitialized(entity.getHospitalization())
+                ? entity.getHospitalization()
+                : null;
+
         return new TreatmentResponse(
                 entity.getId(),
                 entity.getTreatmentDescription(),
                 entity.getDuration(),
                 entity.getAdditionalObservations(),
                 entity.getTreatmentCost(),
-                entity.getDiagnosis(),
-                entity.getHospitalization()
+                diagnosis,  // Entrega diagnosis inicializado o null
+                hospitalization  // Entrega hospitalization inicializado o null
         );
     }
 }

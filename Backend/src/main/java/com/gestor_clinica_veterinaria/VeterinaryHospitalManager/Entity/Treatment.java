@@ -1,5 +1,6 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,9 +33,11 @@ public class Treatment {
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = DiagnosticEntity.class)
     @JoinColumn(name = "diagnosis_id" )
+    @JsonIgnore
     private DiagnosticEntity diagnosis;
 
     @ManyToOne(targetEntity = Hospitalization.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "hospitalization_id")
+    @JsonIgnore
     private Hospitalization hospitalization;
 }
