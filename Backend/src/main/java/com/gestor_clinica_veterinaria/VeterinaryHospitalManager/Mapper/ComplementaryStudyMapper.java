@@ -62,9 +62,9 @@ public class ComplementaryStudyMapper {
                 entity.getStudyState(),
                 entity.getStudyFile(),
                 entity.getStudyCost(),
-                entity.getDiagnosis().getId(),
-                entity.getConsultation().getId(),
-                entity.getHospitalization().getId()
+                entity.getConsultation() != null ? entity.getConsultation().getId() : null,
+                entity.getDiagnosis().getId() ,
+                entity.getHospitalization() != null ? entity.getHospitalization().getId() : null
         );
     }
     public StudyResponse toDtoResponse(ComplementaryStudy entity) {
