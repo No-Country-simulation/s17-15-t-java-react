@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 public record TreatmentRequest(
         @NotBlank(message = "debe dar una descipción al tratamiento.")

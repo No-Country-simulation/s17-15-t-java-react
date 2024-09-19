@@ -11,6 +11,7 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.Treat
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
@@ -42,10 +43,17 @@ public class TreatmentService {
         }
 
     }
+//    public List<TreatmentResponse> getAllTreatments() {
+//        return treatmentMapper.toDtoList(treatmentRepository.findAll());
+//    }
     public List<TreatmentResponse> getAllTreatments() {
-        return treatmentMapper.toDtoList(treatmentRepository.findAll());
+        List<Treatment> treatments = treatmentRepository.findAll();
+        treatments.forEach(treatment -> {
+            Hibernate.initialize(treatment.getDiagnosis());
+            Hibernate.initialize(treatment.getHospitalization());
+        });
+        return treatmentMapper.toDtoList(treatments);
     }
-
     public TreatmentResponse getTreatmentById(Long treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresado es incorrecto o no existe"));
@@ -58,6 +66,7 @@ public class TreatmentService {
     public List<TreatmentResponse> getAllTreatmentsByOwnerId(Long ownerId){
         return treatmentMapper.toDtoList(treatmentRepository.findAllById(Collections.singleton(ownerId)));
     }
+
 
     public TreatmentResponse updateTreatment(Long treatmentId, TreatmentRequest dto) {
 

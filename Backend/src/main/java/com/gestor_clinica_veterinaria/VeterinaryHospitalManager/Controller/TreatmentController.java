@@ -157,6 +157,7 @@ public class TreatmentController {
     public ResponseEntity<TreatmentResponse> updateTreatment(@PathVariable Long treatmentId, @RequestBody TreatmentRequest dto) {
         return ResponseEntity.ok(treatmentService.updateTreatment(treatmentId, dto));
     }
+
     @GetMapping("/byPet/{petId}")
     @Operation(
             summary = "Get Treatments by Pet ID",
