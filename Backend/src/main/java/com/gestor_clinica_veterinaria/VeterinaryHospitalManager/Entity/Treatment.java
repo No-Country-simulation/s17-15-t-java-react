@@ -30,11 +30,11 @@ public class Treatment {
     @Column(name = "treatment_cost", precision = 10, scale = 2 )
     private BigDecimal treatmentCost;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = DiagnosticEntity.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = DiagnosticEntity.class)
     @JoinColumn(name = "diagnosis_id" )
     private DiagnosticEntity diagnosis;
 
-    @ManyToOne(targetEntity = Hospitalization.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Hospitalization.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "hospitalization_id")
     private Hospitalization hospitalization;
 }
