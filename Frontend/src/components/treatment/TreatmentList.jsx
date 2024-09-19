@@ -62,6 +62,7 @@ const TreatmentList = (id) => {
       {/* <h3 className="text-2xl font-bold mb-4">Albums List</h3> */}
 
       <div className="flex justify-end items-center pb-3">
+        
         <button
           className="tooltip tooltip-top btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis border-base-300"
           onClick={() => setModal(true)}
