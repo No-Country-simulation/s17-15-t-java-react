@@ -11,7 +11,6 @@ import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Repository.Treat
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Util.Exceptions.TreatmentNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +28,7 @@ public class TreatmentService {
             DiagnosticEntity diagnosis = diagnosisRepository.findById(treatmentRequest.diagnosisId())
                     .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found with id: " + treatmentRequest.diagnosisId()));
 
-            Treatment treatment = treatmentMapper.toEntity(treatmentRequest, diagnosis);
+            Treatment treatment = treatmentMapper.toEntity(treatmentRequest);
 
             treatment = treatmentRepository.save(treatment);
 
@@ -43,19 +42,19 @@ public class TreatmentService {
         }
 
     }
-//    public List<TreatmentResponse> getAllTreatments() {
-//        return treatmentMapper.toDtoList(treatmentRepository.findAll());
-//    }
-public List<TreatmentResponse> getAllTreatments() {
-    List<Treatment> treatments = treatmentRepository.findAll();
-
-    treatments.forEach(treatment -> {
-        Hibernate.initialize(treatment.getDiagnosis());
-        Hibernate.initialize(treatment.getHospitalization());
-    });
-
-    return treatmentMapper.toDtoList(treatments);
-}
+    public List<TreatmentResponse> getAllTreatments() {
+        return treatmentMapper.toDtoList(treatmentRepository.findAll());
+    }
+//public List<TreatmentResponse> getAllTreatments() {
+//    List<Treatment> treatments = treatmentRepository.findAll();
+//
+//    treatments.forEach(treatment -> {
+//        Hibernate.initialize(treatment.getDiagnosis());
+//        Hibernate.initialize(treatment.getHospitalization());
+//    });
+//
+//    return treatmentMapper.toDtoList(treatments);
+//}
     public TreatmentResponse getTreatmentById(Long treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresado es incorrecto o no existe"));

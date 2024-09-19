@@ -71,8 +71,7 @@ public class TreatmentController {
             }
     )
     public ResponseEntity<List<TreatmentResponse>> getAllTreatments() {
-        List<TreatmentResponse> treatments = treatmentService.getAllTreatments();
-        return ResponseEntity.ok(treatments);
+        return ResponseEntity.ok(treatmentService.getAllTreatments());
     }
 
 

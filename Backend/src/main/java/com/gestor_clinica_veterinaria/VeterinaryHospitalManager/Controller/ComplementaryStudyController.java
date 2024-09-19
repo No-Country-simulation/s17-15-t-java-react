@@ -109,7 +109,7 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<List<StudyResponse>> getAllTreatments() {
+    public ResponseEntity<List<StudyResponse>> getAllStudies() {
         return ResponseEntity.ok(complementaryStudyService.getAllComplementaryStudies());
     }
 
