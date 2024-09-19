@@ -155,6 +155,7 @@ const useFormData = (baseURL, token, filter = '') => {
             });
             dispatch({ type: actionTypes.CREATE_SUCCESS, payload: result });
         } catch (error) {
+            console.log(error.message);
             dispatch({ type: actionTypes.CREATE_FAILURE, error: error.message });
         }
     }, [baseURL, token]);

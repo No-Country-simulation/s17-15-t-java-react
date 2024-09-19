@@ -3,7 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import Status from '../UI/Status_7px.jsx';
 // import useFormData from '../../../hooks/useFormData2.js';
-import useJSON from '../../hooks/useJSON.js';
+import useJSON from '../../hooks/useJSON_subfijo.js';	
 import TreatmentCard from './TreatmentCard.jsx';
 import CreateTreatment from './CreateTreatment.jsx';
 const TreatmentList = (id) => {
@@ -12,7 +12,7 @@ const TreatmentList = (id) => {
 
   console.log(id.id);
 
-    const baseURL = `https://veterinaria-bef3.onrender.com/treatment/`;
+    const baseURL = `https://veterinaria-bef3.onrender.com/treatment`;
     const filter = `/pet/${id.id}`
 
     const {
@@ -26,7 +26,10 @@ const TreatmentList = (id) => {
 
     const handleSave = (fromData) => {
       if (!isCreating) {
+        
+          console.log(fromData);
           createItem(fromData);
+          alert("Creado")
           setModal(false);
 
       }
@@ -61,7 +64,6 @@ const TreatmentList = (id) => {
       <div className="flex justify-end items-center pb-3">
         <button
           className="tooltip tooltip-top btn btn-xs bg-base-300 bg-opacity-90 text-base-100 inline-flex items-center justify-center text-[8px] overflow-ellipsis border-base-300"
-          data-tip="Agregar consulta"
           onClick={() => setModal(true)}
         >
           <FaPlus size={10} /> Agregar

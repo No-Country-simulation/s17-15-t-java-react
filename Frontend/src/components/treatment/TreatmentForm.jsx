@@ -1,61 +1,93 @@
 import { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
+import { useAuth } from "../../contexts/AuthContext";
+import useJSON from "../../hooks/useJSON_subfijo.js";
 function TreatmentForm({
   modal,
   toggle,
   onSave,
   objTreatment = {},
-  idDiagnosis,
   isEdit = false,
-  idHospitalization,
 }) {
-  const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("");
-  const [additionalObservations, setAdditionalObservations] = useState("");
-  const [treatmentCost, setTreatmentCost] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [duration, setDuration] = useState("");
+  // const [additionalObservations, setAdditionalObservations] = useState("");
+  // const [treatmentCost, setTreatmentCost] = useState("");
   const [diagnosisId, setDiagnosisId] = useState(0);
   const [hospitalizationId, setHospitalizationId] = useState(0);
+  const baseURL = `https://veterinaria-bef3.onrender.com/diagnosis/all`;
+  const [formData, setFormData] = useState({
+    description: "",
+    duration: "",
+    additionalObservations: "",
+    treatmentCost: "",
+    diagnosisId: 4,
+  });
   useEffect(() => {
     if (isEdit && objTreatment) {
-      setDescription(objTreatment.description || "");
-      setDuration(objTreatment.duration || "");
-      setAdditionalObservations(objTreatment.additionalObservations || "");
-      setTreatmentCost(objTreatment.treatmentCost || "");
+      // setDescription(objTreatment.description || "");
+      // setDuration(objTreatment.duration || "");
+      // setAdditionalObservations(objTreatment.additionalObservations || "");
+      // setTreatmentCost(objTreatment.treatmentCost || "");
       setDiagnosisId(objTreatment.diagnosisId || 0);
       setHospitalizationId(objTreatment.hospitalizationId || 0);
     }
   }, [isEdit, objTreatment]);
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "description") setDescription(value);
-    if (name === "duration") setDuration(value);
-    if (name === "additionalObservations") setAdditionalObservations(value);
-    if (name === "treatmentCost") setTreatmentCost(value);
-    if (name === "diagnosisId") setDiagnosisId(value);
-    if (name === "hospitalizationId") setHospitalizationId(value);
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
+  //   // if (name === "description") setDescription(value);
+  //   // if (name === "duration") setDuration(value);
+  //   // if (name === "additionalObservations") setAdditionalObservations(value);
+  //   // if (name === "treatmentCost") setTreatmentCost(value);
+  //   if (name === "diagnosisId") setDiagnosisId(value);
+  //   if (name === "hospitalizationId") setHospitalizationId(value);
+  // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const treatmentData = {
-      description: description,
-      duration: duration,
-      additionalObservations: additionalObservations,
-      treatmentCost: treatmentCost,
-      diagnosisId: diagnosisId,
-      hospitalizationId: hospitalizationId,
-    };
-    console.log(treatmentData);
-    onSave(treatmentData, isEdit ? objTreatment.id : null);
+    console.log(formData)
+    // try {
+    //   const response = await fetch(
+    //     "https://veterinaria-bef3.onrender.com/treatment/add",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(formData),
+    //     }
+    //   );
+
+    //   if (response.ok) {
+    //     console.log("Datos enviados correctamente");
+    //   } else {
+    //     console.log("Error al enviar los datos");
+    //   }
+    // } catch (error) {
+    //   console.error("Error en la solicitud:", error);
+    // }
+
+    // const treatmentData = {
+    //   description: description,
+    //   duration: duration,
+    //   additionalObservations: additionalObservations,
+    //   treatmentCost: treatmentCost,
+    // };
+    // console.log(treatmentData);
+    onSave(formData);
     toggle(false);
+
   };
-
-  if (!modal) {
-    return null;
-  }
-
+    if (!modal) {
+      return null;
+    }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50">
       <div className="bg-info-content rounded-lg shadow-lg w-full max-w-4xl">
@@ -70,88 +102,98 @@ function TreatmentForm({
             <FaTimes size={20} />
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="px-4 pb-4 w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-primary bg-opacity-10 p-4 border-2 rounded-lg"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="">
-              <div className="form-control ">
-                <div className="label">
-                  <span className="label-text font-semibold text-base-300">
-                    Descripción tratamiento
-                  </span>
-                  <span className="label-text-alt text-red-500">Requerido</span>
-                </div>
-                <input
-                  type="text"
-                  name="description"
-                  value={description}
-                  onChange={handleChange}
-                  placeholder="Escribe el tipo de estudio a realizar"
-                  required
-                  className="input input-bordered w-full "
-                />
-              </div>
+            <div className="form-control">
+              <label className="block text-sm font-medium mb-1">
+                Descripción tratamiento
+              </label>
 
-              <div className="form-control ">
-                <div className="label">
-                  <span className="label-text font-semibold text-base-300">
-                    Duración
-                  </span>
-                </div>
-                <input
-                  type="text"
-                  name="duration"
-                  value={duration}
-                  onChange={handleChange}
-                  placeholder="Indica aqui el tratamiento del paciente"
-                  required
-                  className="input input-bordered w-full"
-                />
-              </div>
+              <input
+                type="text"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Escribe el tipo de estudio a realizar"
+                required
+                className="input input-sm input-bordered w-96"
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="block text-sm font-medium mb-1">Duración</label>
+
+              <input
+                type="text"
+                name="duration"
+                value={formData.duration}
+                onChange={handleChange}
+                placeholder="Indica aqui el tratamiento del paciente"
+                required
+                className="input input-sm input-bordered w-96"
+              />
             </div>
           </div>
-          <div className="form-control w-full pb-2">
-            <div className="label">
-              <span className="label-text font-semibold text-base-300">
-                Observaciones adicionales:
-              </span>
-            </div>
+
+          <div className="form-control">
+            <label className="block text-sm font-medium mb-1">
+              Observaciones adicionales:
+            </label>
+
             <textarea
               name="additionalObservations"
-              value={additionalObservations}
+              value={formData.additionalObservations}
               onChange={handleChange}
               placeholder="Ingresar detalles"
-              className="textarea textarea-bordered w-full"
+              className="textarea textarea-xs textarea-bordered w-full"
             />
           </div>
-          <div className="form-control w-full pb-2">
-            <div className="label">
-              <span className="label-text font-semibold text-base-300">
-                Costo del tratamiento
-              </span>
-            </div>
+          <div className="form-control">
+            <label className="block text-sm font-medium mb-1">
+              Costo del tratamiento
+            </label>
+
             <input
-              type="number"
+              type="text"
               name="treatmentCost"
-              value={treatmentCost}
+              
+              value={formData.treatmentCost}
               onChange={handleChange}
-              placeholder="Indica aqui el tratamiento del paciente"
+              placeholder="Indica aqui el costo del paciente"
               required
-              className="input input-bordered w-full"
+              className="input input-sm input-bordered w-96"
             />
           </div>
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mr-2"
-            >
-              {isEdit ? "Actualizar" : "Guardar"}
-            </button>
-            <button
-              onClick={toggle}
-              type="button"
-              className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
-            >
-              Cancel
+          {/* <div className="form-control">
+            <div className="form-control">
+              <label className="block text-sm font-medium mb-1">
+                diagnosis
+              </label>
+              <select
+                name="diagnosisId"
+                value={diagnosisId}
+                onChange={handleChange}
+                className="select select-bordered select-sm w-full max-w-full"
+              >
+                <option value="0">PENDIENTE</option>
+                <option value="1">EN PROCESO</option>
+                <option value="2">FINALIZADO</option>
+                <option value="3">CANCELADO</option>
+              </select>
+            </div>
+          </div> */}
+          <div className="flex justify-end gap-3 mt-3 pb-2">
+            {!isEdit && (
+              <button onClick={toggle} type="button" className="btn btn-sm">
+                Cancelar
+              </button>
+            )}
+
+            <button type="submit" className="btn btn-sm btn-primary">
+              {isEdit ? "Guardar" : "Finalizar"}
             </button>
           </div>
         </form>

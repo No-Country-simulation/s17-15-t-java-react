@@ -170,7 +170,7 @@ function PetDetail2() {
 
         <input type="radio" name="my_tabs_1" role="tab" className="tab [--tab-bg:orange]" aria-label="Diagnosticos" />
         <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
-        <TreatmentList id={id}/>
+          Tab content 2
         </div>
 
         <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="Estudios Complementarios" />
@@ -181,6 +181,10 @@ function PetDetail2() {
         <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="Cirugías " />
         <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
           Tab content 4
+        </div>
+        <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="Tratamientos" />
+        <div role="tabpanel" className="tab-content p-10 bg-primary bg-opacity-10">
+          <TreatmentList id={id}/>
         </div>
       </div>
     </>
