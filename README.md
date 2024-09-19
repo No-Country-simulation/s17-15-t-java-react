@@ -107,6 +107,10 @@
         </div>
       </div>
     </td>
+    </tr>
+</table>
+<table align='center'>
+  <tr>
     <td align='center'>
       <div>
        <h4>Diseño UX/UI</h4>
@@ -120,11 +124,6 @@
         </div>
       </div>
     </td>
-   </tr>
-</table>
-
-<table align='center'>
-  <tr>
     <td align='center'>
       <div>
        <h4>Backend</h4>
@@ -143,7 +142,7 @@
        <h4>Backend</h4>
        <a href="www.linkedin.com/in/anthony-se" target="_blank" rel="author">
         </a>
-        <h4 style="margin-top: 1rem;">Anthony<br>P</h4>
+        <h4 style="margin-top: 1rem;">Anthony<br>Parra</h4>
         <div style='display: flex; flex-direction: column'>
           <a href="www.linkedin.com/in/anthony-se" target="_blank">
             <img style='width:8rem' src="https://media.licdn.com/dms/image/v2/D4E03AQFgpRGpDMP24w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1710717047028?e=1732147200&v=beta&t=yJ-qLHRjpGO238H9u50k6k2Te-zf0DWY59x4sYHKHYM"/>
@@ -151,6 +150,10 @@
         </div>
       </div>
     </td>
+   </tr>
+</table>
+<table align='center'>
+  <tr>
    <td align='center'>
       <div>
        <h4>Backend</h4>
@@ -177,7 +180,19 @@
         </div>
       </div>
     </td>
-     </tr>
+  <td align='center'>
+      <div>
+       <h4>Frontend</h4>
+       <a href="https://www.linkedin.com/in/jos%C3%A9-imhoff-9037a3171/" target="_blank" rel="author">
+        </a>
+        <h4 style="margin-top: 1rem;">José<br>Imhoff</h4>
+        <div style='display: flex; flex-direction: column'>
+          <a href="https://www.linkedin.com/in/jos%C3%A9-imhoff-9037a3171/" target="_blank">
+            <img style='width:8rem' src="https://media.licdn.com/dms/image/v2/D4D35AQGzRjKkrE84BA/profile-framedphoto-shrink_800_800/profile-framedphoto-shrink_800_800/0/1715735712649?e=1727370000&v=beta&t=jXaOBBleIuJN_D3kGVkWNMFKdPJ8n64iFG_iFbR_vxc"/>
+          </a>
+        </div>
+      </div>
+    </td>
 </table>
 
 <br>
