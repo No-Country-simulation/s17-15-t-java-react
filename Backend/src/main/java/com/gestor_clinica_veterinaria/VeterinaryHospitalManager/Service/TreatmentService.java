@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,37 +43,17 @@ public class TreatmentService {
 
     }
     public List<TreatmentResponse> getAllTreatments() {
-        List<Treatment> treatments = treatmentRepository.findAll();
-        return treatments.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return treatmentMapper.toDtoList(treatmentRepository.findAll());
     }
 
-    // Obtener un tratamiento por ID como DTO
     public TreatmentResponse getTreatmentById(Long treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresado es incorrecto o no existe"));
-        return convertToDto(treatment);
+        return treatmentMapper.toDtoResponse(treatment);
     }
 
-    private TreatmentResponse convertToDto(Treatment treatment) {
-        return new TreatmentResponse(
-                treatment.getId(),
-                treatment.getTreatmentDescription(),
-                treatment.getDuration(),
-                treatment.getAdditionalObservations(),
-                treatment.getTreatmentCost(),
-                treatment.getDiagnosis() ,
-                treatment.getHospitalization()
-        );
-    }
-
-    // Método para obtener todos los tratamientos por ID de mascota
     public List<TreatmentResponse> getTreatmentsByPetId(Long petId) {
-        List<Treatment> treatments = treatmentRepository.findTreatmentsByPetId(petId);
-        return treatments.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return treatmentMapper.toDtoList(treatmentRepository.findAllById(Collections.singleton(petId)));
     }
     public List<TreatmentResponse> getAllTreatmentsByOwnerId(Long ownerId){
         return treatmentMapper.toDtoList(treatmentRepository.findAllById(Collections.singleton(ownerId)));
