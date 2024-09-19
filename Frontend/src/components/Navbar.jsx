@@ -1,59 +1,19 @@
-import ThemeController from "./ThemeController";
+import ThemeMenu from "./ThemeMenu";
+import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 function Navbar() {
     return (
-        <div className="navbar bg-base-300 rounded-b-2xl bg-opacity-95 h-[90px]">
-            <div className="navbar-start">
-                <div className="dropdown">
-                    <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 6h16M4 12h8m-8 6h16" />
-                        </svg>
-                    </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><a>Item 1</a></li>
-                        <li>
-                            <a>Parent</a>
-                            <ul className="p-2">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
-                            </ul>
-                        </li>
-                        <li><a>Item 3</a></li>
-                    </ul>
-                </div>
-                <Link className="btn btn-ghost text-xl" to="/">LOGO</Link>
-            </div>
+        <div className="navbar bg-base-300 bg-opacity-100 h-[100px]">
+            <div className="navbar-start"></div>
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
-                    <li><a>Item 1</a></li>
-                    <li>
-                        <details>
-                            <summary>Parent</summary>
-                            <ul className="p-2">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
-                            </ul>
-                        </details>
-                    </li>
-                    <li><a>Item 3</a></li>
-                </ul>
+                <Link to="/home">
+                    <img src="/logo/logo_variant.png" alt="Logo" className="w-[213px] h-[101px]" /></Link>
             </div>
 
-            <div className="navbar-end gap-3">
-                <ThemeController />
-                <Link className="btn" to="/login">Login</Link>
+            <div className="navbar-end gap-3 pr-5">
+                <ThemeMenu />
+                <Avatar />
+
             </div>
         </div>
 
