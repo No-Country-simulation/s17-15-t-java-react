@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -152,8 +153,20 @@ public class ComplementaryStudyController {
             }
     )
     public ResponseEntity<List<StudyResponse>> getAllStudiesByPetId(@PathVariable Long petId) {
-        return ResponseEntity.ok(complementaryStudyService.getAllStudiesByPetId(petId));
+        try {
+            List<StudyResponse> studyResponses = complementaryStudyService.getAllStudiesByPetId(petId);
+            return new ResponseEntity<>(studyResponses, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+  //  public ResponseEntity<List<StudyResponse>> getAllStudiesByPetId(@PathVariable Long petId) {
+  //      List<StudyResponse> studies = complementaryStudyService.getAllStudiesByPetId(petId);
+  //      return ResponseEntity.ok(studies);
+  //  }
 
     @GetMapping("/owner/{ownerId}")
     @Operation(
@@ -203,4 +216,5 @@ public class ComplementaryStudyController {
         List<StudyResponse> studies = complementaryStudyService.getAllStudiesByState(studyState);
         return ResponseEntity.ok(studies);
     }
+
 }

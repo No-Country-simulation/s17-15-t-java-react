@@ -1,8 +1,10 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationCreationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationDtoResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationResponse;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ComplementaryStudy;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Treatment;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Mapper.HospitalizationMapper;
@@ -16,7 +18,10 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -111,4 +116,46 @@ public class HospitalizationService {
         }
         return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
     }
+
+    // Convertir entidad Hospitalization a DTO
+    private HospitalizationDtoResponse convertToDto(Hospitalization hospitalization) {
+        return new HospitalizationDtoResponse(
+                hospitalization.getId(),
+                hospitalization.getStartDate(),
+                hospitalization.getEnd_date(), // Usar el nombre del atributo en la entidad
+                hospitalization.getHospitalizationCost(),
+                hospitalization.isPaid(),
+                hospitalization.getTreatments().stream()
+                        .map(Treatment::getId)
+                        .toList(), // Usar Stream.toList()
+                hospitalization.getComplementaryStudies().stream()
+                        .map(ComplementaryStudy::getId) // Asegúrate de que `getId()` exista
+                        .toList() // Usar Stream.toList()
+        );
+    }
+    // Obtener hospitalizaciones por ID de mascota y devolver como DTO
+    //  public List<HospitalizationDtoResponse> getHospitalizationsByPetId(Long petId) {
+    //      List<Hospitalization> hospitalizations = hospitalizationRepository.findHospitalizationsByPetId(petId);
+    //      return hospitalizations.stream()
+    //              .map(this::convertToDto)
+    //              .collect(Collectors.toList());
+    //  }
+
+    public List<HospitalizationDtoResponse> getHospitalizationsByPetId(Long petId) {
+        // Obtener hospitalizaciones desde ComplementaryStudies
+        List<Hospitalization> hospitalizationsByStudies = hospitalizationRepository.findHospitalizationsByPetId(petId);
+
+        // Obtener hospitalizaciones desde Treatment y Diagnosis
+        List<Hospitalization> hospitalizationsByTreatment = hospitalizationRepository.findHospitalizationsByPetIdTreatment(petId);
+
+        // Unir ambas listas y eliminar duplicados
+        Set<Hospitalization> combinedHospitalizations = new HashSet<>(hospitalizationsByStudies);
+        combinedHospitalizations.addAll(hospitalizationsByTreatment);
+
+        // Convertir a DTO
+        return combinedHospitalizations.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
 }
