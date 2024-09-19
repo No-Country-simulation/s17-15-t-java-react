@@ -128,8 +128,18 @@ public class ComplementaryStudyController {
                     )
             }
     )
-    public ResponseEntity<StudyResponse> getComplementaryStudyById(@PathVariable Long studyId) {
-        return ResponseEntity.ok(complementaryStudyService.getStudyById(studyId));
+//    public ResponseEntity<StudyResponse> getComplementaryStudyById(@PathVariable Long studyId) {
+//        return ResponseEntity.ok(complementaryStudyService.getStudyById(studyId));
+//    }
+    public ResponseEntity<StudyResponse> getStudyById(@PathVariable Long studyId) {
+        try {
+            StudyResponse response = complementaryStudyService.getStudyById(studyId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/pet/{petId}")

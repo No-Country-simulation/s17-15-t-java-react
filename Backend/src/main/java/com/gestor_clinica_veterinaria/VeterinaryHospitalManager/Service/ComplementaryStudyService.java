@@ -81,10 +81,14 @@ public class ComplementaryStudyService {
         return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAll());
     }
     public StudyResponse getStudyById(Long studyId){
-        return complementaryStudyMapper.toDtoResponse(complementaryStudyRepository.
-                findById(studyId).orElseThrow(() ->
-                        new ComplementaryStudyNotFoundException("El id del estudio complementario ingresao es incorrecto o no existe")));
+        return complementaryStudyMapper.toDtoResponse(
+                complementaryStudyRepository.findById(studyId).
+                        orElseThrow(() ->  new ComplementaryStudyNotFoundException(
+                                "El id del estudio complementario ingresao es incorrecto o no existe"
+                        ))
+        );
     }
+
 
     public List<StudyResponse> getAllStudiesByPetId(Long petId){
         return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAllById(Collections.singleton(petId)));
