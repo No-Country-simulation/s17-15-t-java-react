@@ -46,10 +46,16 @@ public class TreatmentService {
 //    public List<TreatmentResponse> getAllTreatments() {
 //        return treatmentMapper.toDtoList(treatmentRepository.findAll());
 //    }
-    public List<TreatmentResponse> getAllTreatments() {
-        List<Treatment> treatments = treatmentRepository.findAllWithDetails();
-        return treatmentMapper.toDtoList(treatments);
-    }
+public List<TreatmentResponse> getAllTreatments() {
+    List<Treatment> treatments = treatmentRepository.findAll();
+
+    treatments.forEach(treatment -> {
+        Hibernate.initialize(treatment.getDiagnosis());
+        Hibernate.initialize(treatment.getHospitalization());
+    });
+
+    return treatmentMapper.toDtoList(treatments);
+}
     public TreatmentResponse getTreatmentById(Long treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new TreatmentNotFoundException("El id del tratamiento ingresado es incorrecto o no existe"));
