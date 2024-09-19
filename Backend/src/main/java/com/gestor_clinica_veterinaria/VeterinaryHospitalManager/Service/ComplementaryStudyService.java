@@ -86,18 +86,11 @@ public class ComplementaryStudyService {
                         new ComplementaryStudyNotFoundException("El id del estudio complementario ingresao es incorrecto o no existe")));
     }
 
-   // public List<StudyResponse> getAllStudiesByPetId(Long petId){
-   //     return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAllById(Collections.singleton(petId)));
-   // }
-
- //   public List<StudyResponse> getAllStudiesByPetId(Long petId) {
- //       List<ComplementaryStudy> studies = complementaryStudyRepository.findAllByPetId(petId);
- //       return complementaryStudyMapper.toDtoList(studies);
- //   }
-    public List<StudyResponse> getAllStudiesByPetId(Long petId) {
-        List<ComplementaryStudy> studies = complementaryStudyRepository.findAllByPetId(petId);
-        return complementaryStudyMapper.toDtoListByPet(studies); // Usar el nuevo método de mapeo
+    public List<StudyResponse> getAllStudiesByPetId(Long petId){
+        return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAllById(Collections.singleton(petId)));
     }
+
+
     public List<StudyResponse> getAllStudiesByOwnerId(Long ownerId){
         return complementaryStudyMapper.toDtoList(complementaryStudyRepository.findAllById(Collections.singleton(ownerId)));
     }
@@ -146,8 +139,4 @@ public class ComplementaryStudyService {
             throw new TreatmentNotFoundException("No se ha podido actualizar el tratamiento porque el id ingresado es incorrecto o no existe: " + studyId);
         }
         }
-  //  public List<StudyResponse> getAllStudiesByPetId2(Long petId) {
-  //      List<ComplementaryStudy> studies = complementaryStudyRepository.findAllByPetId2(petId);
-  //      return complementaryStudyMapper.toDtoList(studies);
-  //  }
 }

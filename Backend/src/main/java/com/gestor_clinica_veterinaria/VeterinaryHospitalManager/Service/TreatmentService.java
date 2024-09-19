@@ -64,8 +64,8 @@ public class TreatmentService {
                 treatment.getDuration(),
                 treatment.getAdditionalObservations(),
                 treatment.getTreatmentCost(),
-                treatment.getDiagnosis() != null ? treatment.getDiagnosis().getId() : null,
-                treatment.getHospitalization() != null ? treatment.getHospitalization().getId() : null
+                treatment.getDiagnosis() ,
+                treatment.getHospitalization()
         );
     }
 
