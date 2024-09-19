@@ -88,4 +88,24 @@ public class ComplementaryStudyMapper {
                         .collect(Collectors.toList());
     }
 
+    public StudyResponse toDtoResponseByPet(ComplementaryStudy entity) {
+        return new StudyResponse(
+                entity.getId(),
+                entity.getExaminationDate(),
+                entity.getStudyType(),
+                entity.getStudyResult(),
+                entity.getStudyFile(),
+                entity.getStudyState(),
+                entity.getStudyCost(),
+                entity.getConsultation() != null ? entity.getConsultation().getId() : null, // Relación con Consultation
+                null, // No necesitamos Diagnosis aquí
+                entity.getHospitalization() != null ? entity.getHospitalization().getId() : null
+        );
+    }
+
+    public List<StudyResponse> toDtoListByPet(List<ComplementaryStudy> studyList) {
+        return studyList.stream()
+                .map(this::toDtoResponseByPet) // Usa el nuevo método para cada estudio
+                .collect(Collectors.toList());
+    }
 }
