@@ -1,6 +1,9 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.complementaryStudy;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.ConsultationEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Enum.EnumStudyState;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,9 +15,9 @@ public record StudyResponse(
         String studyFile,
         EnumStudyState studyState,
         BigDecimal studyCost,
-        Long consultationId,
-        Long diagnosisId,
-        Long  hospitalizationId
+        ConsultationEntity consultation,
+        DiagnosticEntity diagnosis,
+        Hospitalization hospitalization
     ){
 
 }

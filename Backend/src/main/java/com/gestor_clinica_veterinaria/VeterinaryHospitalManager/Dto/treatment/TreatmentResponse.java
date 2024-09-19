@@ -1,5 +1,7 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.treatment;
 
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.DiagnosticEntity;
+import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import java.math.BigDecimal;
 
 public record TreatmentResponse(
@@ -8,6 +10,6 @@ public record TreatmentResponse(
         String duration,
         String additionalObservations,
         BigDecimal treatmentCost,
-        Long diagnosisId,
-        Long hospitalizationId
+        DiagnosticEntity diagnosis,
+        Hospitalization hospitalization
 ) {}

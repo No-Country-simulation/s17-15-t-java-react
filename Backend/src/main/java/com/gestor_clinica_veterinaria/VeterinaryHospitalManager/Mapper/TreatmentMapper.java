@@ -44,8 +44,8 @@ public class TreatmentMapper {
                 entity.getDuration(),
                 entity.getAdditionalObservations(),
                 entity.getTreatmentCost(),
-                entity.getDiagnosis().getId(),
-                entity.getHospitalization().getId()
+                entity.getDiagnosis(),
+                entity.getHospitalization()
         );
     }
 }

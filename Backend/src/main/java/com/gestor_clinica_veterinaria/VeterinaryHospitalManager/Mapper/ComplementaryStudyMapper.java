@@ -76,9 +76,9 @@ public class ComplementaryStudyMapper {
                 entity.getStudyFile(),
                 entity.getStudyState(),
                 entity.getStudyCost(),
-                entity.getConsultation().getId(),
-                entity.getDiagnosis().getId(),
-                entity.getHospitalization().getId()
+                entity.getConsultation(),
+                entity.getDiagnosis(),
+                entity.getHospitalization()
         );
     }
 
