@@ -1,10 +1,8 @@
 package com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Controller;
 
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationCreationResponse;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationDtoResponse;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationRequest;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Dto.hospitalization.HospitalizationResponse;
-import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Entity.Hospitalization;
 import com.gestor_clinica_veterinaria.VeterinaryHospitalManager.Service.HospitalizationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -175,8 +173,8 @@ public class HospitalizationController {
     }
 
     @GetMapping("/by-pet/{petId}")
-    public ResponseEntity<List<HospitalizationDtoResponse>> getHospitalizationsByPetId(@PathVariable Long petId) {
-        List<HospitalizationDtoResponse> hospitalizations = hospitalizationService.getHospitalizationsByPetId(petId);
+    public ResponseEntity<List<HospitalizationResponse>> getHospitalizationsByPetId(@PathVariable Long petId) {
+        List<HospitalizationResponse> hospitalizations = hospitalizationService.getHospitalizationsByPetId(petId);
         return ResponseEntity.ok(hospitalizations);
     }
 }
